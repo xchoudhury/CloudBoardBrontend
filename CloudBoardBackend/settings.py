@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -79,8 +80,12 @@ WSGI_APPLICATION = 'CloudBoardBackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'deomu04o9qhu5v',
+        'USER': 'hhhybticinrvng',
+        'PASSWORD': 'bd129c2e1366f3a1acc9db87ec7ec0a8ac6e2561e396df2734dc009c1131c848',
+        'HOST': 'ec2-107-22-229-213.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
