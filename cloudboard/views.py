@@ -3,7 +3,10 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from .serializers import UserSerializer, GroupSerializer, TestSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -29,3 +32,13 @@ def TestView(request):
         }
 
     return Response(test_data)
+
+@api_view(['POST'])
+def login(request):
+    return Response(request.data)
+
+@api_view(['GET'])
+@authentication_classes((SessionAuthentication))
+@permission_classes((IsAuthenticated,))
+def getClipBoards(request):
+    return Response(request.user)

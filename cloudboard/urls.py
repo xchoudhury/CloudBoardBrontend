@@ -11,4 +11,6 @@ router.register(r'groups', views.GroupViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('test/', views.TestView),
+    path('login/', views.login),
+    path('clipboards/', views.getClipBoards),
 ]
