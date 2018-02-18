@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from .serializers import UserSerializer, GroupSerializer, TestSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
@@ -33,12 +33,8 @@ def TestView(request):
 
     return Response(test_data)
 
-@api_view(['POST'])
-def login(request):
-    return Response(request.data)
-
 @api_view(['GET', 'POST'])
-# @authentication_classes((TokenAuthentication))
+@authentication_classes((SessionAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def getClipBoards(request):
     print(request.user)

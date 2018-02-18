@@ -13,7 +13,7 @@ python_version = "3.6"
 [packages]
 
 dj-database-url = "==0.4.2"
-Django = "==2.0.1"
+django = "==2.0.1"
 gunicorn = "==19.7.1"
 "psycopg2" = "==2.7.3.2"
 whitenoise = "==3.3.1"
@@ -23,7 +23,7 @@ django-filter = "==1.1.0"
 djangorestframework = "==3.7.7"
 "flake8" = "==3.5.0"
 idna = "==2.6"
-Markdown = "==2.6.11"
+markdown = "*"
 mccabe = "==0.6.1"
 pew = "==1.1.2"
 pipenv = "==9.0.3"
@@ -34,6 +34,9 @@ requests = "==2.18.4"
 "urllib3" = "==1.22"
 virtualenv = "==15.1.0"
 virtualenv-clone = "==0.2.6"
+djoser = "*"
+coreapi = "*"
+pygments = "*"
 
 
 [dev-packages]

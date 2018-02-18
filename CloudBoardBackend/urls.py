@@ -17,9 +17,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    url(r'^docs/', include_docs_urls(title='CloudBoard API')),
     path('admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url('', include('cloudboard.urls'))
+    url(r'^auth/', include('djoser.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'', include('cloudboard.urls')),
 ]
