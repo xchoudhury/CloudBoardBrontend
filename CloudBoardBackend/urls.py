@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^auth/', include('djoser.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
     url(r'', include('cloudboard.urls')),
+    url(r'', include('frontend.urls')),
 ]

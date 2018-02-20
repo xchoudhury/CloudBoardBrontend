@@ -1,0 +1,97 @@
+.loginWindow {
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 25px;
+  width: 200px;
+  height: 125px;
+  padding: 20px;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -62.5px;
+  margin-left: -100px;
+  z-index: 999;
+}
+
+.overlay {
+  background-color:rgba(0, 0, 0, 0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: 997;
+}
+
+.board {
+  border: 2px solid black;
+  border-radius: 20px;
+  margin-top: 40px;
+  padding: 10px;
+}
+
+.board:hover {
+  border-color: blue;
+  cursor: pointer;
+}
+
+.board-full {
+  background-color: #FF9A40;
+}
+
+.board-empty {
+  background-color: #FFB573;
+}
+
+.board-text {
+  background-color: #515151;
+  color: white;
+  width: 70%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.pasteInput {
+  border: none;
+  background: transparent;
+  color: white;
+  width: 100%;
+}
+
+.pasteInput:focus {
+  outline-width: 0;
+}
+
+.settings {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: right;
+  padding-right: 5px;
+  padding-top: 15px;
+  z-index: 999;
+}
+
+.settingsPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #b2b2b2;
+  width: 150px;
+  height: 100vh;
+  transition: 0.2s;
+  z-index: 999;
+  width: 0;
+}
+
+.settingsOptions {
+  padding: 15px;
+}
+
+.settingsLink {
+  margin-top: 15px;
+  margin: 5px;
+  cursor: pointer;
+  color: white;
+}

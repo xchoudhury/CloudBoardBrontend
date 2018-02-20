@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CloudBoard</title>
+  <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-cookies.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src={% static 'script.js' %}></script>
+</head>
+<body ng-app="CloudBoard" style="background-color: #dbdbdb;">
+  <nav class="navbar navbar-default" style="border-bottom: 1px solid black; background-color: #FF7800;">
+    <div class="container">
+      <div class="navbar-header" style="margin: auto;">
+        <h1>CloudBoard</h1>
+      </div>
+    </div>
+  </nav>
+
+  <div ng-controller="settings" id="settingsDiv" class="settings">
+    <i class="material-icons" style="font-size:36px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
+    <div class="settingsPanel">
+      <i class="material-icons" style="font-size:36px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
+      <div class="settingsOptions">
+        <div class="settingsLink" ng-click="logOut()">Log Out</div>
+        <a href="faq.html" style="text-decoration:none;" class="settingsLink">FAQ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="dimmer"></div>
+
+  <div ng-controller="login" ng-show="!loggedIn">
+      <div class="loginWindow">
+        <input type="text" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
+        <input type="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
+        <button ng-click="logIn()" style="width:100%">Log In </button>
+      </div>
+  </div>
+
+  <div ng-controller="boards" class="container">
+    <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, {{name}}!</h1>
+    <div class="boardsView">
+      <div ng-repeat="x in boards" class="col-lg-12">
+        <div class="board" ng-class="x.hasContent ? 'board-full' : 'board-empty'" ng-click="x.hasContent && !x.pasting ? copyFromBoard(x) : pasteToBoard(x)">
+          <h3 style="text-align:center;">Board {{x.id}}</h3>
+          <div class="board-text" ng-show="x.hasContent">
+            <input type="text" id="{{x.id}}pasting" class="pasteInput" ng-model="x.content" ng-show="x.pasting" ng-keyup="keyCheck($event, x)" />
+            {{x.preview}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="copyAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; bottom: 20px; width: 75%; left: 12.5%; display: none;">
+      Successfully coppied data from board!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</body>
+</html>
