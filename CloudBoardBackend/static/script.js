@@ -8,6 +8,12 @@ function Board(id, hasContent, preview, content) {
 
 var app = angular.module('CloudBoard', ['ngCookies']);
 
+// New interpolation symbols
+app.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('[[');
+  $interpolateProvider.endSymbol(']]');
+});
+
 app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', function($rootScope, $http, $cookies, $cookieStore) {
   var loggedIn = false;
   var user = "admin";
@@ -103,10 +109,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   $scope.name = loginService.getUserName();
   $scope.boards = [];
 
-  if ($scope.loggedIn) {
-    $('#dimmer').hide();
-  }
-
   $scope.$on('loggingIn', function() {
     $scope.loggedIn = loginService.getLoginStatus();
     $scope.name = loginService.getUserName();
@@ -145,15 +147,23 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.createBasicBoard();
     $scope.createBlankBoard(2);
     $scope.createBlankBoard(3);
+    console.log($scope.boards);
   };
 
   $scope.getBlankBoards = function() {
+    $scope.boards = [];
     $scope.createBlankBoard(1);
     $scope.createBlankBoard(2);
     $scope.createBlankBoard(3);
   }
 
-  $scope.getBlankBoards();
+  if ($scope.loggedIn) {
+    $('#dimmer').hide();
+    $scope.getBoards();
+  }
+  else {
+    $scope.getBlankBoards();
+  }
 
   $scope.copyFromBoard = function(board) {
     if (!board.hasContent) {
@@ -182,7 +192,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     board.pasting = true;
     board.hasContent = true;
     setTimeout(function() {
-      document.getElementById(board.id + "pasting").focus();
+      $("#" + board.id + "pasting").focus();
     }, 200);
   };
 
