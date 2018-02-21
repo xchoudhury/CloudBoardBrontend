@@ -81,16 +81,19 @@ app.controller('settings', ['$scope', 'loginService', function($scope, loginServ
   $scope.toggle = function() {
     if (!$scope.settingsVisible) {
       $scope.settingsVisible = true;
-      //$('.settingsPanel').show();
+      $('.settingsPanel').show();
       //$('#settingsDiv').addClass("settingsPanel");
       $('.settingsPanel').width("150px");
       //$('.settingsPanel').show("slide", {direction: "left"}, 500);
     }
     else {
       $scope.settingsVisible = false;
-      //$('.settingsPanel').hide();
+      
       //$('#settingsDiv').removeClass("settingsPanel");
       $('.settingsPanel').width("0");
+      setTimeout(function () {
+        $('.settingsPanel').hide();
+      }, 200);
       //$('.settingsPanel').hide("slide", {direction: "right"}, 500);
     }
     $('#dimmer').toggle();
@@ -123,14 +126,21 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   })
 
   $scope.createBasicBoard = function() {
-    var basicBoard = new Board(1, true, "some sample text", "some sample text");
+    var basicBoard = new Board($scope.boards.length+1, true, "some sample text", "some sample text");
     $scope.boards.push(basicBoard);
   };
 
-  $scope.createBlankBoard = function(id) {
-    var blankBoard = new Board(id, false, "", "");
+  $scope.createBlankBoard = function() {
+    var blankBoard = new Board($scope.boards.length+1, false, "", "");
     $scope.boards.push(blankBoard);
   };
+
+  $scope.removeBoard = function() {
+    if ($scope.boards.length == 0) {
+      return;
+    }
+    $scope.boards.pop();
+  }
 
   $scope.getBoards = function() {
     /*
@@ -145,16 +155,15 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     */
     $scope.boards = [];
     $scope.createBasicBoard();
-    $scope.createBlankBoard(2);
-    $scope.createBlankBoard(3);
-    console.log($scope.boards);
+    $scope.createBlankBoard();
+    $scope.createBlankBoard();
   };
 
   $scope.getBlankBoards = function() {
     $scope.boards = [];
-    $scope.createBlankBoard(1);
-    $scope.createBlankBoard(2);
-    $scope.createBlankBoard(3);
+    $scope.createBlankBoard();
+    $scope.createBlankBoard();
+    $scope.createBlankBoard();
   }
 
   if ($scope.loggedIn) {
@@ -227,7 +236,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   $scope.loggedIn = loginService.getLoginStatus();
   $scope.username;
   $scope.password;
-  var logins = {'admin': 'admin'};
+  var logins = {'admin': 'root1234'};
 
   $scope.$on('loggingOut', function() {
     $scope.loggedIn = loginService.getLoginStatus();
