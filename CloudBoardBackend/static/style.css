@@ -30,7 +30,12 @@
   padding: 10px;
 }
 
-.board:hover {
+.board-empty:hover {
+  border-color: blue;
+  cursor: pointer;
+}
+
+.board-text:hover {
   border-color: blue;
   cursor: pointer;
 }
@@ -45,6 +50,7 @@
 
 .board-text {
   background-color: #515151;
+  border: 1px #515151 solid;
   color: white;
   width: 70%;
   margin: auto;
@@ -94,4 +100,9 @@
   margin: 5px;
   cursor: pointer;
   color: white;
+}
+
+.copyBoard:hover {
+  color: blue;
+  cursor: pointer;
 }
