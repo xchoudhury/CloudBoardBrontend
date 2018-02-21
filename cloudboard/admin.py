@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .models import Clipboards
+from .models import Snippets
 
-# Register your models here.
+class ClipboardAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Clipboards, ClipboardAdmin)
+admin.site.register(Snippets, ClipboardAdmin)
+
+

@@ -36,6 +36,6 @@ def TestView(request):
 @api_view(['GET', 'POST'])
 @authentication_classes((SessionAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
-def getClipBoards(request):
+def GetClipBoards(request):
     print(request.user)
     return Response([request.data, request.query_params])

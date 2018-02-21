@@ -37,6 +37,7 @@ virtualenv-clone = "==0.2.6"
 djoser = "*"
 coreapi = "*"
 pygments = "*"
+pillow = "*"
 
 
 [dev-packages]
