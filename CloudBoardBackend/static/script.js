@@ -212,9 +212,14 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   };
 
   $scope.savePaste = function(board) {
+    $('#pasteAlert').hide();
     board.pasting = false;
     board.hasContent = true;
     board.preview = $scope.filterPreview(board.content);
+    $('#pasteAlert').show();
+    setTimeout(function() {
+      $('#pasteAlert').fadeOut(300);
+    }, 3000);
     // Send to server
   };
 
