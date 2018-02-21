@@ -11,14 +11,14 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
-class Clipboards(models.Model):
+class Clipboard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=16)
-    snippet_ids = ArrayField(models.IntegerField(), max_length=10)
+    snippet_ids = ArrayField(models.IntegerField(), max_length=10, null=True)
 
-class Snippets(models.Model):
+class Snippet(models.Model):
     parent_clipboard = models.ForeignKey(
-        'Clipboards',
+        'Clipboard',
         on_delete=models.CASCADE,
     )
     text = models.TextField()

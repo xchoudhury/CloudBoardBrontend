@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Clipboards
-from .models import Snippets
+from .models import Clipboard
+from .models import Snippet
 
 class ClipboardAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Clipboards, ClipboardAdmin)
-admin.site.register(Snippets, ClipboardAdmin)
+admin.site.register(Clipboard, ClipboardAdmin)
+admin.site.register(Snippet, ClipboardAdmin)
 
 

@@ -13,5 +13,5 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     # url(r'^api-token-auth/', rviews.obtain_auth_token),
     path('test/', views.TestView),
-    path('clipboards/', views.GetClipBoards),
+    path('clipboards/', views.ManageClipBoards),
 ]
