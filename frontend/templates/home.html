@@ -50,7 +50,7 @@
 
   <div ng-controller="login" ng-show="!loggedIn">
       <div class="loginWindow">
-        <a href="https://cloudboardbackend.herokuapp.com/api-auth/login/">Click here to login</a>
+        <a href="/api-auth/login/">Click here to login</a>
         <input type="text" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
         <input type="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
         <button ng-click="logIn()" style="width:100%">Log In </button>
