@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from .serializers import UserSerializer, GroupSerializer, TestSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .models import Clipboard, Snippet
@@ -36,7 +36,7 @@ def TestView(request):
     return Response(test_data)
 
 @api_view(['GET', 'POST'])
-@authentication_classes((SessionAuthentication, TokenAuthentication))
+@authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def ManageClipBoards(request):
     if request.method == 'GET':
