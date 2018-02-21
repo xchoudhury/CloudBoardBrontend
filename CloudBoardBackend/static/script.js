@@ -135,11 +135,16 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.boards.push(blankBoard);
   };
 
-  $scope.removeBoard = function() {
+  $scope.removeBoard = function(id) {
     if ($scope.boards.length == 0) {
       return;
     }
-    $scope.boards.pop();
+    // console.log($scope.boards);
+    $scope.boards.splice(id - 1, 1);
+    for (i = id - 1; i < $scope.boards.length; i++)  {
+      $scope.boards[i].id--;
+    }
+    // console.log($scope.boards);
   }
 
   $scope.getBoards = function() {
