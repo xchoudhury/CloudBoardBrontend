@@ -7,6 +7,8 @@ function Board(id, hasContent, preview, content) {
 }
 
 var app = angular.module('CloudBoard', ['ngCookies']);
+// $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+// $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 // New interpolation symbols
 app.config(function($interpolateProvider) {
@@ -132,6 +134,13 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
   $scope.createBlankBoard = function() {
     var blankBoard = new Board($scope.boards.length+1, false, "", "");
+    // $http({
+    //   method: 'POST',
+    //   url: '/clipboards/',
+    //   data: {
+    //     name: 'testclipboard'
+    //   }
+    // })
     $scope.boards.push(blankBoard);
   };
 
