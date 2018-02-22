@@ -387,6 +387,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
       }).then(function successCallback(response) {
         console.log(response);
         $scope.accountCreated = true;
+        $scope.creatingAccount = false;
       }, function errorCallback(response) {
         console.log(response);
       });
