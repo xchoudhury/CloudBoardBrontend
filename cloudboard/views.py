@@ -45,13 +45,13 @@ def ManageClipBoards(request):
         return Response(serializer.data)
     if request.method == 'POST':
         data = {
-            'owner': request.user,
+            'owner': request.user.pk,
             'name': request.data.get('name'),
         }
 
         serializer = ClipboardSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
