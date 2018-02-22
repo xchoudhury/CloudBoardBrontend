@@ -40,11 +40,8 @@ def TestView(request):
 @permission_classes((IsAuthenticated,))
 def ManageClipBoards(request):
     if request.method == 'GET':
-        print("GET request from user", request.user)
         user_clipboards = Clipboard.objects.filter(owner=request.user)
-        print("got user clipboards", user_clipboards)
         serializer = ClipboardSerializer(user_clipboards, many=True)
-        print("returning", serializer.data)
         return Response(serializer.data)
     if request.method == 'POST':
         data = {
