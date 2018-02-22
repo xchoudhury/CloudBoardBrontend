@@ -57,8 +57,10 @@
         <form action="/api-auth/login/" method="POST" id="loginForm">{% csrf_token %}
           <input type="text" name="username" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
           <input type="password" name="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
-          <button ng-click="logIn()" style="width:100%">Log In </button>
+          <button ng-click="logIn()" style="width:100%" id="loginButton" ng-show="!creatingAccount">Log In </button>
         </form>
+        <input type="text" ng-model="email" style="width:100%;" ng-show="creatingAccount" placeholder="email" />
+        <button ng-click="createAccount()" style="width:100%" ng-show="!accountCreated">Create Account</button>
       </div>
   </div>
 

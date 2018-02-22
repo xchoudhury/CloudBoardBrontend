@@ -142,8 +142,8 @@ app.controller('settings', ['$scope', '$http', 'loginService', function($scope, 
 
 // Boards controller, has main control over the functions that directly affect the board data
 app.controller('boards', ['$scope', '$http', '$window', 'loginService', function($scope, $http, $window, loginService) {
-  $scope.loggedIn = loginService.getLoginStatus();
-  $scope.name = loginService.getUserName();
+  $scope.loggedIn;
+  $scope.name;
 
   $scope.boards = []; // This array variable will store all the boards and their info
 
@@ -329,7 +329,9 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   $scope.loggedIn = loginService.getLoginStatus();
   $scope.username;
   $scope.password;
-  var logins = {'admin': 'root1234'}; // Hard coded username and password combination
+  $scope.email;
+  $scope.creatingAccount = false;
+  $scope.accountCreated = false;
 
   $scope.$on('loggingOut', function() { // Clear old data on logging out signal
     $scope.loggedIn = false;
@@ -361,16 +363,33 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
       $scope.loggedIn = loginService.getLoginStatus();
     });
     form.submit();
-
-    /*
-    if (!(logins[$scope.username] == $scope.password)) {
-      alert('Login failed!');
-      return;
-    }
-    */
   };
 
   $scope.logOut = function() {
     loginService.logOut();
   };
+
+  $scope.createAccount = function() {
+    if (!$scope.creatingAccount) {
+      // First click
+      $scope.creatingAccount = true;
+    }
+    else {
+      // Second click
+      $http({
+        method: 'POST',
+        url: '/auth/users/create/',
+        data: {
+          email: $scope.email,
+          username: $scope.username,
+          password: $scope.password
+        }
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.accountCreated = true;
+      }, function errorCallback(response) {
+        console.log(response);
+      });
+    }
+  }
 }]);
