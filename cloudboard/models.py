@@ -6,11 +6,6 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-
 class Clipboard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=16)
