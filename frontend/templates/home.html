@@ -51,13 +51,14 @@
   <div class="overlay" id="dimmer"></div>
 
   <!-- Login window, currently just uses a fake form with a hard-coded login accepted, has a link to redirect to the login endpoint -->
-  <div ng-controller="login" ng-show="!loggedIn">
-      <div class="loginWindow">
-        <a href="/api-auth/login/">Click here to login</a>
+  <div ng-controller="login">
+      <div class="loginWindow" ng-show="!loggedIn">
         <!-- TODO: Make this part a real for, POST it to the login endpoint -->
-        <input type="text" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
-        <input type="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
-        <button ng-click="logIn()" style="width:100%">Log In </button>
+        <form action="/api-auth/login/" method="POST" id="loginForm">{% csrf_token %}
+          <input type="text" name="username" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
+          <input type="password" name="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
+          <button ng-click="logIn()" style="width:100%">Log In </button>
+        </form>
       </div>
   </div>
 

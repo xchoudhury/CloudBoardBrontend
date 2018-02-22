@@ -8,19 +8,35 @@ function Board(id, hasContent, preview, content) {
 }
 
 var app = angular.module('CloudBoard', ['ngCookies']);
-// $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-// $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+/*
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+*/
 // New interpolation symbols, uses [[ ]] instead of {{ }}
 app.config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('[[');
   $interpolateProvider.endSymbol(']]');
 });
 
+app.config(function($httpProvider) {
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+});
+
 // Login service, passes login functions between login controller and boards controller to manage user info such as getting user name
 app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', function($rootScope, $http, $cookies, $cookieStore) {
-  var loggedIn = false;
-  var user = "admin";
+  var loggedIn;
+  var user;
 
   var logIn = function(username, password) {
     loggedIn = true;
@@ -32,14 +48,6 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
         username: 'root',
         password: 'admin'
       }
-    }).then(function successCallback(response) {
-      console.log(response);
-    }, function errorCallback(response) {
-      console.log(response);
-    });
-    $http({
-      method: 'GET',
-      url: 'https://cloudboardbackend.herokuapp.com/auth/me/'
     }).then(function successCallback(response) {
       console.log(response);
     }, function errorCallback(response) {
@@ -60,9 +68,25 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
   };
 
   var getLoginStatus = function() {
-    if ($cookieStore.get("loggedIn")) {
+    console.log(document.cookie);
+    $http({
+      method: 'GET',
+      url: '/auth/me/'
+    }).then(function successCallback(response) {
       loggedIn = true;
-    }
+      user = response.data.username;
+      console.log(response);
+      $rootScope.$broadcast('loggingIn');
+    }, function errorCallback(response) {
+      loggedIn = false;
+      user = "";
+      console.log(response);
+      $rootScope.$broadcast('loggingOut');
+    });
+    //if ($cookieStore.get("loggedIn")) {
+    //  loggedIn = true;
+    //}
+    console.log(loggedIn);
     return loggedIn;
   };
 
@@ -80,7 +104,7 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
 }]);
 
 // Settings controller, contains all functions to be called from settings panel
-app.controller('settings', ['$scope', 'loginService', function($scope, loginService) {
+app.controller('settings', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
   $scope.settingsVisible = false;
 
   // Show settings panel on click
@@ -101,6 +125,15 @@ app.controller('settings', ['$scope', 'loginService', function($scope, loginServ
   };
 
   $scope.logOut = function() {
+    $http({
+      method: 'POST',
+      url: '/api-auth/logout/'
+    }).then(function successCallback() {
+      console.log('logout successful');
+    }, function errorCallback(response) {
+      console.log('logout unsuccesful');
+      console.log(response);
+    });
     $scope.toggle();
     $('#dimmer').show();
     loginService.logOut();
@@ -115,14 +148,14 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   $scope.boards = []; // This array variable will store all the boards and their info
 
   $scope.$on('loggingIn', function() { // Get updated user info when loginService sends loggingIn signal
-    $scope.loggedIn = loginService.getLoginStatus();
+    $scope.loggedIn = true;
     $scope.name = loginService.getUserName();
     $scope.getBoards();
     $('#dimmer').hide();
   });
 
   $scope.$on('loggingOut', function() { // Clear boards when the user logs out
-    $scope.loggedIn = loginService.getLoginStatus();
+    $scope.loggedIn = false;
     $scope.name = loginService.getUserName();
     $scope.getBlankBoards();
   })
@@ -288,7 +321,13 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   var logins = {'admin': 'root1234'}; // Hard coded username and password combination
 
   $scope.$on('loggingOut', function() { // Clear old data on logging out signal
-    $scope.loggedIn = loginService.getLoginStatus();
+    $scope.loggedIn = false;
+    $scope.username = "";
+    $scope.password = "";
+  });
+
+  $scope.$on('loggingIn', function() {
+    $scope.loggedIn = true;
     $scope.username = "";
     $scope.password = "";
   })
@@ -304,13 +343,20 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   $scope.logIn = function() {
 
     // TODO: POST DATA TO LOGIN ENDPOINT
+    var form = $("#loginForm");
+    form.bind('ajax:complete', function() {
+      console.log('finished logging in');
+      loginService.logIn($scope.username, $scope.password);
+      $scope.loggedIn = loginService.getLoginStatus();
+    });
+    form.submit();
 
+    /*
     if (!(logins[$scope.username] == $scope.password)) {
       alert('Login failed!');
       return;
     }
-    loginService.logIn($scope.username, $scope.password);
-    $scope.loggedIn = loginService.getLoginStatus();
+    */
   };
 
   $scope.logOut = function() {
