@@ -160,6 +160,12 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.getBlankBoards();
   })
 
+  // Create a board from passed in content
+  $scope.createBoard = function(content) {
+    var board = new Board($scope.boards.length+1, true, $scope.filterPreview(content), content);
+    $scope.boards.push(board);
+  }
+
   // Creates the basic board with "some sample text" for testing purposes
   $scope.createBasicBoard = function() { 
     var basicBoard = new Board($scope.boards.length+1, true, "some sample text", "some sample text");
@@ -196,21 +202,24 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   $scope.getBoards = function() {
     $scope.boards = [];
     // Database call to load up this users current boards
-    /*
+    
     $http({
       method: 'GET',
-      url: 'https://cloudboardbackend.herokuapp.com/clipboards/'
+      url: '/clipboards/'
     }).then(function successCallback(response) {
-      console.log(reponse);
+      for (var i = 0; i < response.data.length; i++) {
+        $scope.createBoard(response.data[i].name);
+      }
+      console.log(response);
     }, function errorCallback(response) {
       console.log(response);
     });
-    */
+  
     
     // Creating basic boards for testing purposes
-    $scope.createBasicBoard();
-    $scope.createBlankBoard();
-    $scope.createBlankBoard();
+    //$scope.createBasicBoard();
+    //$scope.createBlankBoard();
+    //$scope.createBlankBoard();
   };
 
   // Create blank boards when not logged in, serve as background data
@@ -222,6 +231,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   }
 
   // If the user is already logged in, load their boards. Otherwise, load the blank boards
+  /*
   if ($scope.loggedIn) {
     $('#dimmer').hide();
     $scope.getBoards();
@@ -229,6 +239,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   else {
     $scope.getBlankBoards();
   }
+  */
 
   // Copy function
   $scope.copyFromBoard = function(board) {
