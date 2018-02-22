@@ -1,3 +1,4 @@
+// Board object constructor
 function Board(id, hasContent, preview, content) {
   this.id = id;
   this.hasContent = hasContent;
@@ -10,12 +11,13 @@ var app = angular.module('CloudBoard', ['ngCookies']);
 // $httpProvider.defaults.xsrfCookieName = 'csrftoken';
 // $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-// New interpolation symbols
+// New interpolation symbols, uses [[ ]] instead of {{ }}
 app.config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('[[');
   $interpolateProvider.endSymbol(']]');
 });
 
+// Login service, passes login functions between login controller and boards controller to manage user info such as getting user name
 app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', function($rootScope, $http, $cookies, $cookieStore) {
   var loggedIn = false;
   var user = "admin";
@@ -47,14 +49,14 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
     user = username;
     $cookieStore.put("loggedIn", "true");
     $cookieStore.put("user", username);
-    $rootScope.$broadcast('loggingIn');
+    $rootScope.$broadcast('loggingIn'); // Fire loggingIn signal so other controllers can update when logged in
   };
 
   var logOut = function() {
     loggedIn = false;
     user = "";
     $cookieStore.put("loggedIn", false);
-    $rootScope.$broadcast('loggingOut');
+    $rootScope.$broadcast('loggingOut'); // Fire loggingOut signal so other controllers can update when logged out
   };
 
   var getLoginStatus = function() {
@@ -77,29 +79,25 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
   };
 }]);
 
+// Settings controller, contains all functions to be called from settings panel
 app.controller('settings', ['$scope', 'loginService', function($scope, loginService) {
   $scope.settingsVisible = false;
 
+  // Show settings panel on click
   $scope.toggle = function() {
     if (!$scope.settingsVisible) {
       $scope.settingsVisible = true;
       $('.settingsPanel').show();
-      //$('#settingsDiv').addClass("settingsPanel");
       $('.settingsPanel').width("150px");
-      //$('.settingsPanel').show("slide", {direction: "left"}, 500);
     }
     else {
       $scope.settingsVisible = false;
-      
-      //$('#settingsDiv').removeClass("settingsPanel");
       $('.settingsPanel').width("0");
       setTimeout(function () {
         $('.settingsPanel').hide();
       }, 200);
-      //$('.settingsPanel').hide("slide", {direction: "right"}, 500);
     }
     $('#dimmer').toggle();
-    //$('.settingsOptions').toggle();
   };
 
   $scope.logOut = function() {
@@ -109,29 +107,33 @@ app.controller('settings', ['$scope', 'loginService', function($scope, loginServ
   }
 }]);
 
+// Boards controller, has main control over the functions that directly affect the board data
 app.controller('boards', ['$scope', '$http', '$window', 'loginService', function($scope, $http, $window, loginService) {
   $scope.loggedIn = loginService.getLoginStatus();
   $scope.name = loginService.getUserName();
-  $scope.boards = [];
 
-  $scope.$on('loggingIn', function() {
+  $scope.boards = []; // This array variable will store all the boards and their info
+
+  $scope.$on('loggingIn', function() { // Get updated user info when loginService sends loggingIn signal
     $scope.loggedIn = loginService.getLoginStatus();
     $scope.name = loginService.getUserName();
     $scope.getBoards();
     $('#dimmer').hide();
   });
 
-  $scope.$on('loggingOut', function() {
+  $scope.$on('loggingOut', function() { // Clear boards when the user logs out
     $scope.loggedIn = loginService.getLoginStatus();
     $scope.name = loginService.getUserName();
-    $scope.boards = [];
+    $scope.getBlankBoards();
   })
 
-  $scope.createBasicBoard = function() {
+  // Creates the basic board with "some sample text" for testing purposes
+  $scope.createBasicBoard = function() { 
     var basicBoard = new Board($scope.boards.length+1, true, "some sample text", "some sample text");
     $scope.boards.push(basicBoard);
   };
 
+  // Creates a blank board and adds it to the end of the boards arrays
   $scope.createBlankBoard = function() {
     var blankBoard = new Board($scope.boards.length+1, false, "", "");
     // $http({
@@ -144,6 +146,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.boards.push(blankBoard);
   };
 
+  // Remove specific board with given id
   $scope.removeBoard = function(id) {
     if ($scope.boards.length == 0) {
       return;
@@ -156,7 +159,10 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     // console.log($scope.boards);
   }
 
+  // Get users boards
   $scope.getBoards = function() {
+    $scope.boards = [];
+    // Database call to load up this users current boards
     /*
     $http({
       method: 'GET',
@@ -167,12 +173,14 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       console.log(response);
     });
     */
-    $scope.boards = [];
+    
+    // Creating basic boards for testing purposes
     $scope.createBasicBoard();
     $scope.createBlankBoard();
     $scope.createBlankBoard();
   };
 
+  // Create blank boards when not logged in, serve as background data
   $scope.getBlankBoards = function() {
     $scope.boards = [];
     $scope.createBlankBoard();
@@ -180,6 +188,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.createBlankBoard();
   }
 
+  // If the user is already logged in, load their boards. Otherwise, load the blank boards
   if ($scope.loggedIn) {
     $('#dimmer').hide();
     $scope.getBoards();
@@ -188,11 +197,15 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.getBlankBoards();
   }
 
+  // Copy function
   $scope.copyFromBoard = function(board) {
     if (!board.hasContent) {
+      // Return if this board is blank
       return;
     }
-    $('#copyAlert').hide();
+    $('#copyAlert').hide(); // Hide stacked copy notifications
+
+    // Create off-screen text area, populate it with this boards data, execute a copy, delete this off-screen text area
     var textarea = document.createElement( "textarea" );
     textarea.style.height = "0px";
     textarea.style.left = "-100px";
@@ -205,31 +218,46 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     textarea.select();
     document.execCommand('copy');
     textarea.parentNode.removeChild( textarea );
+
+    // Show copy alert and fade it out after 3 seconds
     $('#copyAlert').show();
     setTimeout(function() {
       $('#copyAlert').fadeOut(300);
     }, 3000);
   };
 
+  // Paste function
   $scope.pasteToBoard = function(board) {
+    // Update board variable, will update the blank board's look to have the same look as the full boards
     board.pasting = true;
     board.hasContent = true;
     setTimeout(function() {
+      // Auto put cursor in this boards textbox, the timeout is so the user's click doesn't override this (slight delay)
       $("#" + board.id + "pasting").focus();
     }, 200);
   };
 
+  // Save the paste when the user hits error
   $scope.keyCheck = function(e, board) {
     if (e.keyCode == 13) {
       $scope.savePaste(board);
     }
   };
 
+  // Save user's paste
   $scope.savePaste = function(board) {
+    // Hide overlapping paste alert
     $('#pasteAlert').hide();
+    // Update variables
     board.pasting = false;
     board.hasContent = true;
+
+    // TODO: DATABASE CALL TO UPDATE USER'S BOARDS
+
+    // Filter the preview to be displayed if the content is too long
     board.preview = $scope.filterPreview(board.content);
+
+    // Show successful paste alert, fade
     $('#pasteAlert').show();
     setTimeout(function() {
       $('#pasteAlert').fadeOut(300);
@@ -237,6 +265,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     // Send to server
   };
 
+  // If the content of the board is longer than 45 characters, give it a '...' (can be made to any length)
   $scope.filterPreview = function(x) {
     if (typeof x == undefined) {
       return "";
@@ -251,25 +280,31 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
 }]);
 
+// Login controller, has control over the mini form displayed when not logged in
 app.controller('login', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
   $scope.loggedIn = loginService.getLoginStatus();
   $scope.username;
   $scope.password;
-  var logins = {'admin': 'root1234'};
+  var logins = {'admin': 'root1234'}; // Hard coded username and password combination
 
-  $scope.$on('loggingOut', function() {
+  $scope.$on('loggingOut', function() { // Clear old data on logging out signal
     $scope.loggedIn = loginService.getLoginStatus();
     $scope.username = "";
     $scope.password = "";
   })
 
+  // Log in when the user hits enter on the password textbox
   $scope.keyCheck = function(e) {
     if (e.keyCode == 13) {
       $scope.logIn();
     }
   }
 
+  // Login function
   $scope.logIn = function() {
+
+    // TODO: POST DATA TO LOGIN ENDPOINT
+
     if (!(logins[$scope.username] == $scope.password)) {
       alert('Login failed!');
       return;
