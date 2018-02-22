@@ -18,7 +18,7 @@ class Clipboard(models.Model):
 
 class Snippet(models.Model):
     parent_clipboard = models.ForeignKey(
-        'Clipboard',
+        Clipboard,
         on_delete=models.CASCADE,
     )
     text = models.TextField()
