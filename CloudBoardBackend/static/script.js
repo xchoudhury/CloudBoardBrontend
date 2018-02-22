@@ -175,13 +175,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   // Creates a blank board and adds it to the end of the boards arrays
   $scope.createBlankBoard = function() {
     var blankBoard = new Board($scope.boards.length+1, false, "", "");
-    // $http({
-    //   method: 'POST',
-    //   url: '/clipboards/',
-    //   data: {
-    //     name: 'testclipboard'
-    //   }
-    // })
     $scope.boards.push(blankBoard);
   };
 
@@ -296,7 +289,17 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     board.pasting = false;
     board.hasContent = true;
 
-    // TODO: DATABASE CALL TO UPDATE USER'S BOARDS
+    $http({
+      method: 'POST',
+      url: '/clipboards/',
+      data: {
+        name: board.content
+      }
+    }).then(function successCallback(response) {
+     console.log(response);
+    }, function errorCallback(response) {
+     console.log(response);
+    });
 
     // Filter the preview to be displayed if the content is too long
     board.preview = $scope.filterPreview(board.content);
