@@ -12,3 +12,7 @@ from rest_framework.views import APIView
 @api_view(['GET'])
 def homepage(request):
     return render(request, 'home.html')
+
+@api_view(['GET'])
+def faq(request):
+    return render(request, 'faq.html')
