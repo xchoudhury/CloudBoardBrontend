@@ -2,15 +2,20 @@
   margin: auto;
   border: 1px solid black;
   border-radius: 25px;
-  width: 200px;
+  width: 230px;
   padding: 15px;
   background-color: white;
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: -62.5px;
-  margin-left: -100px;
+  margin-left: -115px;
   z-index: 999;
+}
+
+.createAccountError {
+  color: red;
+  font-size: 10pt;
 }
 
 .overlay {

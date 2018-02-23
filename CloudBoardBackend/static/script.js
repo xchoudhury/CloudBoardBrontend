@@ -379,6 +379,9 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
     }
     else {
       // Second click
+      $('#usernameError').html("");
+      $('#passwordError').html("");
+      $('#emailError').html("");
       $http({
         method: 'POST',
         url: '/auth/users/create/',
@@ -393,6 +396,21 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         $scope.creatingAccount = false;
       }, function errorCallback(response) {
         console.log(response);
+        if (typeof response.data.username != 'undefined') {
+          for (var i = 0; i < response.data.username.length; i++) {
+            $('#usernameError').append(response.data.username[i] + '<br />');
+          }
+        }
+        if (typeof response.data.password != 'undefined') {
+          for (var i = 0; i < response.data.password.length; i++) {
+            $('#passwordError').append(response.data.password[i] + '<br />');
+          }
+        }
+        if (typeof response.data.email != 'undefined') {
+          for (var i = 0; i < response.data.email.length; i++) {
+            $('#emailError').append(response.data.email[i] + '<br />');
+          }
+        }
       });
     }
   }
