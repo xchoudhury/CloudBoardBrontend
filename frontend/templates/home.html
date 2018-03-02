@@ -4,6 +4,8 @@
 <html>
 <head>
   <title>CloudBoard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
 
   <!-- Bootstrap -->
@@ -75,18 +77,29 @@
       <div ng-repeat="x in boards" class="col-lg-12">
         <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
         <div class="board" ng-class="x.hasContent ? 'board-full' : 'board-empty'" ng-click="x.hasContent && !x.pasting ? doNothing() : pasteToBoard(x)">
-          <!-- Display board title and it's id -->
-          <h3 style="text-align:center;">Board [[x.id]]</h3>
           <!-- Remove button -->
-          <i class="material-icons" style="border-radius: 20px; border: red 1px solid; text-align: center; cursor: pointer; width: 5%; top : 27px; left: 40px; position:absolute" ng-show="x.hasContent" ng-click="removeBoard([[x.id]])">remove</i>
+          <div class="row">
+          <div class="col" style="text-align: left; cursor: pointer;">
+            <i class="material-icons" ng-show="x.hasContent" style="border-radius: 20px; border: red 1px solid;" ng-click="removeBoard([[x.id]])">remove</i>
+          </div>
+          <!-- Display board title and it's id -->
+          <div class="col col-xs-auto">
+          <h3 style="text-align:center;">Board [[x.id]]</h3>
+          </div>
+          
           <!-- Copy button -->
-          <i class="material-icons copyBoard" ng-show="x.hasContent" style="position: absolute; right: 40px; top: 27px; font-size: 48px;" ng-click="copyFromBoard(x);">content_copy</i>
+          <div class="col" style="text-align:right;">
+            <i class="material-icons copyBoard" ng-show="x.hasContent" ng-click="copyFromBoard(x);">content_copy</i>
+          </div>
+          </div>
           <!-- Content dark grey div -->
-          <div class="board-text" ng-show="x.hasContent" ng-click="pasteToBoard(x)">
+          <div class="row">
+          <div class="board-text col-xs-12" ng-show="x.hasContent" ng-click="pasteToBoard(x)">
             <!-- Hidden text box used for pasting/editing data -->
             <input type="text" id="[[x.id]]pasting" class="pasteInput" ng-model="x.content" ng-show="x.pasting" ng-keyup="keyCheck($event, x)" />
             <!-- Display board preview -->
             [[x.preview]]
+          </div>
           </div>
         </div>
       </div>
