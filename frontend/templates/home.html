@@ -80,7 +80,7 @@
           <!-- Remove button -->
           <div class="row">
           <div class="col" style="text-align: left; cursor: pointer;">
-            <i class="material-icons" ng-show="x.hasContent" style="border-radius: 20px; border: red 1px solid;" ng-click="removeBoard([[x.id]])">remove</i>
+            <i class="material-icons removeBoard boardAction" ng-show="x.hasContent" ng-click="removeBoard([[x.id]])">remove_circle_outline</i>
           </div>
           <!-- Display board title and it's id -->
           <div class="col col-xs-auto">
@@ -89,7 +89,7 @@
           
           <!-- Copy button -->
           <div class="col" style="text-align:right;">
-            <i class="material-icons copyBoard" ng-show="x.hasContent" ng-click="copyFromBoard(x);">content_copy</i>
+            <i class="material-icons copyBoard boardAction" ng-show="x.hasContent" ng-click="copyFromBoard(x);">content_copy</i>
           </div>
           </div>
           <!-- Content dark grey div -->

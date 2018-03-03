@@ -106,7 +106,34 @@
   color: white;
 }
 
+.boardAction {
+  font-size: 32pt !important;
+}
+
 .copyBoard:hover {
   color: blue;
   cursor: pointer;
+}
+
+.removeBoard:hover {
+  color: red;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .boardAction {
+    font-size: 26pt !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .boardAction {
+    font-size: 20pt !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .boardAction {
+    font-size: 18pt !important;
+  }
 }
