@@ -137,3 +137,18 @@
     font-size: 18pt !important;
   }
 }
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #FF7800;
+  border-radius: 50%;
+  width: 140px;
+  height: 140px;
+  margin: auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {transform: rotate(360deg); }
+}

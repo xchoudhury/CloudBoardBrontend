@@ -81,6 +81,8 @@ app.factory('loginService', ['$rootScope', '$http', '$cookies', '$cookieStore', 
       loggedIn = false;
       user = "";
       console.log(response);
+      $('.loader').hide();
+      $('#loginFrom').show();
       $rootScope.$broadcast('loggingOut');
     });
     //if ($cookieStore.get("loggedIn")) {
@@ -340,6 +342,8 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
     $scope.loggedIn = false;
     $scope.username = "";
     $scope.password = "";
+    $('.loader').hide();
+    $('#loginForm').show();
   });
 
   $scope.$on('loggingIn', function() {
