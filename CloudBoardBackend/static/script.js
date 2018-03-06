@@ -8,19 +8,8 @@ function Board(id, hasContent, preview, content) {
 }
 
 // URL parameter function
-function getURLParameter(sParam) {
-  var sPageURL = window.location.search.substring(1);
-  var sURLVariables = sPageURL.split('&');
-  for (var i = 0; i < sURLVariables.length; i++) {
-    var sParameterName = sURLVariables[i].split('=');
-    if (sParameterName[0] == sParam) {
-      return sParameterName[1];
-    }
-  }
-}​
 
-
-var app = angular.module('CloudBoard', ['ngCookies']);
+var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
 /*
 function csrfSafeMethod(method) {
@@ -469,11 +458,11 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   };
 }]);
 
-app.controller('reset', ['$scope', '$http', function($scope, $http) {
-  $scope.uid = getURLParameter('uid');
-  $scope.token = getURLParameter('token');
+app.controller('reset', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
   $scope.newPass;
   $scope.confirmPass;
+  $scope.uid = $routeParams.uid;
+  $scope.token = $routeParams.token;
 
   $scope.resetPassword = function() {
     $('#newPasswordError').html("");
