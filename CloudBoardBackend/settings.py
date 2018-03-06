@@ -121,9 +121,32 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = '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'
 
+
+# #Debugging settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# # Host for sending e-mail.
+# EMAIL_HOST = 'localhost'
+
+# # Port for sending e-mail.
+# EMAIL_PORT = 1025
+
+# # Optional SMTP authentication information for EMAIL_HOST.
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_TLS = False
+
+# #Command to run debugging email server in console
+# '''
+# python -m smtpd -n -c DebuggingServer localhost:1025
+# '''
+
+# #End degbugging settings
+
+
 DJOSER = {
     'SITE_NAME': 'CloudBoard',
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm?uid={uid}&token={token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {},

@@ -16,3 +16,7 @@ def homepage(request):
 @api_view(['GET'])
 def faq(request):
     return render(request, 'faq.html')
+
+@api_view(['GET'])
+def reset(request):
+    return render(request, 'reset.html')

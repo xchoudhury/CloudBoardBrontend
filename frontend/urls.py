@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     path('', views.homepage),
-    path('faq', views.faq)
+    path('faq', views.faq),
+    path('password/reset/confirm', views.reset)
 ]
