@@ -7,6 +7,19 @@ function Board(id, hasContent, preview, content) {
   this.pasting = false;
 }
 
+// URL parameter function
+function getURLParameter(sParam) {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] == sParam) {
+      return sParameterName[1];
+    }
+  }
+}​
+
+
 var app = angular.module('CloudBoard', ['ngCookies']);
 
 /*
@@ -454,4 +467,45 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
       });
     }
   };
+}]);
+
+app.controller('reset', ['$scope', '$http', function($scope, $http) {
+  $scope.uid = getURLParameter('uid');
+  $scope.token = getURLParameter('token');
+  $scope.newPass;
+  $scope.confirmPass;
+
+  $scope.resetPassword = function() {
+    $('#newPasswordError').html("");
+    $('#confirmPasswordError').html("");
+    if (!($scope.newPass === $scope.confirmPass)) {
+      $('#confirmPasswordError').html("Passwords do not match");
+      return;
+    }
+    $http({
+      method: 'POST',
+      url: '/auth/password/reset/confirm/',
+      data: {
+        uid: $scope.uid,
+        token: $scope.token,
+        new_password: $scope.newPass,
+        re_new_password: $scope.confirmPass
+      }
+    }).then(function successCallback(response) {
+      console.log(response);
+      window.location = $('#homeLink').href;
+    }, function errorCallback(response) {
+      console.log(response);
+      if (typeof response.data.new_password != 'undefined') {
+        for (var i = 0; i < response.data.new_password.length; i++) {
+          $('#newPasswordError').append(response.data.new_password[i] + '<br />');
+        }
+      }
+      if (typeof reponse.data.re_new_password != 'undefined') {
+        for (var i = 0; i < response.data.re_new_password.length; i++) {
+          $('#confirmPasswordError').append(response.data.re_new_password[i] + '<br />');
+        }
+      }
+    });
+  }
 }]);
