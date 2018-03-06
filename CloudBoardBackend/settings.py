@@ -114,11 +114,21 @@ REST_FRAMEWORK = {
     )
 }
 
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+
 DJOSER = {
+    'SITE_NAME': 'CloudBoard',
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {},
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': False,
+    'PASSWORD_RESET_CONFIRM_RETYPE' : True
 }
 
 # Internationalization
@@ -157,5 +167,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
