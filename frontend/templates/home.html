@@ -57,7 +57,7 @@
       <div class="loginWindow" ng-show="!loggedIn">
         <div class="loader"></div>
         <div id="loginForm" style="display:none;">
-          <form action="/api-auth/login/" method="POST" id="loginForm">{% csrf_token %}
+          <form action="/api-auth/login/" method="POST">{% csrf_token %}
             <span class="createAccountError" id="usernameError"></span>
             <input type="text" name="username" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
             <span class="createAccountError" id="passwordError"></span>
@@ -67,6 +67,7 @@
           <span class="createAccountError" id="emailError"></span>
           <input type="text" ng-model="email" style="width:100%;" ng-show="creatingAccount" placeholder="email" />
           <button ng-click="createAccount()" style="width:100%" ng-show="!accountCreated">Create Account</button>
+          <button ng-click="forgotPassword()" style="width:100%">Forgot Password?</button>
         </div>
       </div>
   </div>
@@ -81,27 +82,27 @@
         <div class="board" ng-class="x.hasContent ? 'board-full' : 'board-empty'" ng-click="x.hasContent && !x.pasting ? doNothing() : pasteToBoard(x)">
           <!-- Remove button -->
           <div class="row">
-          <div class="col" style="text-align: left; cursor: pointer;">
-            <i class="material-icons removeBoard boardAction" ng-show="x.hasContent" ng-click="removeBoard([[x.id]])">remove_circle_outline</i>
-          </div>
-          <!-- Display board title and it's id -->
-          <div class="col col-xs-auto">
-          <h3 style="text-align:center;">Board [[x.id]]</h3>
-          </div>
+            <div class="col" style="text-align: left; cursor: pointer;">
+              <i class="material-icons removeBoard boardAction" ng-show="x.hasContent" ng-click="removeBoard([[x.id]])">remove_circle_outline</i>
+            </div>
+            <!-- Display board title and it's id -->
+            <div class="col col-xs-auto">
+              <h3 style="text-align:center;">Board [[x.id]]</h3>
+            </div>
           
-          <!-- Copy button -->
-          <div class="col" style="text-align:right;">
-            <i class="material-icons copyBoard boardAction" ng-show="x.hasContent" ng-click="copyFromBoard(x);">content_copy</i>
-          </div>
+            <!-- Copy button -->
+            <div class="col" style="text-align:right;">
+              <i class="material-icons copyBoard boardAction" ng-show="x.hasContent" ng-click="copyFromBoard(x);">content_copy</i>
+            </div>
           </div>
           <!-- Content dark grey div -->
           <div class="row">
-          <div class="board-text col-xs-12" ng-show="x.hasContent" ng-click="pasteToBoard(x)">
-            <!-- Hidden text box used for pasting/editing data -->
-            <input type="text" id="[[x.id]]pasting" class="pasteInput" ng-model="x.content" ng-show="x.pasting" ng-keyup="keyCheck($event, x)" />
-            <!-- Display board preview -->
-            [[x.preview]]
-          </div>
+            <div class="board-text col-xs-12" ng-show="x.hasContent" ng-click="pasteToBoard(x)">
+              <!-- Hidden text box used for pasting/editing data -->
+              <input type="text" id="[[x.id]]pasting" class="pasteInput" ng-model="x.content" ng-show="x.pasting" ng-keyup="keyCheck($event, x)" />
+              <!-- Display board preview -->
+              [[x.preview]]
+            </div>
           </div>
         </div>
       </div>

@@ -207,6 +207,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       }
       console.log(response);
     }, function errorCallback(response) {
+      alert('Error getting clipboards. See console for more details.');
       console.log(response);
     });
   
@@ -298,9 +299,10 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         name: board.content
       }
     }).then(function successCallback(response) {
-     console.log(response);
+      console.log(response);
     }, function errorCallback(response) {
-     console.log(response);
+      alert('Error saving clipboard. See console for more details');
+      console.log(response);
     });
 
     // Filter the preview to be displayed if the content is too long
@@ -337,6 +339,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   $scope.email;
   $scope.creatingAccount = false;
   $scope.accountCreated = false;
+  $scope.forgettingPassword = false;
 
   $scope.$on('loggingOut', function() { // Clear old data on logging out signal
     $scope.loggedIn = false;
@@ -417,5 +420,38 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         }
       });
     }
-  }
+  };
+
+  $scope.forgotPassword = function() {
+    if (!$scope.forgettingPassword) {
+      // First click
+      $scope.forgettingPassword = true;
+      $scope.creatingAccount = true;
+      $scope.accountCreated = true;
+      $('form').hide();
+    }
+    else {
+      $('#emailError').html("");
+      if (!$scope.email) {
+        $('#emailError').html("Email is required");
+        return;
+      }
+      $http({
+        method: 'POST',
+        url: '/auth/password/reset/',
+        data: {
+          email: $scope.email
+        }
+      }).then(function successCallback(response) {
+        console.log(response);
+        alert('Password Reset Email Sent');
+        $scope.forgettingPassword = false;
+        $scope.creatingAccount = false;
+        $scope.accountCreated = false;
+        $('form').show();
+      }, function errorCallback(response) {
+        console.log(response);
+      });
+    }
+  };
 }]);
