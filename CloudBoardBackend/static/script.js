@@ -11,19 +11,6 @@ function Board(id, hasContent, preview, content) {
 
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
-/*
-function csrfSafeMethod(method) {
-  // these HTTP methods do not require CSRF protection
-  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-  beforeSend: function(xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }
-  }
-});
-*/
 // New interpolation symbols, uses [[ ]] instead of {{ }}
 app.config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('[[');
@@ -33,6 +20,10 @@ app.config(function($interpolateProvider) {
 app.config(function($httpProvider) {
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+});
+
+app.config(function($locationProvider) {
+  $locationProvider.html5Mode(true);
 });
 
 // Login service, passes login functions between login controller and boards controller to manage user info such as getting user name
@@ -458,11 +449,11 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   };
 }]);
 
-app.controller('reset', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+app.controller('reset', ['$scope', '$http', '$location', function($scope, $http, $location) {
   $scope.newPass;
   $scope.confirmPass;
-  $scope.uid = $routeParams.uid;
-  $scope.token = $routeParams.token;
+  $scope.uid = $location.search().uid;
+  $scope.token = $location.search().token;
 
   $scope.resetPassword = function() {
     $('#newPasswordError').html("");

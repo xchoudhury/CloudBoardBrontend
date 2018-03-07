@@ -4,6 +4,7 @@
 <html>
 <head>
   <title>CloudBoard</title>
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
@@ -38,12 +39,12 @@
     </div>
   </nav>
 
-  <div ng-controller="reset" class="container">
+  <div ng-controller="reset" class="container" style="width: 40%; text-align: center;">
     <h3>Reset Password</h3>
     <span class="createAccountError" id="newPasswordError"></span>
-    <input type="password" placeholder="new password" ng-model="newPass" />
+    <input type="password" placeholder="new password" ng-model="newPass" style="width: 100%;" />
     <span class="createAccountError" id="confirmPasswordError"></span>
-    <input type="password" placeholder="confirm password" ng-model="confirmPass" />
+    <input type="password" placeholder="confirm password" ng-model="confirmPass" style="width: 100%;" />
     <button ng-click="resetPassword()" style="width:100%">Reset Password</button>
     <a href="/home" id="homeLink">Home</a>
   </div>
