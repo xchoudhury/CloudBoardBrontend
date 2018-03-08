@@ -357,15 +357,17 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
 
   // Login function
   $scope.logIn = function() {
-
+    $('button').prop('disabled', true);
     // TODO: POST DATA TO LOGIN ENDPOINT
+    /*
     var form = $("#loginForm");
     form.bind('ajax:complete', function() {
       console.log('finished logging in');
       loginService.logIn($scope.username, $scope.password);
       $scope.loggedIn = loginService.getLoginStatus();
     });
-    form.submit();
+    */
+    $('form').submit();
   };
 
   $scope.logOut = function() {
@@ -379,6 +381,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
     }
     else {
       // Second click
+      $('button').prop('disabled', true);
       $('#usernameError').html("");
       $('#passwordError').html("");
       $('#emailError').html("");
@@ -394,6 +397,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         console.log(response);
         $scope.accountCreated = true;
         $scope.creatingAccount = false;
+        $('button').prop('disabled', false);
       }, function errorCallback(response) {
         console.log(response);
         if (typeof response.data.username != 'undefined') {
@@ -411,6 +415,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
             $('#emailError').append(response.data.email[i] + '<br />');
           }
         }
+        $('button').prop('disabled', false);
       });
     }
   };
@@ -424,6 +429,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
       $('form').hide();
     }
     else {
+      $('button').prop('disabled', true);
       $('#emailError').html("");
       if (!$scope.email) {
         $('#emailError').html("Email is required");
@@ -441,6 +447,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         $scope.forgettingPassword = false;
         $scope.creatingAccount = false;
         $scope.accountCreated = false;
+        $('button').prop('disabled', false);
         $('form').show();
       }, function errorCallback(response) {
         console.log(response);
@@ -456,6 +463,7 @@ app.controller('reset', ['$scope', '$http', '$location', function($scope, $http,
   $scope.token = $location.search().token;
 
   $scope.resetPassword = function() {
+    $('button').prop('disabled', true);
     $('#newPasswordError').html("");
     $('#confirmPasswordError').html("");
     if (!($scope.newPass === $scope.confirmPass)) {
@@ -486,6 +494,7 @@ app.controller('reset', ['$scope', '$http', '$location', function($scope, $http,
           $('#confirmPasswordError').append(response.data.re_new_password[i] + '<br />');
         }
       }
+      $('button').prop('disabled', false);
     });
   }
 }]);
