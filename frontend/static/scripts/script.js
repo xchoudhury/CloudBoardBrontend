@@ -1,14 +1,14 @@
 // Board object constructor
-function Board(id, hasContent, preview, content) {
+function Board(id, name, hasContent) {
   this.id = id;
+  this.name = name;
+  this.preview = name;
+  this.content = name;
   this.hasContent = hasContent;
-  this.preview = preview;
-  this.content = content;
   this.pasting = false;
   this.expanded = false;
+  this.data = [];
 }
-
-// URL parameter function
 
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 

@@ -20,7 +20,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Create a board from passed in content
     $scope.createBoard = function(content) {
-      var board = new Board($scope.boards.length+1, true, $scope.filterPreview(content), content);
+      var board = new Board($scope.boards.length+1, content, true);
+      board.data.push(content);
       $scope.boards.push(board);
     }
   
@@ -32,7 +33,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Creates a blank board and adds it to the end of the boards arrays
     $scope.createBlankBoard = function() {
-      var blankBoard = new Board($scope.boards.length+1, false, "", "");
+      var blankBoard = new Board($scope.boards.length+1, "Board " + $scope.boards.length+1, false);
       $scope.boards.push(blankBoard);
     };
   
@@ -94,12 +95,23 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     */
   
    $scope.expand = function($event, board) {
-    console.log($event.target.parentNode.parentNode);
-  
-    $($event.target.parentNode.parentNode.parentNode).stop(true, false).animate({
-      height: board.expanded ? 107 : 321
-    }, 200);
-  
+    //console.log($event.target.parentNode.parentNode.parentNode);
+    //$($event.target.parentNode.parentNode.parentNode).stop(true, false).animate({
+    //  height: board.expanded ? 107 : 321
+    //}, 200);
+    for (var i = 0; i < $scope.boards.length; i++) {
+      if ($scope.boards[i].expanded && $scope.boards[i].id != board.id) {
+        $('#' + $scope.boards[i].id + 'snippets').slideUp('slow', function(){});
+        $('#' + $scope.boards[i].id + 'board').stop(true, false).animate({
+          width: "80%"
+        }, 400);
+        $scope.boards[i].expanded = false;
+      }
+    }
+    $('#' + board.id + 'snippets').slideToggle('slow', function() {});
+    $('#' + board.id + 'board').stop(true, false).animate({
+      width: board.expanded ? "80%" : "100%"
+    }, 400);
     board.expanded = !board.expanded;
   };
   
