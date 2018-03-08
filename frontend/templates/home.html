@@ -28,7 +28,11 @@
   <!-- Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <script src={% static 'script.js' %}></script>
+  <script src={% static 'scripts/script.js' %}></script>
+  <script src={% static 'scripts/loginService.js' %}></script>
+  <script src={% static 'scripts/loginController.js' %}></script>
+  <script src={% static 'scripts/boardsController.js' %}></script>
+  <script src={% static 'scripts/settingsController.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;">
   <nav class="navbar navbar-default" style="border-bottom: 1px solid black; background-color: #FF7800;">
@@ -88,7 +92,7 @@
               <i class="material-icons removeBoard boardAction" ng-show="x.hasContent" ng-click="removeBoard([[x.id]])">remove_circle_outline</i>
             </div>
             <!-- Display board title and it's id -->
-            <div class="col col-xs-auto">
+            <div class="col col-xs-auto" ng-click="expand($event, x)">
               <h3 style="text-align:center;">Board [[x.id]]</h3>
             </div>
           
