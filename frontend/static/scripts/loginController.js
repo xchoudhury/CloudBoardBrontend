@@ -111,7 +111,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
           }
         }).then(function successCallback(response) {
           console.log(response);
-          alert('Password Reset Email Sent');
+          $('#resetModal').modal('show');
           $scope.forgettingPassword = false;
           $scope.creatingAccount = false;
           $scope.accountCreated = false;

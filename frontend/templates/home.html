@@ -21,7 +21,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-route.js"></script>
 
   <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
@@ -74,6 +73,25 @@
           <input type="text" ng-model="email" style="width:100%;" ng-show="creatingAccount" placeholder="email" />
           <button ng-click="createAccount()" style="width:100%" ng-show="!accountCreated">Create Account</button>
           <button ng-click="forgotPassword()" style="width:100%">Forgot Password?</button>
+        </div>
+      </div>
+
+      <div class="modal fade" id="resetModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Reset Successful</h4>
+              <button type="button" style="float:right;" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>Password reset successful. An email has been sent.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
         </div>
       </div>
   </div>
