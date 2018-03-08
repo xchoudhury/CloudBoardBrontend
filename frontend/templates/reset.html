@@ -42,11 +42,13 @@
 
   <div ng-controller="reset" class="container" style="width: 40%; text-align: center;">
     <h3>Reset Password</h3>
+    <span class="createAccountError" id="uidError"></span>
+    <span class="createAccountError" id="tokenError"></span>
     <span class="createAccountError" id="newPasswordError"></span>
     <input type="password" placeholder="new password" ng-model="newPass" style="width: 100%;" />
     <span class="createAccountError" id="confirmPasswordError"></span>
     <input type="password" placeholder="confirm password" ng-model="confirmPass" style="width: 100%;" />
     <button ng-click="resetPassword()" style="width:100%">Reset Password</button>
-    <a href="/" id="homeLink">Home</a>
+    <a href="/" style="display:none;" id="homeLink">Home</a>
   </div>
 </body>

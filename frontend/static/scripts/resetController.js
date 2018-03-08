@@ -22,7 +22,7 @@ app.controller('reset', ['$scope', '$http', '$location', function($scope, $http,
         }
       }).then(function successCallback(response) {
         console.log(response);
-        window.location = $('#homeLink').href;
+        document.location.href = "/";
       }, function errorCallback(response) {
         console.log(response);
         if (typeof response.data.new_password != 'undefined') {
@@ -30,10 +30,16 @@ app.controller('reset', ['$scope', '$http', '$location', function($scope, $http,
             $('#newPasswordError').append(response.data.new_password[i] + '<br />');
           }
         }
-        if (typeof reponse.data.re_new_password != 'undefined') {
+        if (typeof response.data.re_new_password != 'undefined') {
           for (var i = 0; i < response.data.re_new_password.length; i++) {
             $('#confirmPasswordError').append(response.data.re_new_password[i] + '<br />');
           }
+        }
+        if (typeof response.data.uid != 'undefined') {
+          $('#uidError').append("You have recieved an invalid uid. Request a new reset password link");
+        }
+        if (typeof response.data.token != 'undefined') {
+          $('#tokenError').append("You have recieved an invalid token. Request a new reset password link");
         }
       });
     }
