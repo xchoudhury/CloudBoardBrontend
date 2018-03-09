@@ -67,6 +67,7 @@
 
 .snippets {
   display: none;
+  margin-top: 15px;
 }
 
 .pasteInput {
@@ -118,12 +119,20 @@
   cursor: pointer;
 }
 
+.renameBoard:hover {
+  color: purple;
+}
+
 .copyBoard:hover {
   color: blue;
 }
 
 .removeBoard:hover {
   color: red;
+}
+
+.addSnippet:hover {
+  color: green;
 }
 
 @media (max-width: 992px) {

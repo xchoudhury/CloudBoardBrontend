@@ -36,10 +36,21 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       var blankBoard = new Board($scope.boards.length+1, "Board " + $scope.boards.length+1, false);
       $scope.boards.push(blankBoard);
     };
-  
+    
+    $scope.removingBoard = false;
+    $scope.removeID;
     // Remove specific board with given id
     $scope.removeBoard = function(id) {
+      if (!$scope.removingBoard) {
+        $('#deleteBoardModal').modal('show');
+        $scope.removingBoard = true;
+        $scope.removeID = id;
+        return;
+      }
       if ($scope.boards.length == 0) {
+        return;
+      }
+      if ($scope.removeID == -1) {
         return;
       }
       // console.log($scope.boards);
@@ -47,6 +58,9 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       for (i = id - 1; i < $scope.boards.length; i++)  {
         $scope.boards[i].id--;
       }
+      $scope.removingBoard = false;
+      $scope.removeID = -1;
+      $('#deleteBoardModal').modal('hide');
       // console.log($scope.boards);
     }
   
