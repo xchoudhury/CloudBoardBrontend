@@ -10,6 +10,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $scope.getBoards();
       $('#dimmer').hide();
+      $('#boardLoader').show();
     });
   
     $scope.$on('loggingOut', function() { // Clear boards when the user logs out
@@ -20,20 +21,20 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Create a board from passed in content
     $scope.createBoard = function(content) {
-      var board = new Board($scope.boards.length+1, content, true);
+      var board = new Board($scope.boards.length, content, true);
       board.data.push(new Snippet(0, content));
       $scope.boards.push(board);
     }
   
     // Creates the basic board with "some sample text" for testing purposes
     $scope.createBasicBoard = function() { 
-      var basicBoard = new Board($scope.boards.length+1, true, "some sample text", "some sample text");
+      var basicBoard = new Board($scope.boards.length, true, "some sample text", "some sample text");
       $scope.boards.push(basicBoard);
     };
   
     // Creates a blank board and adds it to the end of the boards arrays
     $scope.createBlankBoard = function() {
-      var blankBoard = new Board($scope.boards.length+1, "Board " + $scope.boards.length+1, false);
+      var blankBoard = new Board($scope.boards.length, "Board " + $scope.boards.length, false);
       $scope.boards.push(blankBoard);
     };
     
@@ -112,7 +113,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.getBoards = function() {
       $scope.boards = [];
       // Database call to load up this users current boards
-      
       $http({
         method: 'GET',
         url: '/clipboards/'
@@ -121,6 +121,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $scope.createBoard(response.data[i].name);
         }
         console.log(response);
+        $('#boardLoader').hide();
       }, function errorCallback(response) {
         alert('Error getting clipboards. See console for more details.');
         console.log(response);
