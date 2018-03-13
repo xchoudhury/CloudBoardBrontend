@@ -14,14 +14,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ('url', 'name')
 
-class TestSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        fields = ('data')
 
 class ClipboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Clipboard
-        fields = ('owner', 'name', 'snippet_ids')
+        fields = ('id', 'owner', 'name', 'snippet_ids')
 
         def create(self, validated_data):
             return Clipboard.objects.create(**validated_data)

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, status
-from .serializers import UserSerializer, GroupSerializer, TestSerializer
+from .serializers import UserSerializer, GroupSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
@@ -35,7 +35,7 @@ def TestView(request):
 
     return Response(test_data)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def ManageClipBoards(request):
@@ -43,7 +43,7 @@ def ManageClipBoards(request):
         user_clipboards = Clipboard.objects.filter(owner=request.user)
         serializer = ClipboardSerializer(user_clipboards, many=True)
         return Response(serializer.data)
-    if request.method == 'POST':
+    elif request.method == 'POST':
         data = {
             'owner': request.user.pk,
             'name': request.data.get('name'),
@@ -55,3 +55,11 @@ def ManageClipBoards(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        try:
+            user_clipboard = Clipboard.objects.get(owner=request.user, id=request.data.get('id'))
+        except Clipboard.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        user_clipboard.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
