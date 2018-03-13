@@ -38,7 +38,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     };
     
     $scope.removingBoard = false;
-    $scope.removeID;
+    $scope.removeID = -1;
     // Remove specific board with given id
     $scope.removeBoard = function(id) {
       if (!$scope.removingBoard) {
@@ -62,7 +62,51 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.removeID = -1;
       $('#deleteBoardModal').modal('hide');
       // console.log($scope.boards);
-    }
+    };
+
+    $scope.renameKeyCheck = function(e) {
+      if (e.keyCode == 13) {
+        $scope.renameBoard();
+      }
+    };
+
+    $scope.renamingBoard = false;
+    $scope.renameID = -1;
+    $scope.rename = "";
+    // Rename a board with a given id
+    $scope.renameBoard = function(id) {
+      if (!$scope.renamingBoard) {
+        $('#renameBoardModal').modal('show');
+        $scope.renamingBoard = true;
+        $scope.renameID = id;
+        for (var i = 0; i < $scope.boards.length; i++) {
+          if ($scope.boards[i].id == id) {
+            $scope.rename = $scope.boards[i].name;
+          }
+        }
+        setTimeout(function() {
+          $("#renameInput").focus();
+        }, 200);
+        return;
+      }
+      if ($scope.boards.length == 0) {
+        return;
+      }
+      if ($scope.renameID == -1) {
+        return;
+      }
+
+      for (var i = 0; i < $scope.boards.length; i++) {
+        if ($scope.boards[i].id == $scope.renameID) {
+          $scope.boards[i].name = $scope.rename;
+        }
+      }
+
+      $scope.renamingBoard = false;
+      $scope.renameID = -1;
+      $scope.rename = "";
+      $('#renameBoardModal').modal('hide');
+    };
   
     // Get users boards
     $scope.getBoards = function() {
@@ -149,7 +193,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     };
   
     // Save the paste when the user hits error
-    $scope.keyCheck = function(e, board, snippet) {
+    $scope.pasteKeyCheck = function(e, board, snippet) {
       if (e.keyCode == 13) {
         $scope.savePaste(board, snippet);
       }

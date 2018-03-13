@@ -113,7 +113,7 @@
             </div>
           
             <!-- Copy button -->
-            <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.hasContent && board.expanded" ng-click="renameBoard([[board.id]])">create</i>
+            <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.hasContent && board.expanded" ng-click="renameBoard(board.id)">create</i>
           </div>
           <!-- Content dark grey div -->
           <div class="snippets" id="[[board.id]]snippets">
@@ -121,7 +121,7 @@
               <div class="col">
                 <div class="board-text">
                   <!-- Hidden text box used for pasting/editing data -->
-                  <input type="text" id="[[board.id]][[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="keyCheck($event, board, snippet)" />
+                  <input type="text" id="[[board.id]][[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="pasteKeyCheck($event, board, snippet)" />
                   <!-- Display board preview
                   [[content]]-->
                 </div>
@@ -140,7 +140,7 @@
         </div>
       </div>
 
-      <div class="modal fade" id="deleteBoardModal" role="dialog">
+        <div class="modal fade" id="deleteBoardModal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -150,6 +150,25 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-danger" ng-click="removeBoard()">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="renameBoardModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Enter a new name for this board</h4>
+                <button type="button" style="float:right;" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-content">
+                <input id="renameInput" class="form-control" ng-model="rename" placeholder="new board name" style="width: 80%; margin-top: 15px; margin-bottom: 15px; margin-right: auto; margin-left: auto;" ng-keyup="renameKeyCheck($event)" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-success" ng-click="renameBoard()">Rename</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>
