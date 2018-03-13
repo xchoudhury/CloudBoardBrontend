@@ -117,18 +117,18 @@
           </div>
           <!-- Content dark grey div -->
           <div class="snippets" id="[[board.id]]snippets">
-            <div class="row" ng-repeat="content in board.data">
+            <div class="row" ng-repeat="snippet in board.data">
               <div class="col">
-                <div class="board-text" ng-click="pasteToBoard(x)">
+                <div class="board-text">
                   <!-- Hidden text box used for pasting/editing data -->
-                  <input type="text" id="[[board.id]]pasting" class="pasteInput" ng-model="content" ng-show="board.pasting" ng-keyup="keyCheck($event, board)" />
-                  <!-- Display board preview -->
-                  [[content]]
+                  <input type="text" id="[[board.id]][[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="keyCheck($event, board, snippet)" />
+                  <!-- Display board preview
+                  [[content]]-->
                 </div>
               </div>
             </div>
             <div style="text-align: center; margin-top: 15px;">
-              <i class="material-icons addSnippet boardAction" ng-click="addSnippet([[board]])">add_circle_outline</i>
+              <i class="material-icons addSnippet boardAction" ng-click="addSnippet(board)">add_circle_outline</i>
             </div>
           </div>
         </div>

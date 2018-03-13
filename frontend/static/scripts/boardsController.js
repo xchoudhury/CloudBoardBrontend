@@ -21,7 +21,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     // Create a board from passed in content
     $scope.createBoard = function(content) {
       var board = new Board($scope.boards.length+1, content, true);
-      board.data.push(content);
+      board.data.push(new Snippet(0, content));
       $scope.boards.push(board);
     }
   
@@ -81,12 +81,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         alert('Error getting clipboards. See console for more details.');
         console.log(response);
       });
-    
-      
-      // Creating basic boards for testing purposes
-      //$scope.createBasicBoard();
-      //$scope.createBlankBoard();
-      //$scope.createBlankBoard();
     };
   
     // Create blank boards when not logged in, serve as background data
@@ -97,22 +91,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.createBlankBoard();
     }
   
-    // If the user is already logged in, load their boards. Otherwise, load the blank boards
-    /*
-    if ($scope.loggedIn) {
-      $('#dimmer').hide();
-      $scope.getBoards();
-    }
-    else {
-      $scope.getBlankBoards();
-    }
-    */
-  
    $scope.expand = function($event, board) {
-    //console.log($event.target.parentNode.parentNode.parentNode);
-    //$($event.target.parentNode.parentNode.parentNode).stop(true, false).animate({
-    //  height: board.expanded ? 107 : 321
-    //}, 200);
     for (var i = 0; i < $scope.boards.length; i++) {
       if ($scope.boards[i].expanded && $scope.boards[i].id != board.id) {
         $('#' + $scope.boards[i].id + 'snippets').slideUp('slow', function(){});
@@ -158,38 +137,37 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $('#copyAlert').fadeOut(300);
       }, 3000);
     };
-  
-    // Paste function
-    $scope.pasteToBoard = function(board) {
-      // Update board variable, will update the blank board's look to have the same look as the full boards
-      board.pasting = true;
-      board.hasContent = true;
+
+    // New Snippet function
+    $scope.addSnippet = function(board) {
+      console.log(board);
+      var snippet = new Snippet(board.data.length, "");
+      board.data.push(snippet);
       setTimeout(function() {
-        // Auto put cursor in this boards textbox, the timeout is so the user's click doesn't override this (slight delay)
-        $("#" + board.id + "pasting").focus();
-      }, 200);
+        $("#" + board.id + snippet.id + "pasting").focus();
+      }, 100);
     };
   
     // Save the paste when the user hits error
-    $scope.keyCheck = function(e, board) {
+    $scope.keyCheck = function(e, board, snippet) {
       if (e.keyCode == 13) {
-        $scope.savePaste(board);
+        $scope.savePaste(board, snippet);
       }
     };
   
     // Save user's paste
-    $scope.savePaste = function(board) {
+    $scope.savePaste = function(board, snippet) {
+      console.log(board);
       // Hide overlapping paste alert
       $('#pasteAlert').hide();
       // Update variables
-      board.pasting = false;
       board.hasContent = true;
   
       $http({
         method: 'POST',
         url: '/clipboards/',
         data: {
-          name: board.content
+          name: snippet.content
         }
       }).then(function successCallback(response) {
         console.log(response);
@@ -200,13 +178,16 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
       // Filter the preview to be displayed if the content is too long
       board.preview = $scope.filterPreview(board.content);
+
+      setTimeout(function() {
+        $("#" + board.id + snippet.id + "pasting").blur();
+      }, 100);
   
       // Show successful paste alert, fade
       $('#pasteAlert').show();
       setTimeout(function() {
         $('#pasteAlert').fadeOut(300);
       }, 3000);
-      // Send to server
     };
   
     // If the content of the board is longer than 45 characters, give it a '...' (can be made to any length)
@@ -220,6 +201,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       else {
         return x.substring(0, 44) + "...";
       }
-    }
+    };
   
   }]);

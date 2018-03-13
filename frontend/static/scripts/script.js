@@ -5,9 +5,14 @@ function Board(id, name, hasContent) {
   this.preview = name;
   this.content = name;
   this.hasContent = hasContent;
-  this.pasting = false;
   this.expanded = false;
   this.data = [];
+}
+
+// Snippet object constructor
+function Snippet(id, content) {
+  this.id = id;
+  this.content = content;
 }
 
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);

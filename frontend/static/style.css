@@ -44,7 +44,6 @@
 
 .board-text:hover {
   border-color: blue;
-  cursor: pointer;
 }
 
 .board-full {
@@ -60,9 +59,11 @@
   border: 1px #515151 solid;
   color: white;
   width: 70%;
-  margin: auto;
   padding: 10px;
   border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
 }
 
 .snippets {
