@@ -58,7 +58,6 @@
   <!-- Dimmer, used to fade out the website when the login window or the settings panel is shown -->
   <div class="overlay" id="dimmer"></div>
 
-  <!-- Login window, currently just uses a fake form with a hard-coded login accepted, has a link to redirect to the login endpoint -->
   <div ng-controller="login">
       <div class="loginWindow" ng-show="!loggedIn">
         <div class="loader"></div>
@@ -100,6 +99,7 @@
   <div ng-controller="boards" class="container">
     <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
     <div class="boardsView">
+      <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
       <!-- This div will repeat for every board in the $scope.boards array -->
       <div ng-repeat="board in boards" class="col-lg-12">
         <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
@@ -108,7 +108,7 @@
           <div class="row" style="text-align:center;">
             <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.hasContent && board.expanded" ng-click="removeBoard([[board.id]])">remove_circle_outline</i>
             <!-- Display board title and it's id -->
-            <div  ng-click="expand($event, board)" style="text-align: center; width: 80%; margin: auto;">
+            <div  ng-click="expand($event, board)" style="text-align: center; width: 80%; margin: auto; cursor: pointer;">
               <h3>[[board.name]]</h3>
             </div>
           
@@ -136,8 +136,8 @@
         </div>
       </div>
       <!-- Add board button -->
-      <div style="margin: auto;  width: 70%; font-size: 18px;">
-        <div style="border-radius: 20px; border: green 1px solid; margin-top: 30px; padding-top: 10px; text-align: center; cursor: pointer; margin-left: auto; margin-right: auto; width: 20%;" ng-click="createBlankBoard();">
+      <div style="margin: auto;  width: 70%; font-size: 18px; margin-bottom: 30px;">
+        <div class="addBoard" ng-click="createBlankBoard();">
             <i class="material-icons">add</i>
         </div>
       </div>

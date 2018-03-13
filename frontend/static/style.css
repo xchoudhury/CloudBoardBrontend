@@ -139,6 +139,22 @@
   color: green;
 }
 
+.addBoard {
+  border-radius: 20px; 
+  border: green 1px solid; 
+  margin-top: 30px; 
+  padding-top: 10px; 
+  text-align: center; 
+  cursor: pointer; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 20%;
+}
+
+.addBoard:hover {
+  background-color: green;
+}
+
 @media (max-width: 992px) {
   .boardAction {
     font-size: 26pt !important;
