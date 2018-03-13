@@ -35,7 +35,7 @@ def TestView(request):
 
     return Response(test_data)
 
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def ManageClipBoards(request):
@@ -62,4 +62,16 @@ def ManageClipBoards(request):
             return Response(status=status.HTTP_404_NOT_FOUND)
         user_clipboard.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'PUT':
+        try:
+            user_clipboard = Clipboard.objects.get(owner=request.user, id=request.data.get('id'))
+        except Clipboard.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+        user_clipboard = ClipboardSerializer(user_clipboard, data=request.data, partial=True)
+        if user_clipboard.is_valid():
+            user_clipboard.save()
+            return Response(user_clipboard.data, status=status.HTTP_204_NO_CONTENT)
+        return Response(user_clipboard.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_400_BAD_REQUEST)
