@@ -135,30 +135,25 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.createBlankBoard();
     }
   
-   $scope.expand = function($event, board) {
-    for (var i = 0; i < $scope.boards.length; i++) {
-      if ($scope.boards[i].expanded && $scope.boards[i].id != board.id) {
-        $('#' + $scope.boards[i].id + 'snippets').slideUp('slow', function(){});
-        $('#' + $scope.boards[i].id + 'board').stop(true, false).animate({
-          width: "80%"
-        }, 400);
-        $scope.boards[i].expanded = false;
+    $scope.expand = function($event, board) {
+      for (var i = 0; i < $scope.boards.length; i++) {
+        if ($scope.boards[i].expanded && $scope.boards[i].id != board.id) {
+          $('#' + $scope.boards[i].id + 'snippets').slideUp('slow', function(){});
+          $('#' + $scope.boards[i].id + 'board').stop(true, false).animate({
+            width: "80%"
+          }, 400);
+          $scope.boards[i].expanded = false;
+        }
       }
-    }
-    $('#' + board.id + 'snippets').slideToggle('slow', function() {});
-    $('#' + board.id + 'board').stop(true, false).animate({
-      width: board.expanded ? "80%" : "100%"
-    }, 400);
-    board.expanded = !board.expanded;
-  };
-  
+      $('#' + board.id + 'snippets').slideToggle('slow', function() {});
+      $('#' + board.id + 'board').stop(true, false).animate({
+        width: board.expanded ? "80%" : "100%"
+      }, 400);
+      board.expanded = !board.expanded;
+    };
   
     // Copy function
-    $scope.copyFromBoard = function(board) {
-      if (!board.hasContent) {
-        // Return if this board is blank
-        return;
-      }
+    $scope.copySnippet = function(snippet) {
       $('#copyAlert').hide(); // Hide stacked copy notifications
   
       // Create off-screen text area, populate it with this boards data, execute a copy, delete this off-screen text area
@@ -170,7 +165,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       textarea.style.top = "-100px";
       textarea.style.width = "0px";
       document.body.appendChild( textarea );
-      textarea.value = board.content;
+      textarea.value = snippet.content;
       textarea.select();
       document.execCommand('copy');
       textarea.parentNode.removeChild( textarea );
@@ -190,6 +185,19 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       setTimeout(function() {
         $("#" + board.id + snippet.id + "pasting").focus();
       }, 100);
+    };
+
+    $scope.removeSnippet = function(boardID, snippetID) {
+      for (var i = 0; i < $scope.boards.length; i++) {
+        if ($scope.boards[i].id == boardID) {
+          for (var j = 0; j < $scope.boards[i].data.length; j++) {
+            if ($scope.boards[i].data[j].id == snippetID) {
+              $scope.boards[i].data.splice(j, 1);
+              return;
+            }
+          }
+        }
+      }
     };
   
     // Save the paste when the user hits error
