@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CloudBoard</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
+
+   <!-- jQuery-->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+   <!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>-->
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-cookies.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-route.js"></script>
+
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src={% static 'scripts/script.js' %}></script>
+  <script src={% static 'scripts/updateController.js' %}></script>
+</head>
+<body ng-app="CloudBoard" style="background-color: #dbdbdb;">
+  <nav class="navbar navbar-default" style="border-bottom: 1px solid black; background-color: #FF7800;">
+    <div class="container">
+      <div class="navbar-header" style="margin: auto;">
+        <h1 onclick="document.location.href = '/';" style="cursor:pointer;"><i class="material-icons">cloud_queue</i> CloudBoard</h1>
+      </div>
+    </div>
+  </nav>
+  <div ng-controller="update">
+    <div class="container" style="text-align: center;">
+        <h1>Update User Info</h1>
+        <span style="color: red;" id="passwordError"></span>
+        <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
+        <h3 style="margin-top:25px;">Username</h3>
+        <input type="text" class="form-control" ng-model="userName" />
+        <button style="width: 100%; margin-top: 10px;" ng-click="updateUsername()">Update Username</button>
+        <h3 style="margin-top:25px;">Email</h3>
+        <input type="text" class="form-control" ng-model="userEmail" />
+        <button style="width: 100%; margin-top: 10px;" ng-click="updateEmail()">Update Email</button>
+        <h3 style="margin-top:25px;">Password</h3>
+        <input type="password" class="form-control" placeholder="new password" ng-model="userNewPassword" />
+        <span style="color: red;" id="confirmPasswordError"></span>
+        <input type="password" class="form-control" placeholder="confirm new password" ng-model="confirmNewPassword" />
+        <button style="width: 100%; margin-top: 10px;" ng-click="updatePassword()">Update Password</button>
+    </div>
+
+    <div id="usernameAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+        Successfully changed the username to [[userName]]!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div id="emailAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+        Successfully changed the email to [[userEmail]]!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div id="passwordAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+        Successfully changed password!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  </div>
+  </body>
+  </html>

@@ -20,3 +20,7 @@ def faq(request):
 @api_view(['GET'])
 def reset(request):
     return render(request, 'reset.html')
+
+@api_view(['GET'])
+def update(request):
+    return render(request, 'update.html')

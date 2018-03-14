@@ -50,7 +50,8 @@
       <i class="material-icons" style="font-size:36px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
       <div class="settingsOptions">
         <div class="settingsLink" ng-click="logOut()">Log Out</div>
-        <a href="/faq" style="text-decoration:none;" class="settingsLink">FAQ</a>
+        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none;" class="settingsLink">FAQ</a><br />
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none;" class="settingsLink">Update User Info</a>
       </div>
     </div>
   </div>
@@ -179,13 +180,13 @@
 
     </div>
     <!-- Alerts for successful copy or successful paste -->
-    <div id="copyAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; bottom: 20px; width: 75%; left: 12.5%; display: none;">
+    <div id="copyAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
       Successfully copied data from board!
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div id="pasteAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; bottom: 20px; width: 75%; left: 12.5%; display: none;">
+    <div id="pasteAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
       Successfully pasted data to board!
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
