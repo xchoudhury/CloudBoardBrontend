@@ -20,8 +20,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     })
   
     // Create a board from passed in content
-    $scope.createBoard = function(content) {
-      var board = new Board($scope.boards.length, content, true);
+    $scope.createBoard = function(id, content) {
+      var board = new Board(id, content, true);
       board.data.push(new Snippet(0, content));
       $scope.boards.push(board);
     }
@@ -55,14 +55,27 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         return;
       }
       // console.log($scope.boards);
-      $scope.boards.splice(id - 1, 1);
+      $http({
+        method: 'DELETE',
+        url: '/clipboards/',
+        data: {
+          id: String($scope.removeID)
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.boards.splice(id - 1, 1);
       for (i = id - 1; i < $scope.boards.length; i++)  {
         $scope.boards[i].id--;
       }
       $scope.removingBoard = false;
       $scope.removeID = -1;
+      }, function errorCallback(response) {
+        console.log(response);
+      });
       $('#deleteBoardModal').modal('hide');
-      // console.log($scope.boards);
     };
 
     $scope.renameKeyCheck = function(e) {
@@ -118,7 +131,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         url: '/clipboards/'
       }).then(function successCallback(response) {
         for (var i = 0; i < response.data.length; i++) {
-          $scope.createBoard(response.data[i].name);
+          $scope.createBoard(response.data[i].id, response.data[i].name);
         }
         console.log(response);
         $('#boardLoader').hide();
