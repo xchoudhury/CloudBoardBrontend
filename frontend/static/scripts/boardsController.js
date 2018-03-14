@@ -67,11 +67,11 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       }).then(function successCallback(response) {
         console.log(response);
         $scope.boards.splice(id - 1, 1);
-      for (i = id - 1; i < $scope.boards.length; i++)  {
-        $scope.boards[i].id--;
-      }
-      $scope.removingBoard = false;
-      $scope.removeID = -1;
+        for (i = id - 1; i < $scope.boards.length; i++)  {
+          $scope.boards[i].id--;
+        }
+        $scope.removingBoard = false;
+        $scope.removeID = -1;
       }, function errorCallback(response) {
         console.log(response);
       });
@@ -110,15 +110,28 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         return;
       }
 
-      for (var i = 0; i < $scope.boards.length; i++) {
-        if ($scope.boards[i].id == $scope.renameID) {
-          $scope.boards[i].name = $scope.rename;
+      $http({
+        method: 'PUT',
+        url: '/clipboards/',
+        data: {
+          id: $scope.renameID,
+          name: $scope.rename
         }
-      }
+      }).then(function successCallback(response) {
+        console.log(response);
+        for (var i = 0; i < $scope.boards.length; i++) {
+          if ($scope.boards[i].id == $scope.renameID) {
+            $scope.boards[i].name = $scope.rename;
+          }
+        }
+  
+        $scope.renamingBoard = false;
+        $scope.renameID = -1;
+        $scope.rename = "";
+      }, function errorCallback(response) {
+        console.log(response);
+      });
 
-      $scope.renamingBoard = false;
-      $scope.renameID = -1;
-      $scope.rename = "";
       $('#renameBoardModal').modal('hide');
     };
   
