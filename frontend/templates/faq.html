@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>CloudBoard FAQ</title>
+  <base href="/">
   <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
 
    <!-- jQuery-->
@@ -23,6 +24,10 @@
 
   <!-- Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src={% static 'scripts/script.js' %}></script>
+  <script src={% static 'scripts/loginService.js' %}></script>
+  <script src={% static 'scripts/settingsController.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;">
   <nav class="navbar navbar-default" style="border-bottom: 3px solid black; background-color: #5190ED;">
@@ -32,6 +37,20 @@
       </div>
     </div>
   </nav>
+
+  <!-- Settings panel -->
+  <div ng-controller="settings" id="settingsDiv" class="settings">
+    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
+    <div class="settingsPanel" style="display:none;">
+      <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
+      <div class="settingsOptions">
+        <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
+        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Update User Info</a>
+      </div>
+    </div>
+  </div>
+
   <h2 style="text-align: center;">FAQ</h2>
   <p style="text-align:center; padding-top:10px"><b>What is CloudBoard?</b></p>
   <p style="text-align:center">CloudBoard is a universal clipboard, created in EECS 498 at the University of Michigan for Brad, allowing him (and now any user), to copy text or images to a clipboard linked to your account, and paste from any clipboard on a different device.</p>

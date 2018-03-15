@@ -44,17 +44,16 @@
 
   <!-- Settings panel -->
   <div ng-controller="settings" id="settingsDiv" class="settings">
-    <i class="material-icons" style="font-size:36px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
+    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
     <div class="settingsPanel" style="display:none;">
-      <i class="material-icons" style="font-size:36px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
+      <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
       <div class="settingsOptions">
-        <div class="settingsLink" ng-click="logOut()">Log Out</div>
-        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none;" class="settingsLink">FAQ</a><br />
-        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none;" class="settingsLink">Update User Info</a>
+        <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
+        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Update User Info</a>
       </div>
     </div>
   </div>
-
 
   <div ng-controller="update">
     <div class="container" style="text-align: center;">
@@ -64,17 +63,17 @@
         <h3 style="margin-top:25px;">Username</h3>
         <span style="color: red;" id="usernameError"></span>
         <input type="text" class="form-control" ng-model="userName" />
-        <button style="width: 100%; margin-top: 10px;" ng-click="updateUsername()">Update Username</button>
+        <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateUsername()">Update Username</button>
         <h3 style="margin-top:25px;">Email</h3>
         <span style="color: red;" id="emailError"></span>
         <input type="text" class="form-control" ng-model="userEmail" />
-        <button style="width: 100%; margin-top: 10px;" ng-click="updateEmail()">Update Email</button>
+        <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateEmail()">Update Email</button>
         <h3 style="margin-top:25px;">Password</h3>
         <span style="color: red;" id="newPasswordError"></span>
         <input type="password" class="form-control" placeholder="new password" ng-model="userNewPassword" />
         <span style="color: red;" id="confirmPasswordError"></span>
         <input type="password" class="form-control" placeholder="confirm new password" ng-model="confirmNewPassword" />
-        <button style="width: 100%; margin-top: 10px;" ng-click="updatePassword()">Update Password</button>
+        <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updatePassword()">Update Password</button>
     </div>
 
     <div id="usernameAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
