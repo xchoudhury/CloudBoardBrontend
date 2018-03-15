@@ -183,6 +183,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'static'),
     os.path.join(PROJECT_ROOT, '../frontend/static'),
+    os.path.join(PROJECT_ROOT, '../frontend/templates'),
 ]
 
 # Simplified static file serving.
