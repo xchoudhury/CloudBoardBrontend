@@ -28,7 +28,7 @@
 }
 
 .board {
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 20px;
   margin-top: 40px;
   padding: 10px;
@@ -47,11 +47,11 @@
 }
 
 .board-full {
-  background-color: #FF9A40;
+  background-color: #5190ED;
 }
 
 .board-empty {
-  background-color: #FFB573;
+  background-color: #5190ED;
 }
 
 .board-text {
