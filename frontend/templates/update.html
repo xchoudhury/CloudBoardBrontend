@@ -44,17 +44,16 @@
 
   <!-- Settings panel -->
   <div ng-controller="settings" id="settingsDiv" class="settings">
-    <i class="material-icons" style="font-size:36px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
+    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
     <div class="settingsPanel" style="display:none;">
-      <i class="material-icons" style="font-size:36px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
+      <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
       <div class="settingsOptions">
-        <div class="settingsLink" ng-click="logOut()">Log Out</div>
-        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none;" class="settingsLink">FAQ</a><br />
-        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none;" class="settingsLink">Update User Info</a>
+        <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
+        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Update User Info</a>
       </div>
     </div>
   </div>
-
 
   <div ng-controller="update">
     <div class="container" style="text-align: center;">
