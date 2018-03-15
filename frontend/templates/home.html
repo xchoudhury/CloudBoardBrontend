@@ -107,14 +107,14 @@
         <div class="board" ng-class="board.hasContent ? 'board-full' : 'board-empty'" id="[[board.id]]board">
           <!-- Remove button -->
           <div class="row" style="text-align:center;">
-            <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.hasContent && board.expanded" ng-click="removeBoard([[board.id]])">delete_forever</i>
+            <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.expanded" ng-click="removeBoard([[board.id]])">delete_forever</i>
             <!-- Display board title and it's id -->
             <div  ng-click="expand($event, board)" style="text-align: center; width: 80%; margin: auto; cursor: pointer;">
               <h3>[[board.name]]</h3>
             </div>
           
             <!-- Copy button -->
-            <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.hasContent && board.expanded" ng-click="renameBoard(board.id)">create</i>
+            <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.expanded" ng-click="renameBoard(board.id)">create</i>
           </div>
           <!-- Content dark grey div -->
           <div class="snippets" id="[[board.id]]snippets">

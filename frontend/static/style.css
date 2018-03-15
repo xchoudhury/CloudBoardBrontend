@@ -195,3 +195,7 @@
   left: 12.5%; 
   display: none;
 }
+
+.navbar-header h1:hover{
+  color: white;
+}
