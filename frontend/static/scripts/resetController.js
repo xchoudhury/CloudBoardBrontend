@@ -25,16 +25,8 @@ app.controller('reset', ['$scope', '$http', '$location', function($scope, $http,
         document.location.href = "/";
       }, function errorCallback(response) {
         console.log(response);
-        if (typeof response.data.new_password != 'undefined') {
-          for (var i = 0; i < response.data.new_password.length; i++) {
-            $('#newPasswordError').append(response.data.new_password[i] + '<br />');
-          }
-        }
-        if (typeof response.data.re_new_password != 'undefined') {
-          for (var i = 0; i < response.data.re_new_password.length; i++) {
-            $('#confirmPasswordError').append(response.data.re_new_password[i] + '<br />');
-          }
-        }
+        printErrors(response.data.new_password, 'newPasswordError');
+        printErrors(response.data.re_new_password, 'confirmPasswordError');
         if (typeof response.data.uid != 'undefined') {
           $('#uidError').append("You have recieved an invalid uid. Request a new reset password link");
         }

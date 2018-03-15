@@ -140,15 +140,14 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
             $scope.boards[i].name = $scope.rename;
           }
         }
-  
         $scope.renamingBoard = false;
         $scope.renameID = -1;
         $scope.rename = "";
+        $('#renameBoardModal').modal('hide');
       }, function errorCallback(response) {
         console.log(response);
+        printErrors(response.data.name, 'renameBoardError');
       });
-
-      $('#renameBoardModal').modal('hide');
     };
   
     // Get users boards
