@@ -45,12 +45,15 @@
         <span style="color: red;" id="passwordError"></span>
         <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
         <h3 style="margin-top:25px;">Username</h3>
+        <span style="color: red;" id="usernameError"></span>
         <input type="text" class="form-control" ng-model="userName" />
         <button style="width: 100%; margin-top: 10px;" ng-click="updateUsername()">Update Username</button>
         <h3 style="margin-top:25px;">Email</h3>
+        <span style="color: red;" id="emailError"></span>
         <input type="text" class="form-control" ng-model="userEmail" />
         <button style="width: 100%; margin-top: 10px;" ng-click="updateEmail()">Update Email</button>
         <h3 style="margin-top:25px;">Password</h3>
+        <span style="color: red;" id="newPasswordError"></span>
         <input type="password" class="form-control" placeholder="new password" ng-model="userNewPassword" />
         <span style="color: red;" id="confirmPasswordError"></span>
         <input type="password" class="form-control" placeholder="confirm new password" ng-model="confirmNewPassword" />
@@ -58,14 +61,14 @@
     </div>
 
     <div id="usernameAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
-        Successfully changed the username to [[userName]]!
+        Successfully changed the username to '[[userName]]'!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div id="emailAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
-        Successfully changed the email to [[userEmail]]!
+        Successfully changed the email to '[[userEmail]]'!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
