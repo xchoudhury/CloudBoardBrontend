@@ -141,14 +141,14 @@
 
 .addBoard {
   border-radius: 20px; 
-  border: green 1px solid; 
+  border: green 4px solid; 
   margin-top: 30px; 
   padding-top: 10px; 
   text-align: center; 
   cursor: pointer; 
   margin-left: auto; 
   margin-right: auto; 
-  width: 20%;
+  width: 40%;
 }
 
 .addBoard:hover {
