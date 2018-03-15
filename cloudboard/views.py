@@ -25,15 +25,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-@api_view(['GET'])
-def TestView(request):
-    test_data = {
-        "testInt" : 4,
-        "testStr" : "hi mom",
-        "testList" : [1,2,3.14, "four"]
-        }
-
-    return Response(test_data)
+class ClipboardViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows clipboards to be viewed or edited.
+    """
+    queryset = Clipboard.objects.all()
+    serializer_class = ClipboardSerializer
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
