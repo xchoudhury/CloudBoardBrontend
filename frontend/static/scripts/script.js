@@ -15,6 +15,15 @@ function Snippet(id, content) {
   this.content = content;
 }
 
+// Appends the errors present in the errorArray to the span class pointed to by the errorID
+function printErrors(errorArray, errorID) {
+  if (typeof errorArray != 'undefined') {
+    for (var i = 0; i < errorArray.length; i++) {
+      $('#' + errorID).append(errorArray[i] + '<br />');
+    }
+  }
+}
+
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
 // New interpolation symbols, uses [[ ]] instead of {{ }}

@@ -70,21 +70,9 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
           $scope.creatingAccount = false;
         }, function errorCallback(response) {
           console.log(response);
-          if (typeof response.data.username != 'undefined') {
-            for (var i = 0; i < response.data.username.length; i++) {
-              $('#usernameError').append(response.data.username[i] + '<br />');
-            }
-          }
-          if (typeof response.data.password != 'undefined') {
-            for (var i = 0; i < response.data.password.length; i++) {
-              $('#passwordError').append(response.data.password[i] + '<br />');
-            }
-          }
-          if (typeof response.data.email != 'undefined') {
-            for (var i = 0; i < response.data.email.length; i++) {
-              $('#emailError').append(response.data.email[i] + '<br />');
-            }
-          }
+          printErrors(response.data.username, 'usernameError');
+          printErrors(response.data.password, 'passwordError');
+          printErrors(repsone.data.email, 'emailError');
         });
       }
     };

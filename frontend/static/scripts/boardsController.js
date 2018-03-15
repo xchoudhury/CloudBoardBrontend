@@ -146,11 +146,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $('#renameBoardModal').modal('hide');
       }, function errorCallback(response) {
         console.log(response);
-        if (typeof response.data.name != 'undefined') {
-          for (var i = 0; i < response.data.name.length; i++) {
-            $('#renameBoardError').append(response.data.name[i] + '<br />');
-          }
-        }
+        printErrors(response.data.name, 'renameBoardError');
       });
     };
   

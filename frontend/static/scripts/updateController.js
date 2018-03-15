@@ -45,11 +45,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
                 $('#usernameAlert').fadeOut(300);
             }, 3000);
         }, function errorCallback(response) {
-            if (typeof response.data.new_username != 'undefined') {
-                for (var i = 0; i < response.data.new_username.length; i++) {
-                    $('#usernameError').append(response.data.new_username[i] + '<br />');
-                }
-            }
+            printErrors(response.data.new_username, 'usernameError');
             console.log(response);
         });
     };
@@ -71,11 +67,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             }, 3000);
         }, function errorCallback(response) {
             console.log(response);
-            if (typeof response.data.email != 'undefined') {
-                for (var i = 0; i < response.data.email.length; i++) {
-                    $('#emailError').append(response.data.email[i] + '<br />');
-                }
-            }
+            printErrors(response.data.email, 'emailError');
         });
     };
 
@@ -104,11 +96,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             $scope.confirmNewPassword = "";
         }, function errorCallback(response) {
             console.log(response);
-            if (typeof response.data.new_password != 'undefined') {
-                for (var i = 0; i < response.data.new_username.length; i++) {
-                  $('#newPasswordError').append(response.data.new_username[i] + '<br />');
-                }
-              }
+            printErrors(response.data.new_password, 'newPasswordError');
         });
     };
 }]);
