@@ -66,9 +66,10 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }).then(function successCallback(response) {
         console.log(response);
-        $scope.boards.splice(id - 1, 1);
-        for (i = id - 1; i < $scope.boards.length; i++)  {
-          $scope.boards[i].id--;
+        for (var i = 0; i < $scope.boards.length; i++) {
+          if ($scope.boards[i].id == $scope.removeID) {
+            $scope.boards.splice(i, 1);
+          }
         }
         $scope.removingBoard = false;
         $scope.removeID = -1;
