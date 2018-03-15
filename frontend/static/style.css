@@ -114,6 +114,10 @@
   color: white;
 }
 
+.settingsLink:hover {
+  color: blue;
+}
+
 .boardAction {
   font-size: 32pt !important;
   cursor: pointer;
