@@ -12,5 +12,5 @@ router.register(r'clipboards', views.ClipboardViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('clipboards/', views.ManageClipBoards),
+    path('clipboards/', views.manageClipBoards),
 ]
