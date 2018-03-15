@@ -140,15 +140,18 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
             $scope.boards[i].name = $scope.rename;
           }
         }
-  
         $scope.renamingBoard = false;
         $scope.renameID = -1;
         $scope.rename = "";
+        $('#renameBoardModal').modal('hide');
       }, function errorCallback(response) {
         console.log(response);
+        if (typeof response.data.name != 'undefined') {
+          for (var i = 0; i < response.data.name.length; i++) {
+            $('#renameBoardError').append(response.data.name[i] + '<br />');
+          }
+        }
       });
-
-      $('#renameBoardModal').modal('hide');
     };
   
     // Get users boards
