@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>CloudBoard FAQ</title>
+  <base href="/">
   <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
 
    <!-- jQuery-->
@@ -23,6 +24,10 @@
 
   <!-- Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src={% static 'scripts/script.js' %}></script>
+  <script src={% static 'scripts/loginService.js' %}></script>
+  <script src={% static 'scripts/settingsController.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;">
   <nav class="navbar navbar-default" style="border-bottom: 3px solid black; background-color: #5190ED;">
