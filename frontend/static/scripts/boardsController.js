@@ -24,18 +24,33 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       var board = new Board(id, content, true);
       board.data.push(new Snippet(0, content));
       $scope.boards.push(board);
-    }
-  
-    // Creates the basic board with "some sample text" for testing purposes
-    $scope.createBasicBoard = function() { 
-      var basicBoard = new Board($scope.boards.length, true, "some sample text", "some sample text");
-      $scope.boards.push(basicBoard);
+    };
+    
+    $scope.createEmptyBoard = function(id, name) {
+      var board = new Board(id, name, false);
+      $scope.boards.push(board);
     };
   
     // Creates a blank board and adds it to the end of the boards arrays
     $scope.createBlankBoard = function() {
       var blankBoard = new Board($scope.boards.length, "Board " + $scope.boards.length, false);
       $scope.boards.push(blankBoard);
+    };
+
+    $scope.createNewBoard = function() {
+      $http({
+        method: 'POST',
+        url: '/clipboards/',
+        data: {
+          name: String("Board " + $scope.boards.length)
+        }
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.createEmptyBoard(response.data.id, response.data.name);
+      }, function errorCallback(response) {
+        alert('Error creating clipboard. See console for more details');
+        console.log(response);
+      });
     };
     
     $scope.removingBoard = false;
