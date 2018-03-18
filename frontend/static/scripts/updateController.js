@@ -26,6 +26,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
 
     $scope.updateUsername = function() {
         $('#passwordError').html("");
+        $('#usernameError').html("");
         if ($scope.userPassword === "") {
             $('#passwordError').html("Your password is required for this");
             return;
@@ -46,6 +47,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             }, 3000);
         }, function errorCallback(response) {
             printErrors(response.data.new_username, 'usernameError');
+            printErrors(response.data.current_password, 'passwordError');
             console.log(response);
         });
     };
@@ -74,6 +76,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
     $scope.updatePassword = function() {
         $('#confirmPasswordError').html("");
         $('#newPasswordError').html("");
+        $('#passwordError').html("");
         if (!($scope.userNewPassword === $scope.confirmNewPassword)) {
             $('#confirmPasswordError').html("Passwords do not match");
             return;
@@ -83,6 +86,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             url: '/auth/password/',
             data: {
                 new_password: $scope.userNewPassword,
+                re_new_password: $scopw.confirmNewPassword,
                 current_password: $scope.userPassword
             }
         }).then(function successCallback(response) {
@@ -97,6 +101,8 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
         }, function errorCallback(response) {
             console.log(response);
             printErrors(response.data.new_password, 'newPasswordError');
+            printErrors(response.data.re_new_password, 'confirmPasswordError');
+            printErrors(response.data.current_password, 'passwordError');
         });
     };
 }]);
