@@ -179,7 +179,7 @@
 
 .loader {
   border: 16px solid #f3f3f3;
-  border-top: 16px solid #FF7800;
+  border-top: 16px solid rgb(36, 116, 235);
   border-radius: 50%;
   width: 140px;
   height: 140px;
