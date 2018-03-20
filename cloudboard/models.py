@@ -10,6 +10,9 @@ class Clipboard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=16)
 
+    def __str__(self):
+        return self.name
+
 class Snippet(models.Model):
     parent_clipboard = models.ForeignKey(
         Clipboard,

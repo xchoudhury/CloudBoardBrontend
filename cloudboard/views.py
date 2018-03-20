@@ -159,7 +159,7 @@ def deleteSnippet(request, clip_id):
         snippet = Snippet.objects.get(owner=request.user, id=request.data.get('snip_id'), parent_clipboard=clip_id)
     except Snippet.DoesNotExist:
         error = {
-            'id' : ["Snippet does not exist or user is not owner"]
+            'snip_id' : ["Snippet does not exist or user is not owner"]
         }
         return Response(error, status=status.HTTP_404_NOT_FOUND)
     snippet.delete()
