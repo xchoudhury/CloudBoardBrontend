@@ -10,7 +10,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $scope.getBoards();
       $('#dimmer').hide();
-      $('#boardLoader').show();
+      $('#boardsLoader').show();
     });
   
     $scope.$on('loggingOut', function() { // Clear boards when the user logs out
@@ -178,7 +178,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $scope.createBoard(response.data[i].id, response.data[i].name);
         }
         console.log(response);
-        $('#boardLoader').hide();
+        $('#boardsLoader').hide();
       }, function errorCallback(response) {
         alert('Error getting clipboards. See console for more details.');
         console.log(response);
@@ -291,7 +291,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Save user's paste
     $scope.savePaste = function(board, snippet) {
-      console.log(board);
+      //console.log(board);
       // Hide overlapping paste alert
       $('#pasteAlert').hide();
       // Update variables

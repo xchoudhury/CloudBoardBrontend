@@ -100,8 +100,8 @@
   <!-- Boards -->
   <div ng-controller="boards" class="container">
     <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
+    <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
     <div class="boardsView">
-      <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
       <!-- This div will repeat for every board in the $scope.boards array -->
       <div ng-repeat="board in boards | orderBy:'id'" class="col-lg-12">
         <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
