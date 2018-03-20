@@ -24,6 +24,16 @@ function printErrors(errorArray, errorID) {
   }
 }
 
+function colorChange(color) {
+  //console.log(color);
+  var R = parseInt(color.substring(1, 3), 16);
+  var G = parseInt(color.substring(3, 5), 16);
+  var B = parseInt(color.substring(5, 7), 16);
+  //console.log(R + ' ' + G + ' ' + B);
+  var newColor = "rgb("+R+", "+G+", "+B+")";
+  $('.navbar').css('background-color', newColor);
+}
+
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
 // New interpolation symbols, uses [[ ]] instead of {{ }}
