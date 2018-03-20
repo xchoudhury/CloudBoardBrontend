@@ -48,6 +48,11 @@
         <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
         <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
         <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>
+        <input type="color" onchange="colorChange(this.value)" value="#2474eb" />
+        <div>
+          <input type="checkbox" id="invertColors" onchange="invert(this)">
+          <label for="invertColors" style="text-decoration:none; font-size:25px;" class="settingsLink">Invert</label>
+        </div>
       </div>
     </div>
   </div>

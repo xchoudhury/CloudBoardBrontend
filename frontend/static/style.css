@@ -211,3 +211,13 @@
 .navbar-header h1:hover{
   color: white;
 }
+
+.normal {
+  filter: invert(0%);
+}
+
+.inverted {
+  filter: invert(100%);
+}
+
+input[type=checkbox] {width:25px; height:25px;}
