@@ -19,10 +19,26 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.getBlankBoards();
     })
   
-    // Create a board from passed in content
-    $scope.createBoard = function(id, content) {
-      var board = new Board(id, content, true);
-      board.data.push(new Snippet(0, content));
+    // Create a board from passed in name
+    $scope.createBoard = function(id, name) {
+      var board = new Board(id, name, true);
+      // GET SNIPPETS
+      $http({
+        method: 'GET',
+        url: '/clipboards/'+id+'/snippet/'
+      }).then(function successCallback(response) {
+        console.log(response);
+        if (response.data.length == 0) {
+          board.hasContent = false;
+        }
+        else {
+          for (var i = 0; i < response.data.length; i++) {
+            board.data.push(new Snippet(response.data[i].id, response.data[i].text));
+          }
+        }
+      }, function errorCallback(response) {
+        console.log(response);
+      })
       $scope.boards.push(board);
     };
     
@@ -221,25 +237,49 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
     // New Snippet function
     $scope.addSnippet = function(board) {
-      console.log(board);
-      var snippet = new Snippet(board.data.length, "");
-      board.data.push(snippet);
-      setTimeout(function() {
-        $("#" + board.id + snippet.id + "pasting").focus();
-      }, 100);
+      $http({
+        method: 'POST',
+        url: '/clipboards/'+board.id+'/snippet/'
+      }).then(function successCallback(response) {
+        console.log(response);
+        var snippet = new Snippet(response.data.id, "");
+        if (board.data.length == 0) {
+          board.hasContent = true;
+        }
+        board.data.push(snippet);
+        setTimeout(function() {
+          $("#" + board.id + snippet.id + "pasting").focus();
+        }, 100);
+      }, function errorCallback(response) {
+        console.log(response);
+      })
     };
 
     $scope.removeSnippet = function(boardID, snippetID) {
-      for (var i = 0; i < $scope.boards.length; i++) {
-        if ($scope.boards[i].id == boardID) {
-          for (var j = 0; j < $scope.boards[i].data.length; j++) {
-            if ($scope.boards[i].data[j].id == snippetID) {
-              $scope.boards[i].data.splice(j, 1);
-              return;
+      $http({
+        method: 'DELETE',
+        url: '/clipboards/'+boardID+'/snippet/',
+        data: {
+          snip_id: snippetID
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function successCallback(response) {
+        console.log(response);
+        for (var i = 0; i < $scope.boards.length; i++) {
+          if ($scope.boards[i].id == boardID) {
+            for (var j = 0; j < $scope.boards[i].data.length; j++) {
+              if ($scope.boards[i].data[j].id == snippetID) {
+                $scope.boards[i].data.splice(j, 1);
+                break;
+              }
             }
           }
         }
-      }
+      }, function errorCallback(response) {
+        console.log(response);
+      })
     };
   
     // Save the paste when the user hits error
@@ -256,32 +296,28 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $('#pasteAlert').hide();
       // Update variables
       board.hasContent = true;
-  
+
       $http({
-        method: 'POST',
-        url: '/clipboards/',
+        method: 'PUT',
+        url: '/clipboards/'+board.id+'/snippet/',
         data: {
-          name: snippet.content
+          snip_id: snippet.id,
+          text: snippet.content
         }
       }).then(function successCallback(response) {
         console.log(response);
+        setTimeout(function() {
+          $("#" + board.id + snippet.id + "pasting").blur();
+        }, 100);
+        // Show successful paste alert, fade
+        $('#pasteAlert').show();
+        setTimeout(function() {
+          $('#pasteAlert').fadeOut(300);
+        }, 3000);
       }, function errorCallback(response) {
         alert('Error saving clipboard. See console for more details');
         console.log(response);
-      });
-  
-      // Filter the preview to be displayed if the content is too long
-      board.preview = $scope.filterPreview(board.content);
-
-      setTimeout(function() {
-        $("#" + board.id + snippet.id + "pasting").blur();
-      }, 100);
-  
-      // Show successful paste alert, fade
-      $('#pasteAlert').show();
-      setTimeout(function() {
-        $('#pasteAlert').fadeOut(300);
-      }, 3000);
+      })
     };
   
     // If the content of the board is longer than 45 characters, give it a '...' (can be made to any length)
