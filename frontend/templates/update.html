@@ -50,14 +50,14 @@
       <div class="settingsOptions">
         <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
         <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
-        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Update User Info</a>
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>
       </div>
     </div>
   </div>
 
   <div ng-controller="update">
     <div class="container" style="text-align: center;">
-        <h1>Update User Info</h1>
+        <h1>Settings</h1>
         <span style="color: red;" id="passwordError"></span>
         <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
         <h3 style="margin-top:25px;">Username</h3>
