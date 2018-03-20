@@ -44,5 +44,3 @@ class SnippetSerializer(serializers.ModelSerializer):
             instance.image = validated_data.get('image', instance.image)
             instance.save()
             return instance
-    
-    parent_clipboard = ClipboardSerializer()
