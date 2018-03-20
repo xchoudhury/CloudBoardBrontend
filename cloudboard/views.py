@@ -38,6 +38,7 @@ def getClipboard(request):
     serializer = ClipboardSerializer(user_clipboards, many=True)
     return Response(serializer.data)
 
+
 def createClipboard(request):
     data = {
                 'owner': request.user.pk,
@@ -50,6 +51,7 @@ def createClipboard(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def updateClipboard(request):
     try:
@@ -66,6 +68,7 @@ def updateClipboard(request):
         return Response(user_clipboard.data, status=status.HTTP_201_CREATED)
     return Response(user_clipboard.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 def deleteClipboard(request):
     try:
         user_clipboard = Clipboard.objects.get(owner=request.user, id=request.data.get('id'))
@@ -76,7 +79,8 @@ def deleteClipboard(request):
         return Response(error, status=status.HTTP_404_NOT_FOUND)
     user_clipboard.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
+
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
@@ -100,14 +104,14 @@ def getSnippet(request, clip_id):
                 status=status.HTTP_404_NOT_FOUND)
 
     try:
-        snippet = Snippet.objects.get(id=request.GET.get('snip_id'), parent_clipboard=clip_id, owner=request.user)
+        snippet = Snippet.objects.filter(parent_clipboard=clip_id, owner=request.user)
     except Snippet.DoesNotExist:
         error = {
-            'snip_id': ['Snippet does not exist or user is not owner']
+            'snip_ids': ['Snippet(s) does not exist or user is not owner']
         }
         return Response(error, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = SnippetSerializer(snippet)
+
+    serializer = SnippetSerializer(snippet, many=True)
     return Response(serializer.data)
 
 

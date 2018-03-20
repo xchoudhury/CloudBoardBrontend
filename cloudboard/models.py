@@ -9,7 +9,6 @@ from django.contrib.postgres.fields import ArrayField
 class Clipboard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=16)
-    snippet_ids = ArrayField(models.IntegerField(), max_length=10, null=True)
 
 class Snippet(models.Model):
     parent_clipboard = models.ForeignKey(
