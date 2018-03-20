@@ -37,11 +37,6 @@
   margin-right: auto;
 }
 
-.board-empty:hover {
-  border-color: blue;
-  cursor: pointer;
-}
-
 .board-text:hover {
   border-color: blue;
 }
@@ -50,10 +45,18 @@
   background-color: #5190ED;
 }
 
+.board-full:hover {
+  border-color: white;
+}
+
 .board-empty {
   background-color: rgb(148, 186, 243);
 }
 
+.board-empty:hover {
+  border-color: blue;
+  cursor: pointer;
+}
 .board-text {
   background-color: #515151;
   border: 1px #515151 solid;

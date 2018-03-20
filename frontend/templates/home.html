@@ -119,7 +119,7 @@
           </div>
           <!-- Content dark grey div -->
           <div class="snippets" id="[[board.id]]snippets">
-            <div class="col" ng-repeat="snippet in board.data">
+            <div class="col" ng-repeat="snippet in board.data | orderBy: 'id'">
               <div class="row" style="width: 80%; margin: auto; margin-bottom: 15px; position: relative;">
                 <i class="material-icons boardAction removeSnippet" style="float:left; position: absolute; top: 15%; left: -1%;" ng-click="removeSnippet(board.id, snippet.id)">clear</i>
                 <div class="board-text">
