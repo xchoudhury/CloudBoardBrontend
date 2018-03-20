@@ -16,5 +16,6 @@ class Snippet(models.Model):
         Clipboard,
         on_delete=models.CASCADE,
     )
-    text = models.TextField()
-    image = models.ImageField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    text = models.TextField(null=True)
+    image = models.ImageField(null=True)

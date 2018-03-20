@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Clipboard
+from .models import Clipboard, Snippet
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -30,3 +30,18 @@ class ClipboardSerializer(serializers.ModelSerializer):
             instance.save()
             return instance
 
+class SnippetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Snippet
+        fields = ('id', 'parent_clipboard', 'owner', 'text', 'image')
+
+        def create(self, validated_data):
+            return Snippet.objects.create(**validated_data)
+
+        def update(self, instance, validated_data):
+            instance.parent_clipboard = validated_data.get('parent_clipboard', instance.parent_clipboard)
+            instance.owner = validated_data.get('owner', instance.owner)
+            instance.text = validated_data.get('text', instance.text)
+            instance.image = validated_data.get('image', instance.image)
+            instance.save()
+            return instance

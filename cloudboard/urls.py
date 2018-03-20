@@ -13,4 +13,5 @@ router.register(r'clipboards', views.ClipboardViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('clipboards/', views.manageClipBoards),
+    path('clipboards/<clip_id>/snippet/', views.manageSnippet),
 ]
