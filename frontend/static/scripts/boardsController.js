@@ -165,6 +165,44 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         printErrors(response.data.name, 'renameBoardError');
       });
     };
+
+    function createBoardPromise(id, name) {
+      return new Promise(resolve => {
+        console.log('creating board ' + name);
+        var board = new Board(id, name, true);
+        // GET SNIPPETS
+        $http({
+          method: 'GET',
+          url: '/clipboards/'+id+'/snippet/'
+        }).then(function successCallback(response) {
+          console.log(response);
+          if (response.data.length == 0) {
+            board.hasContent = false;
+          }
+          else {
+            for (var i = 0; i < response.data.length; i++) {
+              board.data.push(new Snippet(response.data[i].id, response.data[i].text));
+            }
+          }
+          $scope.boards.push(board);
+          resolve();
+        }, function errorCallback(response) {
+          console.log(response);
+        });
+      });
+    }
+
+    function wait() {
+      return new Promise(r => setTimeout(r, 1000));
+    }
+
+    function Chain(boardsData) {
+      var chain = $q.when();
+      for (let board of boardsData) {
+        chain = chain.then(() => createBoardPromise(board.id, board.name)).then(wait);
+      }
+      return chain;
+    }
   
     // Get users boards
     $scope.getBoards = function() {
@@ -174,11 +212,21 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         method: 'GET',
         url: '/clipboards/'
       }).then(function successCallback(response) {
+        var promises = [];
+        for (var i = 0; i < response.data.length; i++) {
+          promises.push(createBoardPromise(response.data[i].id, response.data[i].name));
+        }
+        Promise.all(promises).then(function() {
+          $('#boardsLoader').hide();
+          $('.boardsView').slideDown("slow", function() {});
+        })
+        /*
         for (var i = 0; i < response.data.length; i++) {
           $scope.createBoard(response.data[i].id, response.data[i].name);
         }
         console.log(response);
         $('#boardsLoader').hide();
+        */
       }, function errorCallback(response) {
         alert('Error getting clipboards. See console for more details.');
         console.log(response);

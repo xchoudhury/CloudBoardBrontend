@@ -37,6 +37,10 @@
   margin-right: auto;
 }
 
+.boardsView {
+  display: none;
+}
+
 .board-text:hover {
   border-color: blue;
 }
@@ -57,6 +61,7 @@
   border-color: blue;
   cursor: pointer;
 }
+
 .board-text {
   background-color: #515151;
   border: 1px #515151 solid;
