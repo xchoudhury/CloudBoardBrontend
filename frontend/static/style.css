@@ -198,7 +198,7 @@
 }
 
 .fadingAlert {
-  position: fixed; 
+  position: fixed !important; 
   bottom: 20px; 
   width: 75%; 
   left: 12.5%; 
