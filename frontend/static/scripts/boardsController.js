@@ -10,6 +10,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $scope.getBoards();
       $('#dimmer').hide();
+      $('.boardsView').hide();
       $('#boardsLoader').show();
     });
   
@@ -168,7 +169,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
     function createBoardPromise(id, name) {
       return new Promise(resolve => {
-        console.log('creating board ' + name);
         var board = new Board(id, name, true);
         // GET SNIPPETS
         $http({
@@ -190,18 +190,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           console.log(response);
         });
       });
-    }
-
-    function wait() {
-      return new Promise(r => setTimeout(r, 1000));
-    }
-
-    function Chain(boardsData) {
-      var chain = $q.when();
-      for (let board of boardsData) {
-        chain = chain.then(() => createBoardPromise(board.id, board.name)).then(wait);
-      }
-      return chain;
     }
   
     // Get users boards

@@ -1,5 +1,5 @@
 // Settings controller, contains all functions to be called from settings panel
-app.controller('settings', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
+app.controller('settings', ['$scope', '$http', 'loginService', function($scope, $http, $rootScope, loginService) {
     $scope.settingsVisible = false;
   
     // Show settings panel on click
@@ -32,7 +32,17 @@ app.controller('settings', ['$scope', '$http', 'loginService', function($scope, 
       $scope.toggle();
       $('#dimmer').show();
       loginService.logOut();
-    }
+    };
+
+    $scope.goToFAQ = function() {
+      $rootScope.view = 'faq';
+      $scope.toggle();
+    };
+    
+    $scope.goToAccount = function() {
+      $rootScope.view = 'account';
+      $scope.toggle();
+    };
   }]);
 
 function colorChange(color) {
@@ -53,3 +63,4 @@ function invert(checkboxElement) {
     document.body.className = "normal";
   }
 }
+

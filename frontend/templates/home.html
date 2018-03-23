@@ -33,120 +33,122 @@
   <script src={% static 'scripts/loginController.js' %}></script>
   <script src={% static 'scripts/boardsController.js' %}></script>
   <script src={% static 'scripts/settingsController.js' %}></script>
+  <script src={% static 'scripts/updateController.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;" class="normal">
   <nav class="navbar navbar-default">
     <div class="container">
-      <div class="navbar-header" style="margin: auto;">
-        <h1 onclick="document.location.href = '/';" style="cursor:pointer;"><i class="material-icons">cloud_queue</i> CloudBoard</h1>
+      <div class="navbar-header" style="margin: auto;" ng-controller="header">
+        <h1 ng-click="goHome()" style="cursor:pointer;"><i class="material-icons">cloud_queue</i> CloudBoard</h1>
       </div>
     </div>
   </nav>
 
-  <!-- Settings panel -->
   <div ng-controller="settings" id="settingsDiv" class="settings">
-    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
-    <div class="settingsPanel" style="display:none;">
-      <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
-      <div class="settingsOptions">
-        <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
-        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
-        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>
-        <input type="color" onchange="colorChange(this.value)" value="#2474eb" />
-        <div>
-          <input type="checkbox" id="invertColors" onchange="invert(this)">
-          <label for="invertColors" style="text-decoration:none; font-size:25px;" class="settingsLink">Invert</label>
+      <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
+      <div class="settingsPanel" style="display:none;">
+        <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
+        <div class="settingsOptions">
+          <div class="settingsLink" ng-click="logOut()">Log Out</div>
+          <!--<a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />-->
+          <span class="settingsLink" ng-click="$root.view = 'faq'; toggle()">FAQ</span><br />
+          <!--<a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>-->
+          <span class="settingsLink" ng-click="$root.view = 'account'; toggle()">Account</span><br />
+          <input type="color" onchange="colorChange(this.value)" value="#2474eb" />
+          <div>
+            <input type="checkbox" id="invertColors" onchange="invert(this)">
+            <label for="invertColors" style="text-decoration:none; font-size:25px;" class="settingsLink">Invert</label>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Dimmer, used to fade out the website when the login window or the settings panel is shown -->
-  <div class="overlay" id="dimmer"></div>
+    <div class="overlay" id="dimmer"></div>
 
-  <div ng-controller="login">
-      <div class="loginWindow" ng-show="!loggedIn">
-        <div class="loader"></div>
-        <div id="loginForm" style="display:none;">
-          <form action="/api-auth/login/" method="POST">{% csrf_token %}
-            <span class="createAccountError" id="usernameError"></span>
-            <input type="text" name="username" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
-            <span class="createAccountError" id="passwordError"></span>
-            <input type="password" name="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
-            <button ng-click="logIn()" style="width:100%" id="loginButton" ng-show="!creatingAccount">Log In </button>
-          </form>
-          <span class="createAccountError" id="emailError"></span>
-          <input type="text" ng-model="email" style="width:100%;" ng-show="creatingAccount" placeholder="email" />
-          <button ng-click="createAccount()" style="width:100%" ng-show="!accountCreated">Create Account</button>
-          <button ng-click="forgotPassword()" style="width:100%">Forgot Password?</button>
-        </div>
-      </div>
-
-      <div class="modal fade" id="resetModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Reset Successful</h4>
-              <button type="button" style="float:right;" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p>Password reset successful. An email has been sent.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+    <div ng-controller="login">
+        <div class="loginWindow" ng-show="!loggedIn">
+          <div class="loader"></div>
+          <div id="loginForm" style="display:none;">
+            <form action="/api-auth/login/" method="POST">{% csrf_token %}
+              <span class="createAccountError" id="usernameError"></span>
+              <input type="text" name="username" ng-model="username" style="width:100%" placeholder="username" autofocus /> <br />
+              <span class="createAccountError" id="passwordError"></span>
+              <input type="password" name="password" ng-model="password" style="width:100%" placeholder="password" ng-keyup="keyCheck($event)" /> <br />
+              <button ng-click="logIn()" style="width:100%" id="loginButton" ng-show="!creatingAccount">Log In </button>
+            </form>
+            <span class="createAccountError" id="emailError"></span>
+            <input type="text" ng-model="email" style="width:100%;" ng-show="creatingAccount" placeholder="email" />
+            <button ng-click="createAccount()" style="width:100%" ng-show="!accountCreated">Create Account</button>
+            <button ng-click="forgotPassword()" style="width:100%">Forgot Password?</button>
           </div>
         </div>
-      </div>
-  </div>
-
-  <!-- Boards -->
-  <div ng-controller="boards" class="container">
-    <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
-    <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
-    <div class="boardsView">
-      <!-- This div will repeat for every board in the $scope.boards array -->
-      <div ng-repeat="board in boards | orderBy:'id'" class="col-lg-12">
-        <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
-        <div class="board" ng-class="board.hasContent ? 'board-full' : 'board-empty'" id="[[board.id]]board">
-          <!-- Remove button -->
-          <div class="row" style="text-align:center;">
-            <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.expanded" ng-click="removeBoard([[board.id]])">delete_forever</i>
-            <!-- Display board title and it's id -->
-            <div  ng-click="expand($event, board)" style="text-align: center; width: 74%; margin: auto; cursor: pointer;">
-              <h3>[[board.name]]</h3>
-            </div>
-          
-            <!-- Copy button -->
-            <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.expanded" ng-click="renameBoard(board.id)">create</i>
-          </div>
-          <!-- Content dark grey div -->
-          <div class="snippets" id="[[board.id]]snippets">
-            <div class="col" ng-repeat="snippet in board.data | orderBy: 'id'">
-              <div class="row" style="width: 80%; margin: auto; margin-bottom: 15px; position: relative;">
-                <i class="material-icons boardAction removeSnippet" style="float:left; position: absolute; top: 15%; left: -1%;" ng-click="removeSnippet(board.id, snippet.id)">clear</i>
-                <div class="board-text">
-                  <!-- Hidden text box used for pasting/editing data -->
-                  <input type="text" id="[[board.id]][[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="pasteKeyCheck($event, board, snippet)" />
-                  <!-- Display board preview
-                  [[content]]-->
-                </div>
-                <i class="material-icons boardAction copySnippet" style="float:right; position: absolute; top: 15%; right: -1%;" ng-click="copySnippet(snippet)">content_copy</i>
+  
+        <div class="modal fade" id="resetModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Reset Successful</h4>
+                <button type="button" style="float:right;" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p>Password reset successful. An email has been sent.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
-            <div style="text-align: center; margin-top: 15px;">
-              <i class="material-icons addSnippet boardAction" ng-click="addSnippet(board)">add_circle_outline</i>
+          </div>
+        </div>
+    </div>
+
+
+  <div ng-switch="$root.view">
+    <!-- Boards -->
+    <div ng-controller="boards" class="container">
+      <div ng-switch-when="home">
+      <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
+      <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
+      <div class="boardsView">
+        <!-- This div will repeat for every board in the $scope.boards array -->
+        <div ng-repeat="board in boards | orderBy:'id'" class="col-lg-12">
+          <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
+          <div class="board" ng-class="board.hasContent ? 'board-full' : 'board-empty'" id="[[board.id]]board">
+            <!-- Remove button -->
+            <div class="row" style="text-align:center;">
+              <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.expanded" ng-click="removeBoard([[board.id]])">delete_forever</i>
+              <!-- Display board title and it's id -->
+              <div  ng-click="expand($event, board)" style="text-align: center; width: 74%; margin: auto; cursor: pointer;">
+                <h3>[[board.name]]</h3>
+              </div>
+          
+              <!-- Copy button -->
+              <i class="material-icons renameBoard boardAction" style="float:right; margin-right: 10px;" ng-show="board.expanded" ng-click="renameBoard(board.id)">create</i>
+            </div>
+            <!-- Content dark grey div -->
+            <div class="snippets" id="[[board.id]]snippets">
+              <div class="col" ng-repeat="snippet in board.data | orderBy: 'id'">
+                <div class="row" style="width: 80%; margin: auto; margin-bottom: 15px; position: relative;">
+                  <i class="material-icons boardAction removeSnippet" style="float:left; position: absolute; top: 15%; left: -1%;" ng-click="removeSnippet(board.id, snippet.id)">clear</i>
+                  <div class="board-text">
+                    <!-- Hidden text box used for pasting/editing data -->
+                    <input type="text" id="[[board.id]][[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="pasteKeyCheck($event, board, snippet)" />
+                  </div>
+                  <i class="material-icons boardAction copySnippet" style="float:right; position: absolute; top: 15%; right: -1%;" ng-click="copySnippet(snippet)">content_copy</i>
+                </div>
+              </div>
+              <div style="text-align: center; margin-top: 15px;">
+                <i class="material-icons addSnippet boardAction" ng-click="addSnippet(board)">add_circle_outline</i>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Add board button -->
-      <div style="margin: auto;  width: 70%; font-size: 18px; margin-bottom: 30px;">
-        <div class="addBoard" ng-click="createNewBoard();">
+        <!-- Add board button -->
+        <div style="margin: auto;  width: 70%; font-size: 18px; margin-bottom: 30px;">
+          <div class="addBoard" ng-click="createNewBoard();">
             <i class="material-icons">add</i>
+          </div>
         </div>
-      </div>
 
         <div class="modal fade" id="deleteBoardModal" role="dialog">
           <div class="modal-dialog">
@@ -184,19 +186,78 @@
           </div>
         </div>
 
+      </div>
+      <!-- Alerts for successful copy or successful paste -->
+      <div id="copyAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+        Successfully copied data from board!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="pasteAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+        Successfully pasted data to board!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     </div>
-    <!-- Alerts for successful copy or successful paste -->
-    <div id="copyAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
-      Successfully copied data from board!
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
     </div>
-    <div id="pasteAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
-      Successfully pasted data to board!
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+
+    <div ng-switch-when="faq">
+      <div class="container" style="text-align: center;">
+        <h2 style="font-size:45px">FAQ</h2>
+        <p style="font-size:20px; padding-top:10px"><b>What is CloudBoard?</b></p>
+        <p style="font-size:20px">CloudBoard is a universal clipboard, created in EECS 498 at the University of Michigan for Brad, allowing him (and now any user), to copy text or images to a clipboard linked to your account, and paste from any clipboard on a different device.</p>
+        <p style="font-size:20px"><b>Is it free to use?</b></p>
+        <p style="font-size:20px">Yes, CloudBoard costs nothing to use!</p>
+        <p style="font-size:20px"><b>I'm having trouble. Where can I find a README?</b></p>
+        <a href="https://github.com/xchoudhury/CloudBoardBackend"><p style="font-size:20px">README</p></a>
+      </div>
+    </div>
+
+    <div ng-controller="update">
+      <div ng-switch-when="account">
+        <div class="container" style="text-align: center;">
+          <h1>Settings</h1>
+          <span style="color: red;" id="passwordError"></span>
+          <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
+          <h3 style="margin-top:25px;">Username</h3>
+          <span style="color: red;" id="usernameError"></span>
+          <input type="text" class="form-control" ng-model="userName" />
+          <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateUsername()">Update Username</button>
+          <h3 style="margin-top:25px;">Email</h3>
+          <span style="color: red;" id="emailError"></span>
+          <input type="text" class="form-control" ng-model="userEmail" />
+          <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateEmail()">Update Email</button>
+          <h3 style="margin-top:25px;">Password</h3>
+          <span style="color: red;" id="newPasswordError"></span>
+          <input type="password" class="form-control" placeholder="new password" ng-model="userNewPassword" />
+          <span style="color: red;" id="confirmPasswordError"></span>
+          <input type="password" class="form-control" placeholder="confirm new password" ng-model="confirmNewPassword" />
+          <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updatePassword()">Update Password</button>
+        </div>
+        
+        <div id="usernameAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+          Successfully changed the username to '[[userName]]'!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div id="emailAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+          Successfully changed the email to '[[userEmail]]'!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div id="passwordAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
+          Successfully changed password!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </body>

@@ -40,3 +40,13 @@ app.config(function($httpProvider) {
 app.config(function($locationProvider) {
   $locationProvider.html5Mode(true);
 });
+
+app.run(function($rootScope) {
+  $rootScope.view = "home";
+});
+
+app.controller('header', ['$scope', '$rootScope', function($scope, $rootScope) {
+  $scope.goHome = function() {
+    $rootScope.view = "home";
+  };
+}]);
