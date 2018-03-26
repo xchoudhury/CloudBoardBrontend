@@ -24,6 +24,19 @@ function printErrors(errorArray, errorID) {
   }
 }
 
+// Creates error alert with message
+function alertError(message) {
+  var error = $('#errorAlert').clone();
+  error.find('span').html(message);
+  $('body').append(error);
+  error.show();
+  setTimeout(function() {
+    error.fadeOut(300, function() {
+      $(this).remove();
+    });
+  }, 3000);
+}
+
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
 // New interpolation symbols, uses [[ ]] instead of {{ }}

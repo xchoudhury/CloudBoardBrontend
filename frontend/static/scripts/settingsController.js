@@ -26,8 +26,8 @@ app.controller('settings', ['$scope', '$http', 'loginService', function($scope, 
       }).then(function successCallback() {
         console.log('logout successful');
       }, function errorCallback(response) {
-        console.log('logout unsuccesful');
         console.log(response);
+        alertError('Error: Could not log out. Response status ' + response.status + '.');
       });
       $scope.toggle();
       $('#dimmer').show();

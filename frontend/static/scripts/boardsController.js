@@ -39,6 +39,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not get snippets for board ID ' + id + '. Response status ' + response.status + '.');
       })
       $scope.boards.push(board);
     };
@@ -65,7 +66,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         console.log(response);
         $scope.createEmptyBoard(response.data.id, response.data.name);
       }, function errorCallback(response) {
-        alert('Error creating clipboard. See console for more details');
+        alertError('Error: Could not create a new board. Response status ' + response.status + '.');
         console.log(response);
       });
     };
@@ -107,6 +108,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $scope.removeID = -1;
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not remove board ID ' + id + '. Response status ' + response.status + '.');
       });
       $('#deleteBoardModal').modal('hide');
     };
@@ -188,6 +190,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           resolve();
         }, function errorCallback(response) {
           console.log(response);
+          alertError('Error: Could not get snippets for board ID ' + id + '. Response status ' + response.status + '.');
         });
       });
     }
@@ -208,15 +211,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $('#boardsLoader').hide();
           $('.boardsView').slideDown("slow", function() {});
         })
-        /*
-        for (var i = 0; i < response.data.length; i++) {
-          $scope.createBoard(response.data[i].id, response.data[i].name);
-        }
-        console.log(response);
-        $('#boardsLoader').hide();
-        */
       }, function errorCallback(response) {
-        alert('Error getting clipboards. See console for more details.');
+        alertError('Error: Could not get clipboards. Response status ' + response.status + '.');
         console.log(response);
       });
     };
@@ -288,6 +284,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }, 100);
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not add snippet to board ID ' + board.id + '. Response status ' + response.status + '.');
       })
     };
 
@@ -315,6 +312,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not remove snippet ID ' + snippetID + ' from board ID ' + boardID + '. Response status ' + response.status + '.');
       })
     };
   
@@ -351,7 +349,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $('#pasteAlert').fadeOut(300);
         }, 3000);
       }, function errorCallback(response) {
-        alert('Error saving clipboard. See console for more details');
+        alertError('Error: Could not save paste to snippet ID ' + snippet.id + ' in board ID ' + board.id + '. Response status ' + response.status + '.');
         console.log(response);
       })
     };
