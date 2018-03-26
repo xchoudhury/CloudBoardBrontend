@@ -27,7 +27,7 @@ function printErrors(errorArray, errorID) {
 // Creates error alert with message
 function alertError(message) {
   var error = $('#errorAlert').clone();
-  error.find('span').html(message);
+  error.find('.errorText').html(message);
   $('body').append(error);
   error.show();
   setTimeout(function() {
