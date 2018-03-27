@@ -123,7 +123,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.renameID = -1;
     $scope.rename = "";
     // Rename a board with a given id
-    $scope.renameBoard = function(id) {
+    $scope.renameBoard = function(id = $scope.renameID) {
       if (!$scope.renamingBoard) {
         $('#renameBoardModal').modal('show');
         $scope.renamingBoard = true;
@@ -131,6 +131,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         for (var i = 0; i < $scope.boards.length; i++) {
           if ($scope.boards[i].id == id) {
             $scope.rename = $scope.boards[i].name;
+            break;
           }
         }
         setTimeout(function() {
@@ -144,7 +145,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       if ($scope.renameID == -1) {
         return;
       }
-
       $http({
         method: 'PUT',
         url: '/clipboards/',
