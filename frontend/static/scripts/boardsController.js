@@ -51,7 +51,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Creates a blank board and adds it to the end of the boards arrays
     $scope.createBlankBoard = function() {
-      var blankBoard = new Board($scope.boards.length, "Board " + $scope.boards.length, false);
+      var blankBoard = new Board($scope.boards.length, "Board " + ($scope.boards.length+1), false);
       $scope.boards.push(blankBoard);
     };
 
@@ -60,7 +60,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         method: 'POST',
         url: '/clipboards/',
         data: {
-          name: String("Board " + $scope.boards.length)
+          name: String("Board " + ($scope.boards.length+1))
         }
       }).then(function successCallback(response) {
         console.log(response);
