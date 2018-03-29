@@ -37,10 +37,6 @@
   margin-right: auto;
 }
 
-.boardsView {
-  display: none;
-}
-
 .board-text:hover {
   border-color: blue;
 }
@@ -95,7 +91,7 @@
   right: 0;
   text-align: right;
   padding-right: 5px;
-  padding-top: 15px;
+  padding-top: 8px;
   z-index: 999;
 }
 
@@ -104,7 +100,7 @@
   top: 0;
   right: 0;
   background-color: #b2b2b2;
-  width: 150px;
+  width: 200px;
   height: 100vh;
   transition: 0.2s;
   z-index: 999;
@@ -120,6 +116,7 @@
   margin: 5px;
   cursor: pointer;
   color: white;
+  font-size: 25pt;
 }
 
 .settingsLink:hover {
@@ -201,7 +198,7 @@
 }
 
 .fadingAlert {
-  position: fixed; 
+  position: fixed !important; 
   bottom: 20px; 
   width: 75%; 
   left: 12.5%; 

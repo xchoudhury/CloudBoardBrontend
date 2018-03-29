@@ -1,5 +1,5 @@
 // Settings controller, contains all functions to be called from settings panel
-app.controller('settings', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
+app.controller('settings', ['$scope', '$http', '$rootScope', 'loginService', function($scope, $http, $rootScope, loginService) {
     $scope.settingsVisible = false;
   
     // Show settings panel on click
@@ -7,7 +7,7 @@ app.controller('settings', ['$scope', '$http', 'loginService', function($scope, 
       if (!$scope.settingsVisible) {
         $scope.settingsVisible = true;
         $('.settingsPanel').show();
-        $('.settingsPanel').width("150px");
+        $('.settingsPanel').width("200px");
       }
       else {
         $scope.settingsVisible = false;
@@ -26,13 +26,23 @@ app.controller('settings', ['$scope', '$http', 'loginService', function($scope, 
       }).then(function successCallback() {
         console.log('logout successful');
       }, function errorCallback(response) {
-        console.log('logout unsuccesful');
         console.log(response);
+        alertError('Error: Could not log out. Response status ' + response.status + '.');
       });
       $scope.toggle();
       $('#dimmer').show();
       loginService.logOut();
-    }
+    };
+
+    $scope.goToFAQ = function() {
+      $rootScope.view = 'faq';
+      $scope.toggle();
+    };
+    
+    $scope.goToAccount = function() {
+      $rootScope.view = 'account';
+      $scope.toggle();
+    };
   }]);
 
 function colorChange(color) {
@@ -53,3 +63,4 @@ function invert(checkboxElement) {
     document.body.className = "normal";
   }
 }
+

@@ -18,11 +18,15 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             $scope.userEmail = response.data.email;
         }, function errorCallback(response) {
             console.log(response);
-            document.location.href = '/';
+            //document.location.href = '/';
         });
     };
 
     $scope.initialize();
+
+    $scope.$on('loggingIn', function() {
+        $scope.initialize();
+    });
 
     $scope.updateUsername = function() {
         $('#passwordError').html("");

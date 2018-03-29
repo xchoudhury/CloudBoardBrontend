@@ -24,6 +24,19 @@ function printErrors(errorArray, errorID) {
   }
 }
 
+// Creates error alert with message
+function alertError(message) {
+  var error = $('#errorAlert').clone();
+  error.find('.errorText').html(message);
+  $('body').append(error);
+  error.show();
+  setTimeout(function() {
+    error.fadeOut(300, function() {
+      $(this).remove();
+    });
+  }, 3000);
+}
+
 var app = angular.module('CloudBoard', ['ngCookies', 'ngRoute']);
 
 // New interpolation symbols, uses [[ ]] instead of {{ }}
@@ -40,3 +53,13 @@ app.config(function($httpProvider) {
 app.config(function($locationProvider) {
   $locationProvider.html5Mode(true);
 });
+
+app.run(function($rootScope) {
+  $rootScope.view = "home";
+});
+
+app.controller('header', ['$scope', '$rootScope', function($scope, $rootScope) {
+  $scope.goHome = function() {
+    $rootScope.view = "home";
+  };
+}]);

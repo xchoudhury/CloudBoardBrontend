@@ -10,6 +10,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $scope.getBoards();
       $('#dimmer').hide();
+      $('.boardsView').hide();
       $('#boardsLoader').show();
     });
   
@@ -38,6 +39,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not get snippets for board ID ' + id + '. Response status ' + response.status + '.');
       })
       $scope.boards.push(board);
     };
@@ -49,7 +51,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Creates a blank board and adds it to the end of the boards arrays
     $scope.createBlankBoard = function() {
-      var blankBoard = new Board($scope.boards.length, "Board " + $scope.boards.length, false);
+      var blankBoard = new Board($scope.boards.length, "Board " + ($scope.boards.length+1), false);
       $scope.boards.push(blankBoard);
     };
 
@@ -58,13 +60,13 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         method: 'POST',
         url: '/clipboards/',
         data: {
-          name: String("Board " + $scope.boards.length)
+          name: String("Board " + ($scope.boards.length+1))
         }
       }).then(function successCallback(response) {
         console.log(response);
         $scope.createEmptyBoard(response.data.id, response.data.name);
       }, function errorCallback(response) {
-        alert('Error creating clipboard. See console for more details');
+        alertError('Error: Could not create a new board. Response status ' + response.status + '.');
         console.log(response);
       });
     };
@@ -106,6 +108,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $scope.removeID = -1;
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not remove board ID ' + id + '. Response status ' + response.status + '.');
       });
       $('#deleteBoardModal').modal('hide');
     };
@@ -120,7 +123,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.renameID = -1;
     $scope.rename = "";
     // Rename a board with a given id
-    $scope.renameBoard = function(id) {
+    $scope.renameBoard = function(id = $scope.renameID) {
       if (!$scope.renamingBoard) {
         $('#renameBoardModal').modal('show');
         $scope.renamingBoard = true;
@@ -128,6 +131,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         for (var i = 0; i < $scope.boards.length; i++) {
           if ($scope.boards[i].id == id) {
             $scope.rename = $scope.boards[i].name;
+            break;
           }
         }
         setTimeout(function() {
@@ -141,7 +145,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       if ($scope.renameID == -1) {
         return;
       }
-
       $http({
         method: 'PUT',
         url: '/clipboards/',
@@ -168,7 +171,6 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
     function createBoardPromise(id, name) {
       return new Promise(resolve => {
-        console.log('creating board ' + name);
         var board = new Board(id, name, true);
         // GET SNIPPETS
         $http({
@@ -188,20 +190,9 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           resolve();
         }, function errorCallback(response) {
           console.log(response);
+          alertError('Error: Could not get snippets for board ID ' + id + '. Response status ' + response.status + '.');
         });
       });
-    }
-
-    function wait() {
-      return new Promise(r => setTimeout(r, 1000));
-    }
-
-    function Chain(boardsData) {
-      var chain = $q.when();
-      for (let board of boardsData) {
-        chain = chain.then(() => createBoardPromise(board.id, board.name)).then(wait);
-      }
-      return chain;
     }
   
     // Get users boards
@@ -220,15 +211,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $('#boardsLoader').hide();
           $('.boardsView').slideDown("slow", function() {});
         })
-        /*
-        for (var i = 0; i < response.data.length; i++) {
-          $scope.createBoard(response.data[i].id, response.data[i].name);
-        }
-        console.log(response);
-        $('#boardsLoader').hide();
-        */
       }, function errorCallback(response) {
-        alert('Error getting clipboards. See console for more details.');
+        alertError('Error: Could not get clipboards. Response status ' + response.status + '.');
         console.log(response);
       });
     };
@@ -300,6 +284,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }, 100);
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not add snippet to board ID ' + board.id + '. Response status ' + response.status + '.');
       })
     };
 
@@ -327,6 +312,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }, function errorCallback(response) {
         console.log(response);
+        alertError('Error: Could not remove snippet ID ' + snippetID + ' from board ID ' + boardID + '. Response status ' + response.status + '.');
       })
     };
   
@@ -363,7 +349,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           $('#pasteAlert').fadeOut(300);
         }, 3000);
       }, function errorCallback(response) {
-        alert('Error saving clipboard. See console for more details');
+        alertError('Error: Could not save paste to snippet ID ' + snippet.id + ' in board ID ' + board.id + '. Response status ' + response.status + '.');
         console.log(response);
       })
     };
