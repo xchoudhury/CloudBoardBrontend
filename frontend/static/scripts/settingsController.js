@@ -7,7 +7,7 @@ app.controller('settings', ['$scope', '$http', '$rootScope', 'loginService', fun
       if (!$scope.settingsVisible) {
         $scope.settingsVisible = true;
         $('.settingsPanel').show();
-        $('.settingsPanel').width("150px");
+        $('.settingsPanel').width("200px");
       }
       else {
         $scope.settingsVisible = false;
