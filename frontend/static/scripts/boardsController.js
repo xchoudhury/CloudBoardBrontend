@@ -113,6 +113,12 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $('#deleteBoardModal').modal('hide');
     };
 
+    $scope.cancelRemove = function() {
+      // Reset remove variables to prevent accidental deletion
+      $scope.removingBoard = false;
+      $scope.removeID = -1;
+    };
+
     $scope.renameKeyCheck = function(e) {
       if (e.keyCode == 13) {
         $scope.renameBoard();
@@ -124,6 +130,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.rename = "";
     // Rename a board with a given id
     $scope.renameBoard = function(id = $scope.renameID) {
+      $('#renameBoardError').html("");
       if (!$scope.renamingBoard) {
         $('#renameBoardModal').modal('show');
         $scope.renamingBoard = true;
@@ -167,6 +174,13 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         console.log(response);
         printErrors(response.data.name, 'renameBoardError');
       });
+    };
+
+    $scope.cancelRename = function() {
+      // Reset rename variables to prevent accidental rename
+      $scope.renamingBoard = false;
+      $scope.renameID = -1;
+      $scope.rename = "";
     };
 
     function createBoardPromise(id, name) {
