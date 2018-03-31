@@ -80,7 +80,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
     $scope.updatePassword = function() {
         $('#confirmPasswordError').html("");
         $('#newPasswordError').html("");
-        $('#passwordError').html("");
+        $('#currentPasswordError').html("");
         if (!($scope.userNewPassword === $scope.confirmNewPassword)) {
             $('#confirmPasswordError').html("Passwords do not match");
             return;
@@ -90,7 +90,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             url: '/auth/password/',
             data: {
                 new_password: $scope.userNewPassword,
-                re_new_password: $scopw.confirmNewPassword,
+                re_new_password: $scope.confirmNewPassword,
                 current_password: $scope.userPassword
             }
         }).then(function successCallback(response) {
@@ -106,7 +106,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             console.log(response);
             printErrors(response.data.new_password, 'newPasswordError');
             printErrors(response.data.re_new_password, 'confirmPasswordError');
-            printErrors(response.data.current_password, 'passwordError');
+            printErrors(response.data.current_password, 'currentPasswordError');
         });
     };
 }]);

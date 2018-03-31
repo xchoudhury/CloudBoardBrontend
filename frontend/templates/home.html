@@ -219,22 +219,22 @@
       <div ng-switch-when="account">
         <div class="container" style="text-align: center;">
           <h1>Settings</h1>
-          <span style="color: red;" id="passwordError"></span>
-          <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
+          <span style="color: red;" id="currentPasswordError"></span>
+          <input type="password" class="form-control" placeholder="current password" ng-model="$parent.userPassword" />
           <h3 style="margin-top:25px;">Username</h3>
           <span style="color: red;" id="usernameError"></span>
-          <input type="text" class="form-control" ng-model="userName" />
+          <input type="text" class="form-control" ng-model="$parent.userName" />
           <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateUsername()">Update Username</button>
           <h3 style="margin-top:25px;">Email</h3>
           <span style="color: red;" id="emailError"></span>
-          <input type="text" class="form-control" ng-model="userEmail" />
+          <input type="text" class="form-control" ng-model="$parent.userEmail" />
           <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updateEmail()">Update Email</button>
           <h3 style="margin-top:25px;">Password</h3>
           <span style="color: red;" id="newPasswordError"></span>
-          <input type="password" class="form-control" placeholder="new password" ng-model="userNewPassword" />
+          <input type="password" class="form-control" placeholder="new password" ng-model="$parent.userNewPassword" />
           <span style="color: red;" id="confirmPasswordError"></span>
-          <input type="password" class="form-control" placeholder="confirm new password" ng-model="confirmNewPassword" />
-          <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px;" ng-click="updatePassword()">Update Password</button>
+          <input type="password" class="form-control" placeholder="confirm new password" ng-model="$parent.confirmNewPassword" />
+          <button style="width: 100%; margin-top: 10px; height:50px; font-size:20px; margin-bottom: 30px;" ng-click="updatePassword()">Update Password</button>
         </div>
         
         <div id="usernameAlert" class="alert alert-success alert-dismissible fade show fadingAlert" role="alert">
