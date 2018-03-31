@@ -5,6 +5,10 @@ app.controller('settings', ['$scope', '$http', '$rootScope', 'loginService', fun
     // Show settings panel on click
     $scope.toggle = function() {
       if (!$scope.settingsVisible) {
+        if ($('#dimmer').is(":visible")) {
+          // Do not show settings if dimmer is visibile
+          return;
+        }
         $scope.settingsVisible = true;
         $('.settingsPanel').show();
         $('.settingsPanel').width("200px");
