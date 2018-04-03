@@ -100,7 +100,7 @@
     </div>
 
 
-  <div ng-switch="$root.view">
+  <div ng-switch="$root.view" class="contentView">
     <!-- Boards -->
     <div ng-controller="boards" class="container">
       <div ng-switch-when="home">
@@ -288,7 +288,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <button style="width: 100%; cursor: pointer;">Save</button>
+              <button style="width: 100%; cursor: pointer;">Save For Next Time</button>
             </div>
             <div class="col-6">
               <button style="width: 100%; cursor: pointer;" ng-click="resetColors()">Reset</button>

@@ -10,6 +10,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $scope.getBoards();
       $('#dimmer').hide();
+      $('.contentView').show();
       $('.boardsView').hide();
       $('#boardsLoader').show();
     });
@@ -17,6 +18,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.$on('loggingOut', function() { // Clear boards when the user logs out
       $scope.loggedIn = false;
       $scope.name = loginService.getUserName();
+      $('.contentView').show();
       $scope.getBlankBoards();
     })
   

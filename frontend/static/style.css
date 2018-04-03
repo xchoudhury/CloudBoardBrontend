@@ -222,4 +222,6 @@
   filter: invert(100%) !important;
 }
 
-input[type=checkbox] {width:25px; height:25px;}
+.contentView {
+  display: none;
+}
