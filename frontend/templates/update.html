@@ -30,7 +30,7 @@
 
   <script src={% static 'scripts/script.js' %}></script>
   <script src={% static 'scripts/updateController.js' %}></script>
-  <script src={% static 'scripts/settingsController.js' %}></script>
+  <script src={% static 'scripts/sidebarController.js' %}></script>
   <script src={% static 'scripts/loginService.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;">
@@ -42,19 +42,19 @@
     </div>
   </nav>
 
-  <!-- Settings panel -->
-  <div ng-controller="settings" id="settingsDiv" class="settings">
-    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
-    <div class="settingsPanel" style="display:none;">
+  <!-- sidebar panel -->
+  <div ng-controller="sidebar" id="sidebarDiv" class="sidebar">
+    <i class="material-icons" style="font-size:50px; cursor:pointer;" id="sidebarButton" ng-click="toggle()">menu</i>
+    <div class="sidebarPanel" style="display:none;">
       <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
-      <div class="settingsOptions">
-        <div class="settingsLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
-        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />
-        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>
+      <div class="sidebarOptions">
+        <div class="sidebarLink" ng-click="logOut()" style="font-size:25px;">Log Out</div>
+        <a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="sidebarLink">FAQ</a><br />
+        <a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="sidebarLink">sidebar</a>
         <input type="color" onchange="colorChange(this.value)" value="#2474eb" />
         <div>
           <input type="checkbox" id="invertColors" onchange="invert(this)">
-          <label for="invertColors" style="text-decoration:none; font-size:25px;" class="settingsLink">Invert</label>
+          <label for="invertColors" style="text-decoration:none; font-size:25px;" class="sidebarLink">Invert</label>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
 
   <div ng-controller="update">
     <div class="container" style="text-align: center;">
-        <h1>Settings</h1>
+        <h1>sidebar</h1>
         <span style="color: red;" id="passwordError"></span>
         <input type="password" class="form-control" placeholder="current password" ng-model="userPassword" />
         <h3 style="margin-top:25px;">Username</h3>

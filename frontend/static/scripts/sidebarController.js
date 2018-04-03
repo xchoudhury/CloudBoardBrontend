@@ -1,23 +1,23 @@
-// Settings controller, contains all functions to be called from settings panel
-app.controller('settings', ['$scope', '$http', '$rootScope', 'loginService', function($scope, $http, $rootScope, loginService) {
-    $scope.settingsVisible = false;
+// sidebar controller, contains all functions to be called from sidebar panel
+app.controller('sidebar', ['$scope', '$http', '$rootScope', 'loginService', function($scope, $http, $rootScope, loginService) {
+    $scope.sidebarVisible = false;
   
-    // Show settings panel on click
+    // Show sidebar panel on click
     $scope.toggle = function() {
-      if (!$scope.settingsVisible) {
+      if (!$scope.sidebarVisible) {
         if ($('#dimmer').is(":visible")) {
-          // Do not show settings if dimmer is visibile
+          // Do not show sidebar if dimmer is visibile
           return;
         }
-        $scope.settingsVisible = true;
-        $('.settingsPanel').show();
-        $('.settingsPanel').width("200px");
+        $scope.sidebarVisible = true;
+        $('.sidebarPanel').show();
+        $('.sidebarPanel').width("200px");
       }
       else {
-        $scope.settingsVisible = false;
-        $('.settingsPanel').width("0");
+        $scope.sidebarVisible = false;
+        $('.sidebarPanel').width("0");
         setTimeout(function () {
-          $('.settingsPanel').hide();
+          $('.sidebarPanel').hide();
         }, 200);
       }
       $('#dimmer').toggle();
