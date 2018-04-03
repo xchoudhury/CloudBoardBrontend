@@ -2,7 +2,7 @@
 Welcome to CloudBoard!
 
 ## Usage
-Navigate to (https://cloudboardbackend.herokuapp.com/) and click 'Create Account'. After creating your account with an **optional** email and **password of at least 8 characters**, click 'Log In' to enter your CloudBoard page.
+Navigate to (https://cloudboard498.herokuapp.com/) and click 'Create Account'. After creating your account with an **optional** email and **password of at least 8 characters**, click 'Log In' to enter your CloudBoard page.
 
 #### General
 
