@@ -11,4 +11,4 @@ From here, you are free to use Cloudboard! Press the **+** button to add a clipb
 To copy to your system clipboard from a CloudBoard clipboard, press the copy button to the right of the clipboard content. To delete a clipboard, press the **-** button on the left side of any clipboard.
 
 #### Menu
-Click the hamburger menu button in the top right of the application to access the menu. From here, you can log out or view our [Frequently Asked Questions](https://cloudboardbackend.herokuapp.com/faq.html)
+Click the hamburger menu button in the top right of the application to access the menu. From here, you can log out or view our [Frequently Asked Questions](https://cloudboard498.herokuapp.com/faq.html)
