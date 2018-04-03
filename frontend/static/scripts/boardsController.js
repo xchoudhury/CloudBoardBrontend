@@ -2,6 +2,38 @@
 app.controller('boards', ['$scope', '$http', '$window', 'loginService', function($scope, $http, $window, loginService) {
     $scope.loggedIn;
     $scope.name;
+    $scope.order = "id";
+    $scope.reverse = false;
+    $scope.search;
+
+    $scope.toggleOrder = function(expression) {
+      var id = "#" + expression + "Order";
+      if (expression == $scope.order) {
+        $scope.reverse = !$scope.reverse;
+        if ($(id).hasClass('btn-primary')) {
+          $(id).toggleClass('btn-dark');
+          $(id).toggleClass('btn-primary');
+          return;
+        }
+        if ($(id).hasClass('btn-dark')) {
+          $(id).toggleClass('btn-primary');
+          $(id).toggleClass('btn-dark');
+          return;
+        }
+      }
+      else {
+        $scope.order = expression;
+        $scope.reverse = false;
+        $('#orderGroup').children('button').each(function() {
+          if (this.id != id) {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-outline-secondary');
+          }
+        });
+        $(id).removeClass('btn-outline-secondary');
+        $(id).addClass('btn-primary');
+      }
+    };
   
     $scope.boards = []; // This array variable will store all the boards and their info
   
