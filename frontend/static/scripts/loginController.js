@@ -31,14 +31,23 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
   
     // Login function
     $scope.logIn = function() {
-  
-      // TODO: POST DATA TO LOGIN ENDPOINT
-      var form = $("#loginForm");
-      form.bind('ajax:complete', function() {
-        console.log('finished logging in');
-        loginService.logIn($scope.username, $scope.password);
-        $scope.loggedIn = loginService.getLoginStatus();
+      /*
+      $http({
+        method: 'POST',
+        url: '/api-auth/login/',
+        data: {
+          username: $scope.username,
+          password: $scope.password
+        }
+      }).then(function successCallback(response) {
+        console.log('success');
+        console.log(response);
+      }, function errorCallback(response) {
+        console.log('error');
+        console.log(response);
       });
+      */
+      var form = $("#loginForm");
       form.submit();
     };
   
@@ -72,7 +81,7 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
           console.log(response);
           printErrors(response.data.username, 'usernameError');
           printErrors(response.data.password, 'passwordError');
-          printErrors(repsone.data.email, 'emailError');
+          printErrors(response.data.email, 'emailError');
         });
       }
     };
