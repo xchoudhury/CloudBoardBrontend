@@ -214,12 +214,12 @@
   color: white;
 }
 
-.normal {
-  filter: invert(0%);
-}
-
 .inverted {
-  filter: invert(100%);
+  -webkit-filter: invert(100%) !important;
+  -moz-filter: invert(100%) !important;
+  -o-filter: invert(100%) !important;
+  -ms-filter: invert(100%) !important;
+  filter: invert(100%) !important;
 }
 
 input[type=checkbox] {width:25px; height:25px;}

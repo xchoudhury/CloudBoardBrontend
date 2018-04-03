@@ -48,23 +48,3 @@ app.controller('sidebar', ['$scope', '$http', '$rootScope', 'loginService', func
       $scope.toggle();
     };
   }]);
-
-function colorChange(color) {
-  //console.log(color);
-  var R = parseInt(color.substring(1, 3), 16);
-  var G = parseInt(color.substring(3, 5), 16);
-  var B = parseInt(color.substring(5, 7), 16);
-  //console.log(R + ' ' + G + ' ' + B);
-  var newColor = "rgb("+R+", "+G+", "+B+")";
-  $('.navbar').css('background-color', newColor);
-}
-
-function invert(checkboxElement) {
-  if (checkboxElement.checked) {
-    document.body.className = "inverted";
-  }
-  else {
-    document.body.className = "normal";
-  }
-}
-
