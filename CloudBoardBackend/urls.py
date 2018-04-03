@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^docs/', include_docs_urls(title='CloudBoard API')),
     path('admin/', admin.site.urls),
     url(r'^auth/', include('djoser.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'', include('cloudboard.urls')),
     url(r'', include('frontend.urls')),
 ]
