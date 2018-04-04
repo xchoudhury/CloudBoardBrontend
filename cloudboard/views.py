@@ -192,13 +192,33 @@ def updateSnippet(request, clip_id):
 
 def deleteSnippet(request, clip_id):
     try:
+        user_clipboard = Clipboard.objects.get(owner=request.user, id=clip_id)
+    except Clipboard.DoesNotExist:
+        error = {
+            'clip_id' : ["Does not exist or user is not owner"]
+        }
+        return Response(error, status=status.HTTP_404_NOT_FOUND)
+    
+    try:
         snippet = Snippet.objects.get(owner=request.user, id=request.data.get('snip_id'), parent_clipboard=clip_id)
     except Snippet.DoesNotExist:
         error = {
             'snip_id' : ["Snippet does not exist or user is not owner"]
         }
         return Response(error, status=status.HTTP_404_NOT_FOUND)
+    
+    data = {
+            'last_modified' : datetime.datetime.now()
+        }
+
+    clipboard_serializer = ClipboardSerializer(user_clipboard, data=data, partial=True)
+    
+    if not clipboard_serializer.is_valid():
+        return Response(clipboard_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    clipboard_serializer.save()
     snippet.delete()
+    
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
