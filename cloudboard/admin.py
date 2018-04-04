@@ -3,7 +3,7 @@ from .models import Clipboard
 from .models import Snippet
 
 class ClipboardAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'name')
+    list_display = ('owner', 'name', 'last_modified')
     pass
 
 class SnippetAdmin(admin.ModelAdmin):

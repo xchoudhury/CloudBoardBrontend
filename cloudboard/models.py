@@ -9,6 +9,7 @@ from django.contrib.postgres.fields import ArrayField
 class Clipboard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=16)
+    last_modified = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
