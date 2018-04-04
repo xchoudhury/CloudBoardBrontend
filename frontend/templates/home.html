@@ -34,8 +34,9 @@
   <script src={% static 'scripts/loginService.js' %}></script>
   <script src={% static 'scripts/loginController.js' %}></script>
   <script src={% static 'scripts/boardsController.js' %}></script>
-  <script src={% static 'scripts/settingsController.js' %}></script>
+  <script src={% static 'scripts/sidebarController.js' %}></script>
   <script src={% static 'scripts/updateController.js' %}></script>
+  <script src={% static 'scripts/settingsController.js' %}></script>
 </head>
 <body ng-app="CloudBoard" style="background-color: #dbdbdb;" class="normal">
   <nav class="navbar navbar-default">
@@ -46,21 +47,15 @@
     </div>
   </nav>
 
-  <div ng-controller="settings" id="settingsDiv" class="settings">
-      <i class="material-icons" style="font-size:50px; cursor:pointer;" id="settingsButton" ng-click="toggle()">menu</i>
-      <div class="settingsPanel" style="display:none;">
+  <div ng-controller="sidebar" id="sidebarDiv" class="sidebar">
+      <i class="material-icons" style="font-size:50px; cursor:pointer;" id="sidebarButton" ng-click="toggle()">menu</i>
+      <div class="sidebarPanel" style="display:none;">
         <i class="material-icons" style="font-size:50px; cursor:pointer; margin-top: 15px;" ng-click="toggle()">close</i>
-        <div class="settingsOptions">
-          <div class="settingsLink" ng-click="logOut()">Log Out</div>
-          <!--<a href="/faq" onclick="document.location.href = '/faq'" style="text-decoration:none; font-size:25px;" class="settingsLink">FAQ</a><br />-->
-          <span class="settingsLink" ng-click="$root.view = 'faq'; toggle()">FAQ</span><br />
-          <!--<a href="/update" onclick="document.location.href = '/update'" style="text-decoration:none; font-size:25px;" class="settingsLink">Settings</a>-->
-          <span class="settingsLink" ng-click="$root.view = 'account'; toggle()">Account</span><br />
-          <input type="color" onchange="colorChange(this.value)" value="#2474eb" />
-          <div>
-            <input type="checkbox" id="invertColors" onchange="invert(this)">
-            <label for="invertColors" style="text-decoration:none; font-size:25px;" class="settingsLink">Invert</label>
-          </div>
+        <div class="sidebarOptions">
+          <div class="sidebarLink" ng-click="logOut()">Log Out</div>
+          <span class="sidebarLink" ng-click="$root.view = 'faq'; toggle()">FAQ</span><br />
+          <span class="sidebarLink" ng-click="$root.view = 'account'; toggle()">Account</span><br />
+          <span class="sidebarLink" ng-click="$root.view = 'settings'; toggle()">Settings</span><br />
         </div>
       </div>
     </div>
@@ -105,15 +100,23 @@
     </div>
 
 
-  <div ng-switch="$root.view">
+  <div ng-switch="$root.view" class="contentView">
     <!-- Boards -->
     <div ng-controller="boards" class="container">
       <div ng-switch-when="home">
       <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
       <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
       <div class="boardsView">
+        <div class="input-group" style="padding-top: 20px; width: 80%; margin: auto;">
+            <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username" aria-describedby="basic-addon2" ng-model="$parent.search">
+            <div class="input-group-append" id="orderGroup">
+              <button id="idOrder" class="btn btn-primary" type="button" ng-click="toggleOrder('id')">ID</button>
+              <button id="nameOrder" class="btn btn-outline-secondary" type="button" ng-click="toggleOrder('name')">Name</button>
+              <button id="dateOrder" class="btn btn-outline-secondary" type="button" ng-click="toggleOrder('date')">Date</button>
+            </div>
+          </div>
         <!-- This div will repeat for every board in the $scope.boards array -->
-        <div ng-repeat="board in boards | orderBy:'id'" class="col-lg-12">
+        <div ng-repeat="board in boards | orderBy:order:reverse | filter:search" class="col-lg-12">
           <!-- Two different classes for if the board has content or if its empty, same with two different functionalities for clicking on it -->
           <div class="board" ng-class="board.hasContent ? 'board-full' : 'board-empty'" id="[[board.id]]board">
             <!-- Remove button -->
@@ -220,7 +223,7 @@
     <div ng-controller="update">
       <div ng-switch-when="account">
         <div class="container" style="text-align: center;">
-          <h1>Settings</h1>
+          <h1>Account</h1>
           <span style="color: red;" id="currentPasswordError"></span>
           <input type="password" class="form-control" placeholder="current password" ng-model="$parent.userPassword" />
           <h3 style="margin-top:25px;">Username</h3>
@@ -258,6 +261,47 @@
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <div ng-controller="settings">
+      <div ng-switch-when="settings">
+        <div class="container" style="width: 40%;">
+          <div class="row"><h1 style="margin: auto; margin-top: 20px;">Settings</h1></div>
+          <h3 style="margin-top: 10px;">Color Options</h3>
+          <div class="row">
+            <div class="col-6"><h4>Header Color</h4></div>
+            <div class="col-6" style="text-align: center;">
+                <input type="color" ng-change="headerColorChange()" ng-model="$parent.headerColor" style="margin:0 auto;" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Full Board Color</h4></div>
+            <div class="col-6" style="text-align: center;">
+              <input type="color" style="margin: 0 auto;" ng-change="fullBoardColorChange()" ng-model="$parent.fullBoardColor" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Empty Board Color</h4></div>
+            <div class="col-6" style="text-align: center;">
+              <input type="color" style="margin: 0 auto;" ng-change="emptyBoardColorChange()" ng-model="$parent.emptyBoardColor" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Invert Colors</h4></div>
+            <div class="col-6" style="text-align: center;">
+              <input type="checkbox" ng-change="invert()" ng-model="$parent.inversion" style="margin: 0 auto;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button style="width: 100%; cursor: pointer;">Save For Next Time</button>
+            </div>
+            <div class="col-6">
+              <button style="width: 100%; cursor: pointer;" ng-click="resetColors()">Reset</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

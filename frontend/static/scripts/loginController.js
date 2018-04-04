@@ -1,5 +1,5 @@
 // Login controller, has control over the mini form displayed when not logged in
-app.controller('login', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
+app.controller('login', ['$scope', '$http', '$location', 'loginService', function($scope, $http, $location, loginService) {
     $scope.loggedIn = loginService.getLoginStatus();
     $scope.username;
     $scope.password;
@@ -28,10 +28,20 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         $scope.logIn();
       }
     }
+
+    $scope.checkForRedirect = function() {
+      if ($location.path().indexOf('/api-auth/login') > -1) {
+        // Wrong login redirect
+        console.log($location.path());
+        $('#usernameError').html("The username and password do not match");
+      };
+    };
+
+    $scope.checkForRedirect();
   
     // Login function
     $scope.logIn = function() {
-      /*
+      
       $http({
         method: 'POST',
         url: '/api-auth/login/',
@@ -46,9 +56,9 @@ app.controller('login', ['$scope', '$http', 'loginService', function($scope, $ht
         console.log('error');
         console.log(response);
       });
-      */
-      var form = $("#loginForm");
-      form.submit();
+      
+      //var form = $("#loginForm");
+      //form.submit();
     };
   
     $scope.logOut = function() {
