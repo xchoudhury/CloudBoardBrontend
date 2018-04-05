@@ -65,7 +65,7 @@ def updateClipboard(request):
         }
         return Response(error, status=status.HTTP_404_NOT_FOUND)
 
-    data = request.data.dict()
+    data = request.data
     data["last_modified"] = datetime.datetime.now()
 
     user_clipboard = ClipboardSerializer(user_clipboard, data=data, partial=True)
