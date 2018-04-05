@@ -12,7 +12,7 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
         return (x.length == 1) ? "0"+x : x;
       });
       return "#"+b.join("");
-    }
+    };
 
     $scope.hexColorToRGB = function(hexString) {
       var R = parseInt(hexString.substring(1, 3), 16);
@@ -20,26 +20,6 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
       var B = parseInt(hexString.substring(5, 7), 16);
       return "rgb("+R+", "+G+", "+B+")";
     };
-
-    $scope.getBoardColors = function() {
-      var cookieHeader = $cookies.get('headerColor');
-      var cookieFull = $cookies.get('fullBoardColor');
-      var cookieEmpty = $cookies.get('emptyBoardColor');
-      if (typeof cookieHeader != 'undefined') {
-        $scope.headerColor = cookieHeader;
-        $scope.headerColorChange();
-      }
-      if (typeof cookieFull != 'undefined') {
-        $scope.fullBoardColor = cookieFull;
-        $scope.fullBoardColorChange();
-      }
-      if (typeof cookieEmpty != 'undefined') {
-        $scope.emptyBoardColor = cookieEmpty;
-        $scope.emptyBoardColorChange();
-      }
-    };
-
-    $scope.getBoardColors();
 
     $scope.headerColorChange = function() {
       var newColor = $scope.hexColorToRGB($scope.headerColor);
@@ -65,6 +45,26 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
         }
       }
     };
+
+    $scope.getBoardColors = function() {
+      var cookieHeader = $cookies.get('headerColor');
+      var cookieFull = $cookies.get('fullBoardColor');
+      var cookieEmpty = $cookies.get('emptyBoardColor');
+      if (typeof cookieHeader != 'undefined') {
+        $scope.headerColor = cookieHeader;
+        $scope.headerColorChange();
+      }
+      if (typeof cookieFull != 'undefined') {
+        $scope.fullBoardColor = cookieFull;
+        $scope.fullBoardColorChange();
+      }
+      if (typeof cookieEmpty != 'undefined') {
+        $scope.emptyBoardColor = cookieEmpty;
+        $scope.emptyBoardColorChange();
+      }
+    };
+
+    $scope.getBoardColors();
       
     $scope.invert = function() {
       $("html").toggleClass('inverted');
