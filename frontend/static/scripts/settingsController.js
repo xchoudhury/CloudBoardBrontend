@@ -1,7 +1,7 @@
-app.controller('settings', ['$scope', function($scope) {
-    $scope.headerColor = "#2474eb";
+app.controller('settings', ['$scope', '$cookies', function($scope, $cookies) {
+    $scope.headerColor = "#2474EB";
     $scope.fullBoardColor = "#5190ED";
-    $scope.emptyBoardColor;
+    $scope.emptyBoardColor = "#94BAF3";
     $scope.inversion;
 
     $scope.RGBColorToHex = function(RGBstring) {
@@ -22,9 +22,21 @@ app.controller('settings', ['$scope', function($scope) {
     };
 
     $scope.getBoardColors = function() {
-      setTimeout(function() {
-        $scope.emptyBoardColor = $scope.RGBColorToHex("rgb(148, 186, 243)");
-      }, 1000);
+      var cookieHeader = $cookies.get('headerColor');
+      var cookieFull = $cookies.get('fullBoardColor');
+      var cookieEmpty = $cookies.get('emptyBoardColor');
+      if (typeof cookieHeader != 'undefined') {
+        $scope.headerColor = cookieHeader;
+        $scope.headerColorChange();
+      }
+      if (typeof cookieFull != 'undefined') {
+        $scope.fullBoardColor = cookieFull;
+        $scope.fullBoardColorChange();
+      }
+      if (typeof cookieEmpty != 'undefined') {
+        $scope.emptyBoardColor = cookieEmpty;
+        $scope.emptyBoardColorChange();
+      }
     };
 
     $scope.getBoardColors();
@@ -67,6 +79,13 @@ app.controller('settings', ['$scope', function($scope) {
       $scope.emptyBoardColorChange();
       if ($scope.inversion) {
         $scope.invert();
+        $scope.inversion = false;
       }
+    };
+
+    $scope.saveColors = function() {
+      $cookies.put('headerColor', $scope.headerColor);
+      $cookies.put('fullBoardColor', $scope.fullBoardColor);
+      $cookies.put('emptyBoardColor', $scope.emptyBoardColor);
     };
 }]);
