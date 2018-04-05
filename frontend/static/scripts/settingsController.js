@@ -1,4 +1,4 @@
-app.controller('settings', ['$scope', '$cookies', function($scope, $cookies) {
+app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $cookies, $window) {
     $scope.headerColor = "#2474EB";
     $scope.fullBoardColor = "#5190ED";
     $scope.emptyBoardColor = "#94BAF3";
@@ -84,8 +84,15 @@ app.controller('settings', ['$scope', '$cookies', function($scope, $cookies) {
     };
 
     $scope.saveColors = function() {
-      $cookies.put('headerColor', $scope.headerColor);
-      $cookies.put('fullBoardColor', $scope.fullBoardColor);
-      $cookies.put('emptyBoardColor', $scope.emptyBoardColor);
+      var now = new $window.Date();
+      $cookies.put('headerColor', $scope.headerColor, {
+        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
+      });
+      $cookies.put('fullBoardColor', $scope.fullBoardColor, {
+        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
+      });
+      $cookies.put('emptyBoardColor', $scope.emptyBoardColor, {
+        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
+      });
     };
 }]);
