@@ -107,10 +107,14 @@
       <h1 ng-show="loggedIn" style="text-align:center; padding-top:20px;">Welcome, [[name]]!</h1>
       <div id="boardsLoader" class="loader" style="margin-top: 20px; display:none;"></div>
       <div class="boardsView">
-        <div class="input-group" style="padding-top: 20px; width: 80%; margin: auto;">
-            <input type="search" class="form-control" placeholder="search" aria-label="Recipient's username" aria-describedby="basic-addon2" ng-model="$parent.search">
+        <div class="input-group" style="padding-top: 20px; margin: auto;">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Search:</span>
+          </div>
+            <input type="search" class="form-control" placeholder="search text" aria-label="Recipient's username" aria-describedby="basic-addon2" ng-model="$parent.search">
             <div class="input-group-append" id="orderGroup">
-              <button id="idOrder" class="btn btn-primary" type="button" ng-click="toggleOrder('id')">ID</button>
+              <span class="input-group-text">Order:</span>
+              <button id="idOrder" class="btn btn-primary" type="button" ng-click="toggleOrder('id')">Created</button>
               <button id="nameOrder" class="btn btn-outline-secondary" type="button" ng-click="toggleOrder('name')">Name</button>
               <button id="dateOrder" class="btn btn-outline-secondary" type="button" ng-click="toggleOrder('date')">Date</button>
             </div>
