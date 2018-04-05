@@ -1,10 +1,9 @@
 // Board object constructor
-function Board(id, name, hasContent) {
+function Board(id, name, hasContent, date) {
   this.id = id;
   this.name = name;
-  this.preview = name;
-  this.content = name;
   this.hasContent = hasContent;
+  this.date = date;
   this.expanded = false;
   this.data = [];
 }

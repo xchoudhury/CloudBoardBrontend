@@ -10,16 +10,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       var id = "#" + expression + "Order";
       if (expression == $scope.order) {
         $scope.reverse = !$scope.reverse;
-        if ($(id).hasClass('btn-primary')) {
-          $(id).toggleClass('btn-dark');
-          $(id).toggleClass('btn-primary');
-          return;
-        }
-        if ($(id).hasClass('btn-dark')) {
-          $(id).toggleClass('btn-primary');
-          $(id).toggleClass('btn-dark');
-          return;
-        }
+        $(id).toggleClass('btn-primary');
+        $(id).toggleClass('btn-dark');
       }
       else {
         $scope.order = expression;
@@ -27,6 +19,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $('#orderGroup').children('button').each(function() {
           if (this.id != id) {
             $(this).removeClass('btn-primary');
+            $(this).removeClass('btn-dark');
             $(this).addClass('btn-outline-secondary');
           }
         });
@@ -217,9 +210,9 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.rename = "";
     };
 
-    function createBoardPromise(id, name) {
+    function createBoardPromise(id, name, last_modified) {
       return new Promise(resolve => {
-        var board = new Board(id, name, true);
+        var board = new Board(id, name, true, last_modified);
         // GET SNIPPETS
         $http({
           method: 'GET',
@@ -251,9 +244,10 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         method: 'GET',
         url: '/clipboards/'
       }).then(function successCallback(response) {
+        console.log(response);
         var promises = [];
         for (var i = 0; i < response.data.length; i++) {
-          promises.push(createBoardPromise(response.data[i].id, response.data[i].name));
+          promises.push(createBoardPromise(response.data[i].id, response.data[i].name, response.data[i].last_modified));
         }
         Promise.all(promises).then(function() {
           $('#boardsLoader').hide();
