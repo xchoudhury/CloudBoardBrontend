@@ -322,7 +322,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
         board.data.push(snippet);
         setTimeout(function() {
-          $("#" + board.id + snippet.id + "pasting").focus();
+          $("#" + board.id + "_" + snippet.id + "pasting").focus();
         }, 100);
       }, function errorCallback(response) {
         console.log(response);
@@ -364,6 +364,16 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         $scope.savePaste(board, snippet);
       }
     };
+
+    $scope.showSaveButton = function(boardID, snippetID) {
+      $('#' + boardID + '_' + snippetID + 'saveButton').show();
+    };
+
+    $scope.hideSaveButton = function(boardID, snippetID) {
+      setTimeout(function() {
+        $('#' + boardID + '_' + snippetID + 'saveButton').hide();
+      }, 100);
+    };
   
     // Save user's paste
     $scope.savePaste = function(board, snippet) {
@@ -383,7 +393,8 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       }).then(function successCallback(response) {
         console.log(response);
         setTimeout(function() {
-          $("#" + board.id + snippet.id + "pasting").blur();
+          $("#" + board.id + '_' + snippet.id + "pasting").blur();
+          $("#" + board.id + '_' + snippet.id + "saveButton").hide();
         }, 100);
         // Show successful paste alert, fade
         $('#pasteAlert').show();
