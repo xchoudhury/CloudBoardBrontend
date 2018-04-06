@@ -41,24 +41,8 @@ app.controller('login', ['$scope', '$http', '$location', 'loginService', functio
   
     // Login function
     $scope.logIn = function() {
-      
-      $http({
-        method: 'POST',
-        url: '/api-auth/login/',
-        data: {
-          username: $scope.username,
-          password: $scope.password
-        }
-      }).then(function successCallback(response) {
-        console.log('success');
-        console.log(response);
-      }, function errorCallback(response) {
-        console.log('error');
-        console.log(response);
-      });
-      
-      //var form = $("#loginForm");
-      //form.submit();
+      var form = $("#loginForm");
+      form.submit();
     };
   
     $scope.logOut = function() {
