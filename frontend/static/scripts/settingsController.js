@@ -3,6 +3,7 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
     $scope.fullBoardColor = "#5190ED";
     $scope.emptyBoardColor = "#94BAF3";
     $scope.inversion;
+    $scope.now = new $window.Date();
 
     $scope.RGBColorToHex = function(RGBstring) {
       var a = RGBstring.split("(")[1].split(")")[0];
@@ -24,6 +25,9 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
     $scope.headerColorChange = function() {
       var newColor = $scope.hexColorToRGB($scope.headerColor);
       $('.navbar').css('background-color', newColor);
+      $cookies.put('headerColor', $scope.headerColor, {
+        expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
+      });
     };
 
     $scope.fullBoardColorChange = function() {
@@ -31,6 +35,9 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
       for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
         if (document.styleSheets[1].cssRules[i].selectorText == ".board-full") {
           document.styleSheets[1].cssRules[i].style.setProperty('background-color', newColor, "important");
+          $cookies.put('fullBoardColor', $scope.fullBoardColor, {
+            expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
+          });
           return;
         }
       }
@@ -41,6 +48,9 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
       for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
         if (document.styleSheets[1].cssRules[i].selectorText == ".board-empty") {
           document.styleSheets[1].cssRules[i].style.setProperty('background-color', newColor, "important");
+          $cookies.put('emptyBoardColor', $scope.emptyBoardColor, {
+            expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
+          });
           return;
         }
       }
@@ -81,18 +91,5 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
         $scope.invert();
         $scope.inversion = false;
       }
-    };
-
-    $scope.saveColors = function() {
-      var now = new $window.Date();
-      $cookies.put('headerColor', $scope.headerColor, {
-        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
-      });
-      $cookies.put('fullBoardColor', $scope.fullBoardColor, {
-        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
-      });
-      $cookies.put('emptyBoardColor', $scope.emptyBoardColor, {
-        expires: new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate())
-      });
     };
 }]);
