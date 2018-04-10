@@ -296,11 +296,11 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       textarea.style.position = "fixed";
       textarea.style.top = "-100px";
       textarea.style.width = "0px";
-      textarea.contentEditable = "true";
-      textarea.readOnly = "false";
+      textarea.contentEditable = true;
+      textarea.readOnly = false;
       document.body.appendChild( textarea );
       textarea.value = snippet.content;
-      textarea.select();
+      textarea.setSelectionRange(0, 999999);
       document.execCommand('copy');
       textarea.parentNode.removeChild( textarea );
   
