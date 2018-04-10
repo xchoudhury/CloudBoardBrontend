@@ -6,6 +6,60 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.reverse = false;
     $scope.search;
 
+    function getBase64(file, boardID, snippetID) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        console.log('successful encode');
+        console.log(reader.result);
+        $http({
+          method: 'PUT',
+          url: '/clipboards/'+boardID+'/snippet/',
+          data: {
+            snip_id: snippetID,
+            file: reader.result
+          },
+          headers: {
+           //"Content-Type": "multipart/form-data"
+          }
+        }).then(function successCallback(response) {
+          console.log(response);
+        }, function errorCallback(response) {
+          console.log(response);
+        });
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+   }
+
+    $scope.pasteHandler = function($event, boardID, snippetID) {
+      for (var i = 0; i < $event.originalEvent.clipboardData.items.length; i++) {
+        if ($event.originalEvent.clipboardData.items[i].type.indexOf('image') != -1) {
+          console.log($event.originalEvent.clipboardData.items[i].getAsFile());
+          var file = $event.originalEvent.clipboardData.items[i].getAsFile();
+          
+          $http({
+            method: 'PUT',
+            url: '/clipboards/'+boardID+'/snippet/',
+            data: {
+              snip_id: snippetID,
+              file: file
+            },
+            headers: {
+              //"Content-Type": "multipart/form-data"
+            }
+          }).then(function successCallback(response) {
+            console.log(response);
+          }, function errorCallback(response) {
+            console.log(response);
+          })
+          
+          //getBase64($event.originalEvent.clipboardData.items[i].getAsFile(), boardID, snippetID);
+        }
+      }
+    }
+
     $scope.toggleOrder = function(expression) {
       var id = "#" + expression + "Order";
       if (expression == $scope.order) {
