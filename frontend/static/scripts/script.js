@@ -9,9 +9,10 @@ function Board(id, name, hasContent, date) {
 }
 
 // Snippet object constructor
-function Snippet(id, content) {
+function Snippet(id, content, isImage) {
   this.id = id;
   this.content = content;
+  this.isImage = isImage;
 }
 
 // Appends the errors present in the errorArray to the span class pointed to by the errorID

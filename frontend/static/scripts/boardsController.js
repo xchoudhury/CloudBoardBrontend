@@ -6,6 +6,43 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
     $scope.reverse = false;
     $scope.search;
 
+    $scope.pasteHandler = function($event, board, snippet) {
+      for (var i = 0; i < $event.originalEvent.clipboardData.items.length; i++) {
+        //console.log($event.originalEvent.clipboardData.items[i]);
+        if ($event.originalEvent.clipboardData.items[i].type.indexOf('image') != -1) {
+          //console.log($event.originalEvent.clipboardData.items[i].getAsFile());
+          //var file = $event.originalEvent.clipboardData.items[i].getAsFile();
+          var link = $event.originalEvent.clipboardData.getData('Text');
+          $http({
+            method: 'PUT',
+            url: '/clipboards/'+board.id+'/snippet/',
+            data: {
+              snip_id: snippet.id,
+              text: link,
+              image: link
+            }
+          }).then(function successCallback(response) {
+            console.log(response);
+            snippet.isImage = true;
+            snippet.content = link;
+            setTimeout(function() {
+              $("#" + board.id + '_' + snippet.id + "pasting").blur();
+              $("#" + board.id + '_' + snippet.id + "saveButton").hide();
+            }, 100);
+            $('#pasteAlert').show();
+            setTimeout(function() {
+              $('#pasteAlert').fadeOut(300);
+            }, 3000);
+            return;
+          }, function errorCallback(response) {
+            console.log(response);
+            alertError('Error: Could not save image paste to snippet ID ' + snippet.id + ' in board ID ' + board.id + '. Response status ' + response.status + '.');
+            return;
+          });
+        }
+      }
+    };
+
     $scope.toggleOrder = function(expression) {
       var id = "#" + expression + "Order";
       if (expression == $scope.order) {
@@ -224,7 +261,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
           }
           else {
             for (var i = 0; i < response.data.length; i++) {
-              board.data.push(new Snippet(response.data[i].id, response.data[i].text));
+              board.data.push(new Snippet(response.data[i].id, response.data[i].text, response.data[i].image != ""));
             }
           }
           $scope.boards.push(board);
@@ -390,6 +427,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         url: '/clipboards/'+board.id+'/snippet/',
         data: {
           snip_id: snippet.id,
+          image: "",
           text: snippet.content
         }
       }).then(function successCallback(response) {

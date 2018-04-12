@@ -141,13 +141,13 @@
                   <i class="material-icons boardAction removeSnippet" style="float:left; position: absolute; top: 15%; left: -1%;" ng-click="removeSnippet(board.id, snippet.id)">clear</i>
                   <div class="board-text">
                     <div class="input-group" style="flex-wrap: nowrap !important">
-                      <input type="text" id="[[board.id]]_[[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="pasteKeyCheck($event, board, snippet)" ng-focus="showSaveButton(board.id, snippet.id)" ng-blur="hideSaveButton(board.id, snippet.id)" />
+                      <input type="text" id="[[board.id]]_[[snippet.id]]pasting" class="pasteInput" ng-model="snippet.content" ng-keyup="pasteKeyCheck($event, board, snippet)" ng-focus="showSaveButton(board.id, snippet.id)" ng-blur="hideSaveButton(board.id, snippet.id)" ng-paste="pasteHandler($event, board, snippet)" />
                       <div class="input-group-append" id="[[board.id]]_[[snippet.id]]saveButton" style="display:none;">
                         <button class="btn btn-outline-light" ng-click="savePaste(board, snippet)">Save Paste</button>
                       </div>
                     </div>
                   </div>
-                  <i class="material-icons boardAction copySnippet" style="float:right; position: absolute; top: 15%; right: -1%;" ng-click="copySnippet(snippet)">content_copy</i>
+                  <i class="material-icons boardAction copySnippet" style="float:right; position: absolute; top: 15%; right: -1%;" ng-click="copySnippet(snippet)"><span ng-bind="snippet.isImage ? 'collections' : 'content_copy'"></span></i>
                 </div>
               </div>
               <div style="text-align: center; margin-top: 15px;">
