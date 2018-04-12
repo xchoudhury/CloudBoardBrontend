@@ -323,6 +323,12 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
   
     // Copy function
     $scope.copySnippet = function(snippet) {
+      if (snippet.isImage) {
+        // Redirect to copy function
+        $scope.copyImage(snippet);
+        return;
+      }
+
       $('#copyAlert').hide(); // Hide stacked copy notifications
   
       // Create off-screen text area, populate it with this boards data, execute a copy, delete this off-screen text area
@@ -341,6 +347,45 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       document.execCommand('copy');
       textarea.parentNode.removeChild( textarea );
   
+      // Show copy alert and fade it out after 3 seconds
+      $('#copyAlert').show();
+      setTimeout(function() {
+        $('#copyAlert').fadeOut(300);
+      }, 3000);
+    };
+
+    //https://stackoverflow.com/questions/27863617/is-it-possible-to-copy-a-canvas-image-to-the-clipboard
+    function SelectText(element) {
+      var doc = document;
+      if (doc.body.createTextRange) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(element);
+          range.select();
+      } else if (window.getSelection) {
+          var selection = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(element);
+          selection.removeAllRanges();
+          selection.addRange(range);
+      }
+    }
+
+    // Copy an image provided by the snippet link
+    $scope.copyImage = function(snippet) {
+      $('#copyAlert').hide();
+      var img = document.createElement('img');
+      img.src = snippet.content;
+
+      var div = document.createElement('div');
+      div.contentEditable = true;
+      div.appendChild(img);
+      document.body.appendChild(div);
+
+      // do copy
+      SelectText(div);
+      document.execCommand('Copy');
+      document.body.removeChild(div);
+
       // Show copy alert and fade it out after 3 seconds
       $('#copyAlert').show();
       setTimeout(function() {
@@ -432,6 +477,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         }
       }).then(function successCallback(response) {
         console.log(response);
+        snippet.isImage = false;
         setTimeout(function() {
           $("#" + board.id + '_' + snippet.id + "pasting").blur();
           $("#" + board.id + '_' + snippet.id + "saveButton").hide();
