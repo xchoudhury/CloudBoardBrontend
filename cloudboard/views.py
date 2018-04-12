@@ -69,7 +69,7 @@ def updateClipboard(request):
         data = request.data.dict()
     except AttributeError:
         data = request.data
-        
+
     data["last_modified"] = datetime.datetime.now()
 
     user_clipboard = ClipboardSerializer(user_clipboard, data=data, partial=True)
@@ -174,11 +174,9 @@ def updateSnippet(request, clip_id):
             'snip_id' : ["Snippet does not exist or user is not owner"]
         }
         return Response(error, status=status.HTTP_404_NOT_FOUND)
-
     snippet_serializer = SnippetSerializer(snippet, data=request.data, partial=True)
     if not snippet_serializer.is_valid():
         return Response(snippet_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     data = {
             'last_modified' : datetime.datetime.now()
         }

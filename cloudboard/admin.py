@@ -7,7 +7,7 @@ class ClipboardAdmin(admin.ModelAdmin):
     pass
 
 class SnippetAdmin(admin.ModelAdmin):
-    list_display = ('parent_clipboard', 'text')
+    list_display = ('parent_clipboard', 'text', 'image')
     pass
 admin.site.register(Clipboard, ClipboardAdmin)
 admin.site.register(Snippet, SnippetAdmin)
