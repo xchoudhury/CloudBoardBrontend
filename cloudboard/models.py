@@ -20,6 +20,6 @@ class Snippet(models.Model):
         on_delete=models.CASCADE,
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-    text = models.TextField(null=True)
+    text = models.TextField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
-    file = models.FileField(null=True)
+    file = models.FileField(null=True, blank=True)
