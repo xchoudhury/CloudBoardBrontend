@@ -33,7 +33,7 @@ class ClipboardSerializer(serializers.ModelSerializer):
 class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
-        fields = ('id', 'parent_clipboard', 'owner', 'text', 'image', 'file')
+        fields = ('id', 'parent_clipboard', 'owner', 'text', 'image', 'file', 'raw_bin')
 
         def create(self, validated_data):
             return Snippet.objects.create(**validated_data)
@@ -44,5 +44,6 @@ class SnippetSerializer(serializers.ModelSerializer):
             instance.text = validated_data.get('text', instance.text)
             instance.image = validated_data.get('image', instance.image)
             instance.file = validated_data.get('file', instance.file)
+            instance.raw_bin = validated_data.get('raw_bin', instance.raw_bin)
             instance.save()
             return instance

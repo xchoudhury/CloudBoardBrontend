@@ -23,3 +23,4 @@ class Snippet(models.Model):
     text = models.TextField(null=True)
     image = models.ImageField(null=True)
     file = models.FileField(null=True)
+    raw_bin = models.BinaryField(null=True)
