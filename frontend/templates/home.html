@@ -283,11 +283,11 @@
             <div class="col-6">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" ng-click="decreaseAllFontSizes()">-</button>
+                  <button class="btn btn-outline-secondary" ng-click="decreaseAllFontSizes()" ng-disabled="headerFontSize == 30 || boardHeaderFontSize == 20 || boardTextFontSize == 10">-</button>
                 </div>
                 <div class="input-group-text form-control"></div>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" ng-click="increaseAllFontSizes()">+</button>
+                  <button class="btn btn-outline-secondary" ng-click="increaseAllFontSizes()" ng-disabled="headerFontSize == 60 || boardHeaderFontSize == 50 || boardTextFontSize == 40">+</button>
                 </div>
               </div>
             </div>
@@ -297,11 +297,11 @@
             <div class="col-6">
               <div class="input-group" style="margin:auto;">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" ng-click="decreaseHeaderFontSize()">-</button>
+                  <button class="btn btn-outline-secondary" ng-click="decreaseHeaderFontSize()" ng-disabled="headerFontSize == 30">-</button>
                 </div>
-                <div class="input-group-text form-control">[[headerFontSize]]</div>
+                <div class="input-group-text form-control">[[headerFontSize]]px</div>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" ng-click="increaseHeaderFontSize()">+</button>
+                  <button class="btn btn-outline-secondary" ng-click="increaseHeaderFontSize()" ng-disabled="headerFontSize == 60">+</button>
                 </div>
               </div>
             </div>
@@ -311,11 +311,11 @@
             <div class="col-6">
               <div class="input-group" style="margin:auto;">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardHeaderFontSize()">-</button>
+                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardHeaderFontSize()" ng-disabled="boardHeaderFontSize == 20">-</button>
                 </div>
-                <div class="input-group-text form-control">[[boardHeaderFontSize]]</div>
+                <div class="input-group-text form-control">[[boardHeaderFontSize]]px</div>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" ng-click="increaseBoardHeaderFontSize()">+</button>
+                  <button class="btn btn-outline-secondary" ng-click="increaseBoardHeaderFontSize()" ng-disabled="boardHeaderFontSize == 50">+</button>
                 </div>
               </div>
             </div>
@@ -325,11 +325,11 @@
             <div class="col-6">
               <div class="input-group" style="margin:auto;">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardTextFontSize()">-</button>
+                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardTextFontSize()" ng-disabled="boardTextFontSize == 10">-</button>
                 </div>
-                <div class="input-group-text form-control">[[boardTextFontSize]]</div>
+                <div class="input-group-text form-control">[[boardTextFontSize]]px</div>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" ng-click="increaseBoardTextFontSize()">+</button>
+                  <button class="btn btn-outline-secondary" ng-click="increaseBoardTextFontSize()" ng-disabled="boardTextFontSize == 40">+</button>
                 </div>
               </div>
             </div>
