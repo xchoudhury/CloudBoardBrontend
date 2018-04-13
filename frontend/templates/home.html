@@ -128,7 +128,7 @@
               <i class="material-icons removeBoard boardAction" style="float:left; margin-left: 10px;" ng-show="board.expanded" ng-click="removeBoard([[board.id]])">delete_forever</i>
               <!-- Display board title and it's id -->
               <div  ng-click="expand($event, board)" style="text-align: center; width: 74%; margin: auto; cursor: pointer;">
-                <h3>[[board.name]]</h3>
+                <h3 class="boardHeader">[[board.name]]</h3>
               </div>
           
               <!-- Copy button -->
@@ -275,8 +275,68 @@
 
     <div ng-controller="settings">
       <div ng-switch-when="settings">
-        <div class="container" style="width: 40%;">
+        <div class="container" style="width: 40%; margin-bottom: 100px;">
           <div class="row"><h1 style="margin: auto; margin-top: 20px;">Settings</h1></div>
+          <h3 style="margin-top: 10px;">Font Sizes</h3>
+          <div class="row" style="margin-bottom: 15px;">
+            <div class="col-6"><h4>All Sizes</h4></div>
+            <div class="col-6">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" ng-click="decreaseAllFontSizes()">-</button>
+                </div>
+                <div class="input-group-text form-control"></div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" ng-click="increaseAllFontSizes()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Header Font Size</h4></div>
+            <div class="col-6">
+              <div class="input-group" style="margin:auto;">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" ng-click="decreaseHeaderFontSize()">-</button>
+                </div>
+                <div class="input-group-text form-control">[[headerFontSize]]</div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" ng-click="increaseHeaderFontSize()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Board Header Font Size</h4></div>
+            <div class="col-6">
+              <div class="input-group" style="margin:auto;">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardHeaderFontSize()">-</button>
+                </div>
+                <div class="input-group-text form-control">[[boardHeaderFontSize]]</div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" ng-click="increaseBoardHeaderFontSize()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><h4>Board Text Font Size</h4></div>
+            <div class="col-6">
+              <div class="input-group" style="margin:auto;">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" ng-click="decreaseBoardTextFontSize()">-</button>
+                </div>
+                <div class="input-group-text form-control">[[boardTextFontSize]]</div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" ng-click="increaseBoardTextFontSize()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <button style="width: 100%; cursor: pointer;" ng-click="resetFontSize()">Reset to Default</button>
+          </div>
           <h3 style="margin-top: 10px;">Color Options</h3>
           <div class="row">
             <div class="col-6"><h4>Header Color</h4></div>

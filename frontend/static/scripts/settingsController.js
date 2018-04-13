@@ -4,6 +4,86 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
     $scope.emptyBoardColor = "#94BAF3";
     $scope.inversion;
     $scope.now = new $window.Date();
+    $scope.headerFontSize = 37;
+    $scope.boardHeaderFontSize = 28;
+    $scope.boardTextFontSize = 15;
+    $scope.boardActionIconSize;
+    $scope.boardActionOriginalIconSize;
+
+    $scope.getFontSizes = function() {
+      var cookieHeaderFontSize = $cookies.get('headerFontSize');
+      var cookieBoardHeaderFontSize = $cookies.get('boardHeaderFontSize');
+      var cookieBoardTextFontSize = $cookies.get('boardTextFontSize');
+      if (typeof cookieHeaderFontSize != 'undefined') {
+        $scope.headerFontSize = cookieHeaderFontSize;
+        $scope.updateHeaderFontSize();
+      }
+      if (typeof cookieBoardHeaderFontSize != 'undefined') {
+        $scope.boardHeaderFontSize = cookieBoardHeaderFontSize;
+        $scope.updateBoardHeaderFontSize();
+      }
+      if (typeof cookieBoardTextFontSize != 'undefined') {
+        $scope.boardTextFontSize = cookieBoardTextFontSize;
+        $scope.updateBoardTextFontSize();
+      }
+    };
+
+    $scope.increaseAllFontSizes = function() {
+      $scope.increaseHeaderFontSize();
+      $scope.increaseBoardHeaderFontSize();
+      $scope.increaseBoardTextFontSize();
+    };
+
+    $scope.decreaseAllFontSizes = function() {
+      $scope.decreaseHeaderFontSize();
+      $scope.decreaseBoardHeaderFontSize();
+      $scope.decreaseBoardTextFontSize();
+    };
+
+    $scope.updateHeaderFontSize = function() {
+      $('.navbar-header h1').css('font-size', $scope.headerFontSize + "px");
+      $scope.setCookie('headerFontSize', $scope.headerFontSize);
+    }
+
+    $scope.increaseHeaderFontSize = function() {
+      $scope.headerFontSize++;
+      $scope.updateHeaderFontSize();
+    };
+
+    $scope.decreaseHeaderFontSize = function() {
+      $scope.headerFontSize--;
+      $scope.updateHeaderFontSize();
+    };
+
+    $scope.updateBoardHeaderFontSize = function() {
+      $scope.updateCSSRule(".boardHeader", 'font-size', $scope.boardHeaderFontSize + "px");
+      $scope.setCookie('boardHeaderFontSize', $scope.boardHeaderFontSize);
+    }
+
+    $scope.increaseBoardHeaderFontSize = function() {
+      $scope.boardHeaderFontSize++;
+      $scope.updateBoardHeaderFontSize();
+    };
+
+    $scope.decreaseBoardHeaderFontSize = function() {
+      $scope.boardHeaderFontSize--;
+      $scope.updateBoardHeaderFontSize();
+    };
+
+    $scope.updateBoardTextFontSize = function() {
+      $scope.updateCSSRule(".board-text", 'font-size', $scope.boardTextFontSize + "px");
+      $scope.setCookie('boardTextFontSize', $scope.boardTextFontSize);
+    };
+
+    $scope.increaseBoardTextFontSize = function() {
+      $scope.boardTextFontSize++;
+      $scope.updateBoardTextFontSize();
+    };
+
+    $scope.decreaseBoardTextFontSize = function() {
+      $scope.boardTextFontSize--;
+      $scope.updateBoardTextFontSize();
+    };
 
     $scope.RGBColorToHex = function(RGBstring) {
       var a = RGBstring.split("(")[1].split(")")[0];
@@ -25,35 +105,19 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
     $scope.headerColorChange = function() {
       var newColor = $scope.hexColorToRGB($scope.headerColor);
       $('.navbar').css('background-color', newColor);
-      $cookies.put('headerColor', $scope.headerColor, {
-        expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
-      });
+      $scope.setCookie('headerColor', $scope.headerColor);
     };
 
     $scope.fullBoardColorChange = function() {
       var newColor = $scope.hexColorToRGB($scope.fullBoardColor);
-      for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
-        if (document.styleSheets[1].cssRules[i].selectorText == ".board-full") {
-          document.styleSheets[1].cssRules[i].style.setProperty('background-color', newColor, "important");
-          $cookies.put('fullBoardColor', $scope.fullBoardColor, {
-            expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
-          });
-          return;
-        }
-      }
+      $scope.updateCSSRule(".board-full", 'background-color', newColor);
+      $scope.setCookie('fullBoardColor', $scope.fullBoardColor);
     };
 
     $scope.emptyBoardColorChange = function() {
       var newColor = $scope.hexColorToRGB($scope.emptyBoardColor);
-      for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
-        if (document.styleSheets[1].cssRules[i].selectorText == ".board-empty") {
-          document.styleSheets[1].cssRules[i].style.setProperty('background-color', newColor, "important");
-          $cookies.put('emptyBoardColor', $scope.emptyBoardColor, {
-            expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
-          });
-          return;
-        }
-      }
+      $scope.updateCSSRule(".board-empty", 'background-color', newColor);
+      $scope.setCookie('emptyBoardColor', $scope.emptyBoardColor);
     };
 
     $scope.getBoardColors = function() {
@@ -73,8 +137,6 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
         $scope.emptyBoardColorChange();
       }
     };
-
-    $scope.getBoardColors();
       
     $scope.invert = function() {
       $("html").toggleClass('inverted');
@@ -92,4 +154,35 @@ app.controller('settings', ['$scope', '$cookies', '$window', function($scope, $c
         $scope.inversion = false;
       }
     };
+
+    $scope.resetFontSize = function() {
+      $scope.headerFontSize = 37;
+      $scope.updateHeaderFontSize();
+      $scope.boardHeaderFontSize = 28;
+      $scope.updateBoardHeaderFontSize();
+      $scope.boardTextFontSize = 15;
+      $scope.updateBoardTextFontSize();
+    };
+
+    $scope.updateCSSRule = function(selectorText, property, value) {
+      for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
+        if (document.styleSheets[1].cssRules[i].selectorText == selectorText) {
+          document.styleSheets[1].cssRules[i].style.setProperty(property, value, "important");
+          break;
+        }
+      }
+    };
+
+    $scope.setCookie = function(key, value) {
+      $cookies.put(key, value, {
+        expires: new $window.Date($scope.now.getFullYear(), $scope.now.getMonth()+6, $scope.now.getDate())
+      });
+    };
+
+    $scope.initialize = function() {
+      $scope.getBoardColors();
+      $scope.getFontSizes();
+    };
+
+    $scope.initialize();
 }]);

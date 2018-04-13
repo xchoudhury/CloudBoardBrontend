@@ -69,6 +69,10 @@
   margin-right: auto;
 }
 
+.boardHeader {
+  font-size: 28px;
+}
+
 .snippets {
   display: none;
   margin-top: 15px;
