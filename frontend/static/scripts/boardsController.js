@@ -8,11 +8,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
 
     $scope.pasteHandler = function($event, board, snippet) {
       for (var i = 0; i < $event.originalEvent.clipboardData.items.length; i++) {
-        //console.log($event.originalEvent.clipboardData.items[i]);
         if ($event.originalEvent.clipboardData.items[i].type.indexOf('image') != -1) {
-          //console.log($event.originalEvent.clipboardData.items[i].getAsFile());
-          //var file = $event.originalEvent.clipboardData.items[i].getAsFile();
-          //var link = $event.originalEvent.clipboardData.getData('Text');
           $http({
             method: 'PUT',
             url: '/clipboards/'+board.id+'/snippet/',
@@ -39,6 +35,33 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
             return;
           });
         }
+      }
+      if (snippet.content.match(/\.(jpeg|jpg|gif|png)$/) != null) {
+        $http({
+          method: 'PUT',
+          url: '/clipboards/'+board.id+'/snippet/',
+          data: {
+            snip_id: snippet.id,
+            text: snippet.content,
+            image: snippet.content
+          }
+        }).then(function successCallback(response) {
+          console.log(response);
+          snippet.isImage = true;
+          setTimeout(function() {
+            $("#" + board.id + '_' + snippet.id + "pasting").blur();
+            $("#" + board.id + '_' + snippet.id + "saveButton").hide();
+          }, 100);
+          $('#pasteAlert').show();
+          setTimeout(function() {
+            $('#pasteAlert').fadeOut(300);
+          }, 3000);
+          return;
+        }, function errorCallback(response) {
+          console.log(response);
+          alertError('Error: Could not save image paste to snippet ID ' + snippet.id + ' in board ID ' + board.id + '. Response status ' + response.status + '.');
+          return;
+        });
       }
     };
 
