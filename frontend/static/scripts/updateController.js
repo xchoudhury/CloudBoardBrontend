@@ -29,10 +29,10 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
     });
 
     $scope.updateUsername = function() {
-        $('#passwordError').html("");
-        $('#usernameError').html("");
+        $('#currentPasswordError').html("");
+        $('#updateUsernameError').html("");
         if ($scope.userPassword === "") {
-            $('#passwordError').html("Your password is required for this");
+            $('#currentPasswordError').html("Your password is required for this");
             return;
         }
         $http({
@@ -50,14 +50,14 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
                 $('#usernameAlert').fadeOut(300);
             }, 3000);
         }, function errorCallback(response) {
-            printErrors(response.data.new_username, 'usernameError');
-            printErrors(response.data.current_password, 'passwordError');
+            printErrors(response.data.new_username, 'updateUsernameError');
+            printErrors(response.data.current_password, 'currentPasswordError');
             console.log(response);
         });
     };
 
     $scope.updateEmail = function() {
-        $('#emailError').html("");
+        $('#updateEmailError').html("");
         $http({
             method: 'PUT',
             url: '/auth/me/',
@@ -73,7 +73,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
             }, 3000);
         }, function errorCallback(response) {
             console.log(response);
-            printErrors(response.data.email, 'emailError');
+            printErrors(response.data.email, 'updateEmailError');
         });
     };
 
