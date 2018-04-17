@@ -385,9 +385,12 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       textarea.readOnly = false;
       document.body.appendChild( textarea );
       textarea.value = snippet.content;
-      //textarea.setSelectionRange(0, 999999);
-      textarea.select();
-      //SelectText(textarea);
+      if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+        textarea.setSelectionRange(0, 999999);
+      }
+      else {
+        textarea.select();
+      }
       document.execCommand('copy');
       textarea.parentNode.removeChild( textarea );
   
