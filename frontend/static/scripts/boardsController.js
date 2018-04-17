@@ -320,6 +320,22 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       }, 400);
       board.expanded = !board.expanded;
     };
+
+     //https://stackoverflow.com/questions/27863617/is-it-possible-to-copy-a-canvas-image-to-the-clipboard
+     function SelectText(element) {
+      var doc = document;
+      if (doc.body.createTextRange) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(element);
+          range.select();
+      } else if (window.getSelection) {
+          var selection = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(element);
+          selection.removeAllRanges();
+          selection.addRange(range);
+      }
+    }
   
     // Copy function
     $scope.copySnippet = function(snippet) {
@@ -343,7 +359,9 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       textarea.readOnly = false;
       document.body.appendChild( textarea );
       textarea.value = snippet.content;
-      textarea.setSelectionRange(0, 999999);
+      //textarea.setSelectionRange(0, 999999);
+      textarea.select();
+      //SelectText(textarea);
       document.execCommand('copy');
       textarea.parentNode.removeChild( textarea );
   
@@ -354,21 +372,7 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       }, 3000);
     };
 
-    //https://stackoverflow.com/questions/27863617/is-it-possible-to-copy-a-canvas-image-to-the-clipboard
-    function SelectText(element) {
-      var doc = document;
-      if (doc.body.createTextRange) {
-          var range = document.body.createTextRange();
-          range.moveToElementText(element);
-          range.select();
-      } else if (window.getSelection) {
-          var selection = window.getSelection();
-          var range = document.createRange();
-          range.selectNodeContents(element);
-          selection.removeAllRanges();
-          selection.addRange(range);
-      }
-    }
+   
 
     // Copy an image provided by the snippet link
     $scope.copyImage = function(snippet) {
