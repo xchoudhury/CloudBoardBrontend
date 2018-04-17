@@ -1,5 +1,5 @@
 // Controller for function to update the user information
-app.controller('update', ['$scope', '$http', function($scope, $http) {
+app.controller('update', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
     $scope.userID;
     $scope.userName;
     $scope.userEmail;
@@ -45,6 +45,7 @@ app.controller('update', ['$scope', '$http', function($scope, $http) {
         }).then(function successCallback(response) {
             console.log(response);
             $scope.userPassword = "";
+            loginService.updateUserName($scope.userName);
             $('#usernameAlert').show();
             setTimeout(function() {
                 $('#usernameAlert').fadeOut(300);

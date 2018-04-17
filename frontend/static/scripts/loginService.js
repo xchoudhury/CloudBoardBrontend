@@ -30,11 +30,17 @@ app.factory('loginService', ['$rootScope', '$http', function($rootScope, $http) 
   
     var getUserName = function() {
       return user;
-    }
+    };
+
+    var updateUserName = function(username) {
+      user = username;
+      $rootScope.$broadcast('update');
+    };
   
     return {
       logOut: logOut,
       getLoginStatus: getLoginStatus,
-      getUserName: getUserName
+      getUserName: getUserName,
+      updateUserName: updateUserName
     };
   }]);

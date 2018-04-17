@@ -81,7 +81,11 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
       $scope.name = loginService.getUserName();
       $('.contentView').show();
       $scope.getBlankBoards();
-    })
+    });
+
+    $scope.$on('update', function() {
+      $scope.name = loginService.getUserName();
+    });
   
     // Create a board from passed in name
     $scope.createBoard = function(id, name) {
