@@ -12,19 +12,18 @@ app.controller('boards', ['$scope', '$http', '$window', 'loginService', function
         if ($event.originalEvent.clipboardData.items[i].type.indexOf('image') != -1) {
           //console.log($event.originalEvent.clipboardData.items[i].getAsFile());
           //var file = $event.originalEvent.clipboardData.items[i].getAsFile();
-          var link = $event.originalEvent.clipboardData.getData('Text');
+          //var link = $event.originalEvent.clipboardData.getData('Text');
           $http({
             method: 'PUT',
             url: '/clipboards/'+board.id+'/snippet/',
             data: {
               snip_id: snippet.id,
-              text: link,
-              image: link
+              text: snippet.content,
+              image: snippet.content
             }
           }).then(function successCallback(response) {
             console.log(response);
             snippet.isImage = true;
-            snippet.content = link;
             setTimeout(function() {
               $("#" + board.id + '_' + snippet.id + "pasting").blur();
               $("#" + board.id + '_' + snippet.id + "saveButton").hide();
